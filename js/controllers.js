@@ -144,20 +144,22 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-                var data = response.data;
-                $scope.users = _.reduce(
-                        data,
-                        function (output, fname) {
-                            var lCase = fname.fname.toUpperCase();
-                            if (output[lCase[0]]) //if lCase is a key
-                                output[lCase[0]].push(fname); //Add name to its list
-                            else
-                                output[lCase[0]] = [fname]; // Else add a key
-                            console.log(output);
-                            return output;
-                        },
-                        {}
-                );
+                if (response.data.users.length > 0) {
+                    var data = response.data.users;
+                    $scope.users = _.reduce(
+                            data,
+                            function (output, fname) {
+                                var lCase = fname.fname.toUpperCase();
+                                if (output[lCase[0]]) //if lCase is a key
+                                    output[lCase[0]].push(fname); //Add name to its list
+                                else
+                                    output[lCase[0]] = [fname]; // Else add a key
+                                console.log(output);
+                                return output;
+                            },
+                            {}
+                    );
+                }
             }, function errorCallback(e) {
                 console.log(e);
             });
