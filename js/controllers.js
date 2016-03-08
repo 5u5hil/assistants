@@ -127,27 +127,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-//            $ionicModal.fromTemplateUrl('addp', {
-//                scope: $scope
-//            }).then(function (modal) {
-//                $scope.modal = modal;
-//            });
-//            $scope.submitmodal = function () {
-//                $scope.modal.hide();
-//            };
-            $scope.savePatient = function () {
-                console.log('submit');
-                $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addPatientForm")[0]);
-                callAjax("POST", domain + "doctorsapp/save-patient", data, function (response) {
-                    console.log(response);
-                    $ionicLoading.hide();
-                    $scope.modal.hide();
-                    alert("Patient added successfully!");
-                    window.location.reload();
-                });
 
-            };
         })
         /* Assistants */
 
@@ -220,14 +200,11 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('AddDisbursementCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal) {
-
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
 
             $scope.showPopup = function () {
-
                 $scope.data = {};
-
                 // An elaborate, custom popup
                 var myPopup = $ionicPopup.show({
                     template: '<div class="row"><div class="col col-33"><input type="number" ng-model="data.wifi"></div><div class="col col-67"><select class="selectpopup"><option>Bottle</option></select></div></div>',
@@ -263,16 +240,7 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-
-
-
         })
-
-
-
-
-        /* end of assistants */
-
         .controller('SharedwithuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
