@@ -10,12 +10,15 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
+        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
             <div class="item item-divider">{{header}}</div>
             <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({'id':users.id})" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>
+        </div>
+        <div class="list mb0" ng-if="users.length == 0">
+            <p>No patients</p>
         </div>
     </ion-content>
     <div class="bar bar-footer bar-positive">

@@ -197,8 +197,6 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-
-
         .controller('AddDisbursementCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -679,6 +677,118 @@ angular.module('your_app_name.controllers', [])
             });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
+            };
+        })
+        .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+            $scope.drId = get('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $http({
+                method: 'GET',
+                url: domain + 'appointment/get-patient-details',
+                params: {id: $scope.drId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.todays_app = response.data.todays_appointments;
+                $scope.todays_usersData = response.data.todays_usersData;
+                $scope.todays_products = response.data.todays_products;
+                $scope.todays_time = response.data.todays_time;
+                $scope.todays_end_time = response.data.todays_end_time;
+                //past section
+                $scope.todays_app_past = response.data.todays_appointments_past;
+                $scope.todays_usersData_past = response.data.todays_usersData_past;
+                $scope.todays_products_past = response.data.todays_products_past;
+                $scope.todays_time_past = response.data.todays_time_past;
+                $scope.todays_end_time_past = response.data.todays_end_time_past;
+                // end past section //
+                $scope.week_app = response.data.week_appointments;
+                $scope.week_usersData = response.data.week_usersData;
+                $scope.week_products = response.data.week_products;
+                $scope.week_time = response.data.week_time;
+                $scope.week_end_time = response.data.week_end_time;
+                //past section 
+                $scope.week_app_past = response.data.week_appointments_past;
+                $scope.week_usersData_past = response.data.week_usersData_past;
+                $scope.week_products_past = response.data.week_products_past;
+                $scope.week_time_past = response.data.week_time_past;
+                $scope.week_end_time_past = response.data.week_end_time_past;
+                //end past section
+                $scope.all_app = response.data.all_appointments;
+                $scope.all_usersData = response.data.all_usersData;
+                $scope.all_products = response.data.all_products;
+                $scope.all_time = response.data.all_time;
+                $scope.all_end_time = response.data.all_end_time;
+                //past section //
+                $scope.all_app_past = response.data.all_appointments_past;
+                $scope.all_usersData_past = response.data.all_usersData_past;
+                $scope.all_products_past = response.data.all_products_past;
+                $scope.all_time_past = response.data.all_time_past;
+                $scope.all_end_time_past = response.data.all_end_time_past;
+                //end past section//
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+                $scope.appId = appId;
+                $scope.userId = get('id');
+                $scope.cancel = '';
+                console.log(startTime);
+                var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                console.log(curtime);
+                var timeDiff = getTimeDiff(startTime, curtime);
+                console.log(timeDiff);
+                if (timeDiff < 15) {
+                    if (mode == 1) {
+                        alert("Appointment can not be cancelled now!");
+                    } else {
+                        //ask 4 options
+                        /*$http({
+                         method: 'GET',
+                         url: domain + 'appointment/dr-cancel-app',
+                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId}
+                         }).then(function successCallback(response) {
+                         console.log(response.data);
+                         if (response.data == 'success') {
+                         alert('Your appointment is cancelled successfully.');
+                         } else {
+                         alert('Sorry your appointment is not cancelled.');
+                         }
+                         $state.go('app.consultations-list');
+                         }, function errorCallback(response) {
+                         console.log(response);
+                         });*/
+                    }
+                } else {
+                    if (mode == 1) {
+                        $http({
+                            method: 'GET',
+                            url: domain + 'appointment/dr-cancel-app',
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            if (response.data == 'success') {
+                                alert('Your appointment is cancelled successfully.');
+                                $state.go('app.doctor-consultations', {}, {reload: true});
+                            } else {
+                                alert('Sorry your appointment is not cancelled.');
+                            }
+                            $state.go('app.consultations-list', {}, {reload: true});
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    } else if (mode == 3 || mode == 4) {
+                        //ask for 2 options
+                    }
+                }
+            };
+            $scope.joinVideo = function (mode, start, end, appId) {
+                console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
+                if ($scope.curTime >= start || $scope.curTime <= end) {
+                    console.log('redirect');
+                    //$state.go('app.patient-join', {}, {reload: true});
+                    $state.go('app.doctor-join', {'id': appId, 'mode': mode}, {reload: true});
+                } else {
+                    alert("You can join video before 15 minutes.");
+                }
             };
         })
 
