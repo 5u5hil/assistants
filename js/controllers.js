@@ -58,7 +58,7 @@ angular.module('your_app_name.controllers', [])
                 var data = new FormData(jQuery("#loginuser")[0]);
                 $.ajax({
                     type: 'POST',
-                    url: domain + "chk-dr-user",
+                    url: domain + "chk-assi-user",
                     data: data,
                     cache: false,
                     contentType: false,
@@ -73,7 +73,7 @@ angular.module('your_app_name.controllers', [])
                             $rootScope.username = response.fname;
                             $rootScope.userimage = response.image;
                             $ionicLoading.hide();
-                            $state.go('app.homepage');
+                            $state.go('app.assistants');
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
@@ -143,9 +143,9 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'doctorsapp/get-all-patients',
                 params: {userId: $scope.userId}
             }).then(function successCallback(response) {
-                console.log(response.data);
+                console.log(response.data.length);
                 if (response.data.users.length > 0) {
-                    var data = response.data.users;
+                    var data = response.data;
                     $scope.users = _.reduce(
                             data,
                             function (output, fname) {
