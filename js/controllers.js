@@ -162,12 +162,27 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
+			 $ionicModal.fromTemplateUrl('assaddp', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
         })
 
         .controller('AssPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
+		
+		.controller('AssPaymentCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+		
 
         .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];

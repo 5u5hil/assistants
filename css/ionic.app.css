@@ -9224,7 +9224,7 @@ padding: 7px;
 .infoheader{padding: 10px 15px;
     margin-bottom: 25px;
     box-shadow: 0 0 5px rgba(0,0,0,0.4);}
-
+.agreelink a{text-decoration:none; color:#387ef5;}
 
 /* endcss */
 

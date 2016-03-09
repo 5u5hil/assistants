@@ -283,7 +283,17 @@ angular.module('your_app_name', [
                         }
                     })
 
-
+					.state('app.ass-payment', {
+                        url: "/ass-payment",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-payment.html",
+                                controller: 'AssPaymentCtrl'
+                            }
+                        }
+                    })
+					
+					
                     /* end of assistants */
 
                     .state('app.consultations-note', {
