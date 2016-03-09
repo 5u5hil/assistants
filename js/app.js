@@ -313,6 +313,47 @@ angular.module('your_app_name', [
                         }
                     })
 					
+					 .state('app.appointment-list', {
+                        url: "/appointment-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/appointment-list.html",
+                                controller: 'AppointmentListCtrl'
+                            }
+                        }
+                    })
+					
+					 .state('app.new-patient', {
+                        url: "/new-patient",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/new-patient.html",
+                                controller: 'NewPatientCtrl'
+                            }
+                        }
+                    })
+					
+					 .state('app.app-doctrlist', {
+                        url: "/app-doctrlist",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/app-doctrlist.html",
+                                controller: 'DoctrslistsCtrl'
+                            }
+                        }
+                    })
+
+					.state('app.thankyou', {
+                        url: "/thankyou",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/thankyou.html",
+                                controller: 'AppDoctrlistCtrl'
+                            }
+                        }
+                    })
+					
+					
 					
                     /* end of assistants */
 
@@ -517,7 +558,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
-                        url: "/patient/{id:int}",
+                        url: "/patient",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/patient.html",
