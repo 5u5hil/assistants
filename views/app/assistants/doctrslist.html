@@ -3,48 +3,51 @@
         <span>Doctors</span>
     </ion-nav-title>
     <ion-content>
-
         <div class="list list-inset">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-
         <div class="list consultview mt15">
-            <div class="posts-list">
+            <h4>{{doctors.length==0?'No Doctors': ''}} </h4>
+            <div class="posts-list" ng-repeat="doc in doctors| filter:search | orderBy:['-doctorpresense.presence','fname', 'lname']">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div class="card-content" >
+                            <!-- <a ui-sref="app.consultation-profile({'id' : doc.id, 'res' : 'json'})" class="card-content" >
+                                 <div class="rating"><i class="ion-star active"></i> <i class="ion-star active"></i> <i class="ion-star active"></i> <i class="ion-star"></i> <i class="ion-star"></i></br>15 Reviews</div> -->
+                            <div ng-if="doc.doctorpresense.presence == '1'" class="drstatus">Online</div>
                             <div class="card-left">	
                                 <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
                             </div>
                             <div class="card-detail txt-left">
-                                <p><strong>Dr. ABC</strong><br/>
-                                    <span >
-                                        Orthopedic
+                                <p><strong>{{doc.fname}} {{doc.lname}}</strong><br/>
+                                    <span ng-repeat="spec in doc.specializations| filter:search">
+                                        {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                                     </span></p>
                             </div>
                             <div class="row txt-left">
-                                <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
+                                <div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
                                 <div class="col"><p><strong>Qualification</strong><br/>
-                                        <span>MBBS, MD </span></p></div>	
+                                        <span ng-repeat="qual in doc.qualifications">{{qual.qualification}}{{$last==true? '': ',&nbsp;'}}</span></p></div>	
                             </div>
                             <div class="row txt-left">
-                                <div class="col"><p><strong>Languages</strong><br/><span>
-                                            Hindi, English
+                                <div class="col"><p><strong>Languages</strong><br/><span ng-repeat="lang in doc.languages">
+                                            {{lang.language}}{{$last==true? '': ',&nbsp;'}}
                                         </span></p></div>	
                                 <div class="col"><p><strong>Focus Area</strong><br/>
-                                        <span>v</span></p></div>	
+                                        <span ng-repeat="focus in doc.focuses">
+                                            {{focus.focus}}{{$last==true? '': ',&nbsp;'}}
+                                        </span></p></div>	
                             </div>
                             <div class="clr"></div>
+                            <!--</a>-->
                         </div>
-
                         <div class="post-actions row post-footer">
                             <div class="row cardbtn">
                                 <div class="col"><div class="cbtn" ui-sref="app.doctor-consultations">Active </div></div>
                                 <div class="col"><a ui-sref="app.consultation-past" class="cbtn">Past </a></div>
-
                                 <div class="col">
                                     <a ui-sref="app.ass-patient-list" class="cbtn">Book </a>
                                 </div>
@@ -53,48 +56,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="posts-list">
-                <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0">
-                        <div class="card-content" >
-                            <div class="card-left">	
-                                <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
-                            </div>
-                            <div class="card-detail txt-left">
-                                <p><strong>Dr. XYZ</strong><br/>
-                                    <span >
-                                        Orthopedic
-                                    </span></p>
-                            </div>
-                            <div class="row txt-left">
-                                <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
-                                <div class="col"><p><strong>Qualification</strong><br/>
-                                        <span>MBBS, MD </span></p></div>	
-                            </div>
-                            <div class="row txt-left">
-                                <div class="col"><p><strong>Languages</strong><br/><span>
-                                            Hindi, English
-                                        </span></p></div>	
-                                <div class="col"><p><strong>Focus Area</strong><br/>
-                                        <span>v</span></p></div>	
-                            </div>
-                            <div class="clr"></div>
-                        </div>
-
-                        <div class="post-actions row post-footer">
-                            <div class="row cardbtn">
-                                <div class="col"><div class="cbtn" ui-sref="app.doctor-consultations">Active </div></div>
-                                <div class="col"><a ui-sref="app.consultation-past" class="cbtn">Past </a></div>
-
-                                <div class="col"><a class="cbtn" ui-sref="app.ass-patient-list">Book </a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         </div>
     </ion-content>
 </ion-view>

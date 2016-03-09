@@ -108,13 +108,6 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('MyCtrl', function ($scope, $ionicTabsDelegate) {
-            $scope.selectTabWithIndex = function (index) {
-                $ionicTabsDelegate.select(index);
-            }
-        })
-
-
         .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -126,10 +119,19 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.userId = window.localStorage.getItem('id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/get-doctrs-list',
+                params: {userId: $scope.userId}
+            }).then(function successCallback(response) {
+                $scope.doctors = response.data.user;
+            }, function errorCallback(e) {
+                console.log(e.responseText);
+            });
 
         })
         /* Assistants */
-
         .controller('AssistantsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -315,176 +317,9 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('DoctorSettingsCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $state) {
-            $http({
-                method: 'GET',
-                url: domain + 'doctors/get-doctor-setting',
-                params: {docId: window.localStorage.getItem('id')}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.instant_permission = response.data.schedule;
-                $scope.instant_status = response.data.status;
-                $scope.status = $scope.instant_status.presence;
-                if ($scope.instant_permission.instant_permission) {
-                    jQuery('#setting').removeClass('hide');
-                } else {
-                    jQuery('#setting').addClass('hide');
-                }
-
-                $scope.instant_days = [{text: "Monday", value: '1'},
-                    {text: "Tuesday", value: '2'},
-                    {text: "Wednesday", value: '3'},
-                    {text: "Thursday", value: '4'},
-                    {text: "Friday", value: '5'},
-                    {text: "Saturday", value: '6'},
-                    {text: "Sunday", value: '7'}];
-                $scope.instant_days_end = [{text: "Monday", value: '1'},
-                    {text: "Tuesday", value: '2'},
-                    {text: "Wednesday", value: '3'},
-                    {text: "Thursday", value: '4'},
-                    {text: "Friday", value: '5'},
-                    {text: "Saturday", value: '6'},
-                    {text: "Sunday", value: '7'}];
-                $scope.instant_time = [{text: "09:00", value: '09:00:00'},
-                    {text: "10:00", value: '10:00:00'},
-                    {text: "11:00", value: '11:00:00'},
-                    {text: "12:00", value: '12:00:00'},
-                    {text: "13:00", value: '13:00:00'},
-                    {text: "14:00", value: '14:00:00'},
-                    {text: "15:00", value: '15:00:00'},
-                    {text: "16:00", value: '16:00:00'},
-                    {text: "17:00", value: '17:00:00'},
-                    {text: "18:00", value: '18:00:00'},
-                    {text: "19:00", value: '19:00:00'},
-                    {text: "20:00", value: '20:00:00'},
-                    {text: "21:00", value: '21:00:00'},
-                    {text: "22:00", value: '22:00:00'},
-                    {text: "23:00", value: '23:00:00'}];
-                $scope.instant_time_end = [{text: "09:00", value: '09:00:00'},
-                    {text: "10:00", value: '10:00:00'},
-                    {text: "11:00", value: '11:00:00'},
-                    {text: "12:00", value: '12:00:00'},
-                    {text: "13:00", value: '13:00:00'},
-                    {text: "14:00", value: '14:00:00'},
-                    {text: "15:00", value: '15:00:00'},
-                    {text: "16:00", value: '16:00:00'},
-                    {text: "17:00", value: '17:00:00'},
-                    {text: "18:00", value: '18:00:00'},
-                    {text: "19:00", value: '19:00:00'},
-                    {text: "20:00", value: '20:00:00'},
-                    {text: "21:00", value: '21:00:00'},
-                    {text: "22:00", value: '22:00:00'},
-                    {text: "23:00", value: '23:00:00'}];
-                // $scope.settingsList = [ { text: "Wireless", checked: true }];
-
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-            $scope.checkp = function (val) {
-                if (val) {
-                    jQuery('#setting').removeClass('hide');
-                } else {
-                    jQuery('#setting').addClass('hide');
-                }
-            }
-            $scope.submitInstantPermission = function () {
-                var data = new FormData(jQuery("#instantpermission")[0]);
-                $.ajax({
-                    type: 'POST',
-                    url: domain + "doctors/update-doctor-permission",
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        $ionicLoading.hide();
-                        console.log(response);
-                        if (response == '0') {
-                            alert('End time cannot be earlier than start time');
-                        }
-                        if (response == '2') {
-                            alert('End day cannot be earlier than start day');
-                        }
-                        $state.go('app.doctor-settings', {}, {reload: true});
-                    },
-                    error: function (e) {
-                        //  console.log(e.responseText);
-                    }
-                });
-            }
-
-            $scope.doctor_presence = function (value) {
-                var id = window.localStorage.getItem('id');
-                var data = {status: value, did: id};
-                $.ajax({
-                    type: 'POST',
-                    url: domain + "doctors/update-doctor-presense",
-                    data: data,
-                    cache: false,
-                    success: function (response) {
-                        alert('Your status has been changed');
-                        $state.go('app.doctor-settings');
-                    }
-                });
-            };
-        })
-
-        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
-            $scope.userId = window.localStorage.getItem('id');
-            $http({
-                method: 'GET',
-                url: domain + 'doctorsapp/get-all-patients',
-                params: {userId: $scope.userId}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                var data = response.data;
-                $scope.users = _.reduce(
-                        data,
-                        function (output, fname) {
-                            var lCase = fname.fname.toUpperCase();
-                            if (output[lCase[0]]) //if lCase is a key
-                                output[lCase[0]].push(fname); //Add name to its list
-                            else
-                                output[lCase[0]] = [fname]; // Else add a key
-                            console.log(output);
-                            return output;
-                        },
-                        {}
-                );
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-            $ionicModal.fromTemplateUrl('addp', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-            $scope.savePatient = function () {
-                console.log('submit');
-                $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addPatientForm")[0]);
-                callAjax("POST", domain + "doctorsapp/save-patient", data, function (response) {
-                    console.log(response);
-                    $ionicLoading.hide();
-                    $scope.modal.hide();
-                    alert("Patient added successfully!");
-                    window.location.reload();
-                });
-
-            };
-        })
-
         .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.patientId = $stateParams.id;
             console.log($scope.patientId);
-        })
-
-        .controller('EvaluationCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
         })
 
         .controller('MyCtrl', function ($scope, $ionicTabsDelegate) {
@@ -492,17 +327,6 @@ angular.module('your_app_name.controllers', [])
                 $ionicTabsDelegate.select(index);
             }
         })
-
-        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-        })
-
-        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-        })
-
 
         .controller('PatientConsultCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -583,16 +407,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        .controller('PlaintestCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('addeval', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
 
         .controller('noteType', function ($scope, $ionicModal, $state) {
             $ionicModal.fromTemplateUrl('notetype', {
@@ -642,16 +456,6 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('SnowmedtCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('snomed', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
         .controller('CancelDoctrscheCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('snomed', {
                 scope: $scope
@@ -663,49 +467,6 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('SnowmedtCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('snomed', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
-        .controller('LoincCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('loinc', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
-        .controller('IcdCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('icd', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
-        .controller('AddrelationCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('addrelation', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
