@@ -177,6 +177,17 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
+
+
+         .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+
+          .controller('AssOutgoCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
 		
 		.controller('AssPaymentCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];

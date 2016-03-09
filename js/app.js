@@ -292,6 +292,26 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
+                    .state('app.ass-inward', {
+                        url: "/ass-inward",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-inward.html",
+                                controller: 'AssInwardCtrl'
+                            }
+                        }
+                    })
+
+                     .state('app.ass-outgo', {
+                        url: "/ass-outgo",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-outgo.html",
+                                controller: 'AssOutgoCtrl'
+                            }
+                        }
+                    })
 					
 					
                     /* end of assistants */
