@@ -5,7 +5,6 @@ angular.module('underscore', [])
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
         });
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -72,11 +71,9 @@ angular.module('your_app_name', [
                     console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
                 }
             });
-
             $ionicPlatform.on("resume", function () {
                 PushNotificationsService.register();
             });
-
         })
 
 
@@ -278,6 +275,76 @@ angular.module('your_app_name', [
                         }
                     })
 
+
+                    .state('app.ass-payment', {
+                        url: "/ass-payment",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-payment.html",
+                                controller: 'AssPaymentCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.ass-inward', {
+                        url: "/ass-inward",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-inward.html",
+                                controller: 'AssInwardCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.ass-outgo', {
+                        url: "/ass-outgo",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/ass-outgo.html",
+                                controller: 'AssOutgoCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.appointment-list', {
+                        url: "/appointment-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/appointment-list.html",
+                                controller: 'AppointmentListCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.new-patient', {
+                        url: "/new-patient",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/new-patient.html",
+                                controller: 'NewPatientCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.app-doctrlist', {
+                        url: "/app-doctrlist",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/app-doctrlist.html",
+                                controller: 'DoctrslistsCtrl'
+                            }
+                        }
+                    })
+                    .state('app.payment', {
+                        url: "/payment",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/payment.html",
+                                controller: 'PaymentCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.checkavailable', {
                         cache: false,
                         url: "/checkavailable/{data:int}/{uid:int}",
@@ -285,16 +352,6 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/checkavailable.html",
                                 controller: 'CheckavailableCtrl'
-                            }
-                        }
-                    })
-
-                    .state('app.payment', {
-                        url: "/payment",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/payment.html",
-                                controller: 'PaymentCtrl'
                             }
                         }
                     })
@@ -520,7 +577,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
-                        url: "/patient/{id:int}",
+                        url: "/patient",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/patient.html",

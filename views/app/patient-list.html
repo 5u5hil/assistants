@@ -17,6 +17,8 @@
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>
         </div>
+
+
         <div class="list mb0" ng-if="users.length == 0">
             <p>No patients</p>
         </div>
@@ -35,7 +37,23 @@
     </div>
 </ion-view>
 
-
+<!---
+<div class="list mb0" >
+            <div class="item item-divider">A</div>
+            <a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
+                <h2>Naresh Infini</h2>
+                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+            </a>
+			<a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
+                <h2>Leena Infini</h2>
+                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+            </a>
+			<a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
+                <h2>Bhavana Infini</h2>
+                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+            </a>
+        </div>
+-->
 <script id="addp" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
@@ -48,12 +66,12 @@
     <input type="hidden" name="doctrid" value="{{doctrs[0].id}}" />
     </div>
     <div ng-if="doctrs.length>1">
-   <label class="item item-input item-select" >
-        <div class="input-label">Select Doctor</div>
-        <select name="doctrid" ng-model="drId" required>
-            <option value="" >Select </option>
-            <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
-        </select>
+    <label class="item item-input item-select" >
+    <div class="input-label">Select Doctor</div>
+    <select name="doctrid" ng-model="drId" required>
+    <option value="" >Select </option>
+    <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
+    </select>
     <div ng-show="addpatient.doctrid.$error.required" class="serror">Doctor Name is required.</div>
     </label>
     </div>

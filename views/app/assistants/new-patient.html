@@ -2,6 +2,10 @@
     <ion-nav-title>
         <span>Patients list</span>
     </ion-nav-title>
+	<ion-nav-buttons side="right">
+	<div ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"></div>
+			</ion-nav-buttons>
+	
     <ion-content>
 
         <div class="list list-inset">
@@ -14,35 +18,26 @@
 		
 		 <div class="list mb0" >
             <div class="item item-divider">A</div>
-            <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+            <a class="item"  ui-sref="app.app-doctrlist">
                 <h2>Naresh Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
-			<a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+			<a class="item"  ui-sref="app.app-doctrlist">
                 <h2>Leena Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
-			<a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+			<a class="item"  ui-sref="app.app-doctrlist">
                 <h2>Bhavana Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
         </div>
-		
-		
-       <!--  <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
-            <div class="item item-divider">{{header}}</div>
-            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient({'id': users.id, 'drId': drId})" ui-sref-opts="{reload: true}">
-                <h2>{{users.fname}} {{users.lname}}</h2>
-                <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
-            </a>
-        </div> -->
-    </ion-content>
- 	 <div class="fixedbar">
+	</ion-content>
+ <!-- 	 <div class="fixedbar">
    <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
-	</div>
+	</div> -->
 </ion-view>
 
-<script id="assaddp" type="text/ng-template">
+<script id="addnewpatient" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">Add Patient</h1>

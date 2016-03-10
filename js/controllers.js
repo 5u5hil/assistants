@@ -187,6 +187,19 @@ angular.module('your_app_name.controllers', [])
         .controller('AssistantsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+        }) 
+
+		.controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+		 $ionicModal.fromTemplateUrl('addp', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
         })
         
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
@@ -331,6 +344,15 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
+			 $ionicModal.fromTemplateUrl('assaddp', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
         })
 
         .controller('AssPatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading, $state) {
@@ -934,10 +956,56 @@ angular.module('your_app_name.controllers', [])
             }
         })
 
+
+         .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+
+          .controller('AssOutgoCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+		
+		.controller('AssPaymentCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+		
+		.controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+		
+		.controller('NewPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+			$ionicModal.fromTemplateUrl('addnewpatient', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+			
+        })
+		
+
         .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
+		
+        .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+        })
+		
+	
+		
+		
+		
         .controller('DisbursementCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
