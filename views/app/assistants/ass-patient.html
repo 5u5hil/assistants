@@ -1,81 +1,119 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Naresh</span>
+        <span>{{doctor[0].fname}} {{doctor[0].lname}}</span>
     </ion-nav-title>
     <ion-content>
-
         <div class="">
+        </div>
+        <my-tabs class="themetabs">
+            <div ng-repeat="serv in services">
+                <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1">
+                    <div class="tabc2">
+                        <div class="item-price">Price : INR {{videoProd.price}}</div>
+                        <div class="mt15"> 
+                            <ul class="clist">
+                                <li>{{videoProd.desc}}</li>
+                                <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
+                                    <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
+                                </li>
+                            </ul>
+                            <div class="clr"></div>
+                            <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
+                                <ul class="wk">
+                                    <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
+                                        <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
+                                        {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
+                                    </li>
+                                </ul>
+                                <div class="sche-date">
+                                    <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
+                                    <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
+                                    <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
+                                    <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
+                                </div>
+                                <div ng-if="schV[$index] == vs.supersaas_id">
+                                    {{vSch[$index]==''? 'No slots available':''}}
+                                    <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
+                                        <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
+                                            {{slt['start'][0]|time}}
+                                            <!--{{slt['finish'][0]|time}}   -->                    
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="section-footer">   
+                                <a class="button button-full button-positive" ng-click="bookAppointment(videoProd.id, serv)">Proceed</a>
+                            </div>	
+                        </div>
+                    </div>
+                </my-tab>
+            </div>
+            <div ng-if="instVideo.length > 0">
+                <my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
+                    <div class="tabc2">
+                        <div class="item-price">Price : INR {{instVideo.price}}</div>
+                        <div class="tabcontainer"> 
+                            <ul class="clist">
+                                <li><strong>Instant video consult</strong></li>
+                            </ul>
+                            <p>
+                                <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
+                            </p>
+                        </div>
+                    </div>
+                </my-tab>                                
+            </div>
+        </my-tabs>
 
-		</div>
-		 <my-tabs class="themetabs">
-
-                  <my-tab  icon="ion-calendar tabicon" title="Scheduled Video">
-                                    <div class="tabc2">
-
-
-                                        <div class="item-price">Price : INR 500</div>
-                                        <div class="mt15"> 
-                                            <ul class="clist">
-                                                <li>Video Chat</li>
-                                            </ul>
-
-                                            <div class="clr"></div>
-                                            <div class="item item-body p0 brd-0">
-
-                                              <div class="sche-date">
-                                                    <div class="leftarrow">Earliest Slot</div> 
-                                                    <input type="date"  value="03/08/2016"/>
-                                                    
-                                                    <div class="rightarrow">Next Slot</div>
-                                                </div>
-                                              
-                                                    <ul class="timesheet">
-                                                        <li>03:00</li>
-                                                        <li>03:30</li>
-                                                        <li>04:00</li>
-                                                        <li>04:30</li>
-                                                        <li>05:00</li>
-                                                        <li>05:30</li>
-                                                        <li>06:00</li>
-                                                        <li>06:30</li>
-                                                    </ul>
-                                               
-                                            </div>
-                                            <div class="section-footer">   
-                                                <a class="button button-full button-positive">Proceed</a>
-                                            </div>	
-                                        </div>
+        <!--        <my-tabs class="themetabs">
+                    <my-tab  icon="ion-calendar tabicon" title="Scheduled Video">
+                        <div class="tabc2">
+                            <div class="item-price">Price : INR 500</div>
+                            <div class="mt15"> 
+                                <ul class="clist">
+                                    <li>Video Chat</li>
+                                </ul>
+                                <div class="clr"></div>
+                                <div class="item item-body p0 brd-0">
+                                    <div class="sche-date">
+                                        <div class="leftarrow">Earliest Slot</div> 
+                                        <input type="date"  value="03/08/2016"/>
+        
+                                        <div class="rightarrow">Next Slot</div>
                                     </div>
-					</my-tab>
-				
-					
-				<my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
-						<div class="tabc2">
-                                        <div class="item-price">Price : INR {{instVideo.interfacePrice}}</div>
-                                        <div class="tabcontainer"> 
-                                            <ul class="clist">
-                                                <li><strong>Instant video consult</strong></li>
-
-                                            </ul>
-
-                                            <p>
-
-
-                                                <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
-
-
-
-
-                                            </p>
-                                        </div>
-                                    </div>
-					</my-tab>
-					</my-tabs>
-		
-
-
+                                    <ul class="timesheet">
+                                        <li>03:00</li>
+                                        <li>03:30</li>
+                                        <li>04:00</li>
+                                        <li>04:30</li>
+                                        <li>05:00</li>
+                                        <li>05:30</li>
+                                        <li>06:00</li>
+                                        <li>06:30</li>
+                                    </ul>
+                                </div>
+                                <div class="section-footer">   
+                                    <a class="button button-full button-positive">Proceed</a>
+                                </div>	
+                            </div>
+                        </div>
+                    </my-tab>
+                    <my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
+                        <div class="tabc2">
+                            <div class="item-price">Price : INR {{instVideo.interfacePrice}}</div>
+                            <div class="tabcontainer"> 
+                                <ul class="clist">
+                                    <li><strong>Instant video consult</strong></li>
+                                </ul>
+                                <p>
+                                    <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
+                                </p>
+                            </div>
+                        </div>
+                    </my-tab>
+                </my-tabs>-->
     </ion-content>
- 
+
 </ion-view>
 
 

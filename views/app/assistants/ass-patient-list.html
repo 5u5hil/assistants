@@ -12,7 +12,7 @@
         </div>
         <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
             <div class="item item-divider">{{header}}</div>
-            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient({'id': users.id, 'drId': drId})" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>

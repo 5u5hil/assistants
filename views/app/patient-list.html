@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Patients list</span>
+        <span>Patients list {{doctrs.length}}</span>
     </ion-nav-title>
     <ion-content>
 
@@ -12,13 +12,22 @@
         </div>
         <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
             <div class="item item-divider">{{header}}</div>
-            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({'id':users.id})" ui-sref-opts="{reload: true}">
+            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>
         </div>
         <div class="list mb0" ng-if="users.length == 0">
             <p>No patients</p>
+        </div>
+        <div ng-if="doctrs.length > 1">
+            <label class="item item-input item-select" >
+                <div class="input-label">Select Doctor</div>
+                <select name="doctrid" ng-model="drId">
+                    <option value="" >Select </option>
+                    <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
+                </select>
+            </label>
         </div>
     </ion-content>
     <div class="bar bar-footer bar-positive">
@@ -35,7 +44,20 @@
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
     <ion-content>
-    <input type="hidden" name="doctrid" value="{{userId}}" ng-model="userId" />
+    <div ng-if="doctrs.length==1">
+    <input type="hidden" name="doctrid" value="{{doctrs[0].id}}" />
+    </div>
+    <div ng-if="doctrs.length>1">
+   <label class="item item-input item-select" >
+        <div class="input-label">Select Doctor</div>
+        <select name="doctrid" ng-model="drId" required>
+            <option value="" >Select </option>
+            <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
+        </select>
+    <div ng-show="addpatient.doctrid.$error.required" class="serror">Doctor Name is required.</div>
+    </label>
+    </div>
+    <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
     <label class="item item-input item-floating-label">
     <span class="input-label" >Name</span>
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
@@ -55,7 +77,7 @@
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     </label>
-    
+
     </ion-content>
     <div class="fixedbar">
     <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
