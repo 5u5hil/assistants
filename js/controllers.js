@@ -386,17 +386,26 @@ angular.module('your_app_name.controllers', [])
 
         .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter) {
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.drId = $stateParams.id;
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.users = {};
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-drs-patients',
-                params: {userId: $scope.userId, drId: $scope.drId}
+                params: {userId: $scope.userId, drId: $scope.drId,interface:$scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
+                 $scope.patient_list = response.data.patient_list;
+                 $scope.add = response.data.add;
+                 $scope.add_patient = response.data.add_patient;
+                 $scope.submit = response.data.submit;
+                 $scope.language = response.data.lang.language; 
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
+//                    var patient_list = response.data.patient_list;
+//                    var add = response.data.add;
+//                    var language = response.lang.language;
                     $scope.users = _.reduce(
                             data,
                             function (output, fname) {
