@@ -1,7 +1,7 @@
 <ion-view class="category-list-view">
-	  <button class="button button-clear button-positive">Edit</button>
+	  <button class="button button-clear button-positive">{{cattext.edit[language]}}</button>
   <ion-nav-title>
-    <span>Home</span>
+    <span>{{cattext.home[language]}}</span>
 </ion-nav-title>
 
   <ion-content>
@@ -10,39 +10,39 @@
 		
 		<a class="item item-icon-right" ui-sref="app.doctrslist" >
 			 <i class="cicon ion-android-person-add"></i>
-			<span class="ctitle">Doctors</span>	
+			<span class="ctitle">{{cattext.doctors[language]}}</span>	
 		
 		</a> 
 		 <a class="item item-icon-right" ui-sref="app.patient-list" >
 			 <i class="cicon ion-person-stalker"></i>
-			<span class="ctitle">Patients</span>	
+			<span class="ctitle">{{cattext.patients[language]}}</span>	
 		</a> 
 		
 
 		
 		<a class="item item-icon-right" ui-sref="app.inventory" >
 		<i class="cicon ion-cube"></i>
-			<span class="ctitle">Inventory</span>	
+			<span class="ctitle">{{cattext.inventory[language]}}</span>	
 		</a>
 		
 		<a class="item item-icon-right" ui-sref="app.appointment-list" >
 		<i class="cicon ion-cube"></i>
-			<span class="ctitle">Appointment</span>	
+			<span class="ctitle">{{cattext.appointment[language]}}</span>	
 		</a>
 
 		
 			 
 		
-		<div class="item item-divider" style="margin-top:30px;">Shortcuts</div> 
+		<div class="item item-divider" style="margin-top:30px;">{{cattext.shortcuts[language]}}</div> 
 							
 							<div class="row cbtn3 mtb15">
 								<div class="col">
 									<a class="Cstmbutn button-small" ui-sref="app.consultations-note">
-										<span class="icon ion-plus-circled"></span> Note</a> 
+										<span class="icon ion-plus-circled"></span>{{cattext.note[language]}}</a> 
 								</div>
 								<div class="col">
 									<div class=" Cstmbutn button-small">
-										<span class="icon ion-plus-circled"></span> Appointment</div> 
+										<span class="icon ion-plus-circled"></span>{{cattext.appointment[language]}}</div> 
 								</div>
 								
 							</div>	

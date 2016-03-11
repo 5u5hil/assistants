@@ -4,6 +4,7 @@ var subscriber;
 angular.module('your_app_name.controllers', [])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
+              $scope.interface = window.localStorage.setItem('interface_id', '3');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -59,7 +60,7 @@ angular.module('your_app_name.controllers', [])
              $http({
                     method: 'GET',
                     url: domain + 'get-login',
-                    params: {interface:$scope.interface}
+                    params: {id:window.localStorage.getItem('id'),interface:$scope.interface}
                 }).then(function successCallback(response) {
                     
                    console.log(response.data.lang.language);
@@ -76,6 +77,7 @@ angular.module('your_app_name.controllers', [])
                    // console.log(response);
                 });
                     $scope.doLogIn = function () {
+                        
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
                 $.ajax({
@@ -142,6 +144,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             console.log(get('patientId'));
             if (get('patientId') != null) {
                 $scope.patientId = get('patientId');
@@ -211,9 +214,32 @@ angular.module('your_app_name.controllers', [])
             };
         })
         /* Assistants */
-        .controller('AssistantsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal,$rootScope) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+                if(get('id') != null) {
+             $rootScope.userLogged = 1;
+                 $scope.interface = window.localStorage.getItem('interface_id');
+                  $scope.userId = window.localStorage.getItem('id');
+             $http({
+                    method: 'GET',
+                    url: domain + 'get-categoty-lang',
+                    params: {id:$scope.userId,interface:$scope.interface}
+                }).then(function successCallback(response) {
+                    if (response.data.dataCat) {
+                        
+                        $scope.cattext = response.data.dataCat;
+                        $scope.language = response.data.lang.language;
+                        
+                    } else {
+                      
+                    }
+                }, function errorCallback(response) {
+                   // console.log(response);
+                });
+            }else{
+                $state.go('auth.walkthrough', {}, {reload: true});
+            }
         })
 
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
