@@ -275,17 +275,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-                    .state('app.ass-payment', {
-                        url: "/ass-payment",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/assistants/ass-payment.html",
-                                controller: 'AssPaymentCtrl'
-                            }
-                        }
-                    })
-
                     .state('app.ass-inward', {
                         url: "/ass-inward",
                         views: {
@@ -311,6 +300,15 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/appointment-list.html",
+                                controller: 'AppointmentListCtrl'
+                            }
+                        }
+                    })
+                    .state('app.past-appointment-list', {
+                        url: "/past-appointment-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/past-appointment-list.html",
                                 controller: 'AppointmentListCtrl'
                             }
                         }

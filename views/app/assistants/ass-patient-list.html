@@ -10,78 +10,78 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-		
-		
-		 <div class="list mb0" >
-            <div class="item item-divider">A</div>
-            <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                <h2>Naresh Infini</h2>
-                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-            </a>
-			<a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                <h2>Leena Infini</h2>
-                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-            </a>
-			<a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                <h2>Bhavana Infini</h2>
-                <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-            </a>
-        </div>
-		
-		
-       <!--  <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
+        <!--        <div class="list mb0" >
+                    <div class="item item-divider">A</div>
+                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+                        <h2>Naresh Infini</h2>
+                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+                    </a>
+                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+                        <h2>Leena Infini</h2>
+                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+                    </a>
+                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+                        <h2>Bhavana Infini</h2>
+                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
+                    </a>
+                </div>-->
+        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
             <div class="item item-divider">{{header}}</div>
             <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient({'id': users.id, 'drId': drId})" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>
-        </div> -->
+        </div> 
     </ion-content>
- 	 <div class="fixedbar">
-   <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
-	</div>
+    <div class="fixedbar">
+        <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
+    </div>
 </ion-view>
 
 <script id="assaddp" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">Add Patient</h1>
-   <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
+    <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
+    <form id="addPatientForm" name="addpatient" novalidate>
     <ion-content >
-  <div class="item item-divider">Name</div>
-                        <label class="item item-input">
-                            <input type="text" placeholder="Name">
-                        </label>
-                      
+    <div class="item item-divider">Name</div>
+    <label class="item item-input">
+    <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
+    <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
+    <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
+    </label>
+    <input type="hidden" name="doctrid" value="{{drId}}" ng-model="drId" />
+    <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
+    <div class="item item-divider">Aadhar Id</div>
+    <label class="item item-input">
+    <input type="number" name="adhar" placeholder="Aadhar Id">
+    </label>
 
-                        <div class="item item-divider">Aadhar Id</div>
+    <div class="item item-divider">Mobile</div>  
+    <label class="item item-input">
+    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
+    <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
+    </label> 
 
-                        <label class="item item-input">
-                            <input type="number" placeholder="Aadhar Id">
-                        </label>
+    <div class="item item-divider">Gender</div> 	
+    <ion-list>
+    <div class="row">
+    <div class="col cradio"><ion-radio ng-model="genderM" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
+    <div class="col cradio"> <ion-radio ng-model="genderF" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
+    <div ng-show="addpatient.gender.$error.required" class="serror">Your Name is required.</div>
+    </div>
+    </ion-list>			
+    <div class="item item-divider">Date Of Birth</div> 	
+    <label class="item item-input">
+    <input type="date" placeholder="DOB" ng-model="curTime" value="{{curTime}}">
+    </label>
 
-                         <div class="item item-divider">Mobile</div>  
-                        <label class="item item-input">
-                            <input type="number" placeholder="Mobile">
-                        </label> 
-						
-					 <div class="item item-divider">Gender</div> 	
-			       <ion-list>
-                            <div class="row">
-                                <div class="col cradio"><ion-radio ng-model="casetype" name="" ng-value="'1'"  value="1" >Male</ion-radio></div>
-                                <div class="col cradio"> <ion-radio ng-model="casetype" name="" ng-value="'0'" value="0">Female</ion-radio></div>
-                            </div>
-                  </ion-list>			
-					<div class="item item-divider">Date Of Birth</div> 	
-					 <label class="item item-input">
-                            <input type="date" placeholder="DOB">
-                        </label> 
-						
-						
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-add" ng-click="modal.hide()" >Submit</div>
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
     </div>
+    </form>
     </ion-modal-view>
 </script>

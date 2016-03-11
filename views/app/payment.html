@@ -32,17 +32,21 @@
                     </p>
                 </div>
             </div>
-            <div class="ctab">
-                <div class="tabcontainer" style="margin-top:0;">
-                    <!---<h4 class="txt-centre" style="margin-top:10px; margin-bottom:10px;">Price: INR {{product[0].price}}</h4>-->
-                    <div class="section-footer"> <!---ui-sref="app.success"-->
-                        <a ng-if="mode == 1 || mode == 2" ng-click="bookNow()" class="button button-full button-positive">Confirm</a>                                
-                    </div>
-                    <p class="agreelink">
-                        By Clicking on the button above, you agree to the <span dynamic-anchor-fix><a href="https://doctrs.in/termsandconditions.pdf" target="_blank">terms & conditions</a></span> and have read the <span dynamic-anchor-fix><a href="https://doctrs.in/privacypolicy.pdf" target="_blank">privacy policy</a> </span> & <span dynamic-anchor-fix><a href="https://doctrs.in/CancellationPolicy.pdf" target="_blank">cancellation policy.</a></span>
-                    </p>
-                </div>
-            </div>
         </div>
+        <!--            <div class="ctab">
+                        <div class="tabcontainer" style="margin-top:0;">
+                            -<h4 class="txt-centre" style="margin-top:10px; margin-bottom:10px;">Price: INR {{product[0].price}}</h4>
+                            <div class="section-footer"> -ui-sref="app.success"
+                                <a ng-if="mode == 1 || mode == 2" ng-click="bookNow()" class="button button-full button-positive">Confirm</a>                                
+                            </div>
+                            <p class="agreelink">
+                                By Clicking on the button above, you agree to the <span dynamic-anchor-fix><a href="https://doctrs.in/termsandconditions.pdf" target="_blank">terms & conditions</a></span> and have read the <span dynamic-anchor-fix><a href="https://doctrs.in/privacypolicy.pdf" target="_blank">privacy policy</a> </span> & <span dynamic-anchor-fix><a href="https://doctrs.in/CancellationPolicy.pdf" target="_blank">cancellation policy.</a></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
     </ion-content>
+    <div class="fixedbar">
+        <a  nav-clear menu-close ng-click="bookNow()" class="button btn-share">Confirm  Appointment </a>
+    </div>
 </ion-view>

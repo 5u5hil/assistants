@@ -120,6 +120,12 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.userId = window.localStorage.getItem('id');
+            console.log(get('patientId'));
+            if (get('patientId') != null) {
+                $scope.patientId = get('patientId');
+            } else {
+                $scope.patientId = '';
+            }
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-doctrs-list',
@@ -180,36 +186,22 @@ angular.module('your_app_name.controllers', [])
                     alert("Patient added successfully!");
                     window.location.reload();
                 });
-
             };
         })
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-        }) 
-
-		.controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-		 $ionicModal.fromTemplateUrl('addp', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
         })
-        
+
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.drId = $stateParams.id;
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
-                url: domain + 'appointment/get-patient-details',
-                params: {id: $scope.drId}
+                url: domain + 'assistapp/get-all-dr-app',
+                params: {drId: $scope.drId, userId: $scope.userId}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.todays_app = response.data.todays_appointments;
@@ -254,6 +246,7 @@ angular.module('your_app_name.controllers', [])
             $scope.cancelAppointment = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
+                $scope.drId = drId;
                 $scope.cancel = '';
                 console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -267,8 +260,8 @@ angular.module('your_app_name.controllers', [])
                         //ask 4 options
                         /*$http({
                          method: 'GET',
-                         url: domain + 'appointment/dr-cancel-app',
-                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId}
+                         url: domain + 'appointment/cancel-app',
+                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
                          }).then(function successCallback(response) {
                          console.log(response.data);
                          if (response.data == 'success') {
@@ -283,22 +276,22 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     if (mode == 1) {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'appointment/dr-cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            if (response.data == 'success') {
-                                alert('Your appointment is cancelled successfully.');
-                                $state.go('app.doctor-consultations', {}, {reload: true});
-                            } else {
-                                alert('Sorry your appointment is not cancelled.');
-                            }
-                            $state.go('app.consultations-list', {}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
+//                        $http({
+//                            method: 'GET',
+//                            url: domain + 'appointment/cancel-app',
+//                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+//                        }).then(function successCallback(response) {
+//                            console.log(response.data);
+//                            if (response.data == 'success') {
+//                                alert('Your appointment is cancelled successfully.');
+//                                $state.go('app.doctor-consultations', {}, {reload: true});
+//                            } else {
+//                                alert('Sorry your appointment is not cancelled.');
+//                            }
+//                            $state.go('app.consultations-list', {}, {reload: true});
+//                        }, function errorCallback(response) {
+//                            console.log(response);
+//                        });
                     } else if (mode == 3 || mode == 4) {
                         //ask for 2 options
                     }
@@ -316,9 +309,10 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.drId = $stateParams.id;
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.users = {};
             $http({
                 method: 'GET',
@@ -344,14 +338,27 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-			
-			 $ionicModal.fromTemplateUrl('assaddp', {
+
+            $ionicModal.fromTemplateUrl('assaddp', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
+            };
+            //Save Patient
+            $scope.savePatient = function () {
+                console.log('submit');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addPatientForm")[0]);
+                callAjax("POST", domain + "assistants/save-patient", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    $scope.modal.hide();
+                    alert("Patient added successfully!");
+                    window.location.reload();
+                });
             };
         })
 
@@ -957,30 +964,140 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-         .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
 
-          .controller('AssOutgoCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('AssOutgoCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-		
-		.controller('AssPaymentCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
+
+        .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $http({
+                method: 'GET',
+                url: domain + 'assistapp/get-all-app',
+                params: {userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                //end past section
+                $scope.all_app = response.data.all_appointments;
+                $scope.all_usersData = response.data.all_usersData;
+                $scope.all_doctor = response.data.all_doctor;
+                $scope.all_products = response.data.all_products;
+                $scope.all_time = response.data.all_time;
+                $scope.all_end_time = response.data.all_end_time;
+                //past section //
+                $scope.all_app_past = response.data.all_appointments_past;
+                $scope.all_doctor_past = response.data.all_doctor_past;
+                $scope.all_usersData_past = response.data.all_usersData_past;
+                $scope.all_products_past = response.data.all_products_past;
+                $scope.all_time_past = response.data.all_time_past;
+                $scope.all_end_time_past = response.data.all_end_time_past;
+                //end past section//
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+                $scope.appId = appId;
+                $scope.userId = get('id');
+                $scope.drId = drId;
+                $scope.cancel = '';
+                console.log(drId);
+                console.log(startTime);
+                var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                console.log(curtime);
+                var timeDiff = getTimeDiff(startTime, curtime);
+                console.log(timeDiff);
+                if (timeDiff < 15) {
+                    if (mode == 1) {
+                        alert("Appointment can not be cancelled now!");
+                    } else {
+                        //ask 4 options
+                        /*$http({
+                         method: 'GET',
+                         url: domain + 'appointment/cancel-app',
+                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+                         }).then(function successCallback(response) {
+                         console.log(response.data);
+                         if (response.data == 'success') {
+                         alert('Your appointment is cancelled successfully.');
+                         } else {
+                         alert('Sorry your appointment is not cancelled.');
+                         }
+                         $state.go('app.consultations-list');
+                         }, function errorCallback(response) {
+                         console.log(response);
+                         });*/
+                    }
+                } else {
+                    if (mode == 1) {
+//                        $http({
+//                            method: 'GET',
+//                            url: domain + 'appointment/cancel-app',
+//                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+//                        }).then(function successCallback(response) {
+//                            console.log(response.data);
+//                            if (response.data == 'success') {
+//                                alert('Your appointment is cancelled successfully.');
+//                                $state.go('app.doctor-consultations', {}, {reload: true});
+//                            } else {
+//                                alert('Sorry your appointment is not cancelled.');
+//                            }
+//                            $state.go('app.consultations-list', {}, {reload: true});
+//                        }, function errorCallback(response) {
+//                            console.log(response);
+//                        });
+                    } else if (mode == 3 || mode == 4) {
+                        //ask for 2 options
+                    }
+                }
+            };
+            $scope.joinVideo = function (mode, start, end, appId) {
+                console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
+                if ($scope.curTime >= start || $scope.curTime <= end) {
+                    console.log('redirect');
+                    //$state.go('app.patient-join', {}, {reload: true});
+                    $state.go('app.doctor-join', {'id': appId, 'mode': mode}, {reload: true});
+                } else {
+                    alert("You can join video before 15 minutes.");
+                }
+            };
         })
-		
-		.controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-        })
-		
-		.controller('NewPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-			$ionicModal.fromTemplateUrl('addnewpatient', {
+
+        .controller('NewPatientCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading, $filter) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/get-patient-list',
+                params: {userId: $scope.userId}
+            }).then(function successCallback(response) {
+                console.log(response.data.allUsers.length);
+                $scope.doctrs = response.data.doctrs;
+                if (response.data.allUsers.length > 0) {
+                    var data = response.data.allUsers;
+                    $scope.users = _.reduce(
+                            data,
+                            function (output, fname) {
+                                var lCase = fname.fname.toUpperCase();
+                                if (output[lCase[0]]) //if lCase is a key
+                                    output[lCase[0]].push(fname); //Add name to its list
+                                else
+                                    output[lCase[0]] = [fname]; // Else add a key
+                                //console.log(output);
+                                return output;
+                            },
+                            {}
+                    );
+                }
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $ionicModal.fromTemplateUrl('addnewpatient', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -988,24 +1105,36 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-			
+            //Save Patient
+            $scope.savePatient = function () {
+                console.log('submit');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addPatientForm")[0]);
+                callAjax("POST", domain + "assistants/save-patient", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    $scope.modal.hide();
+                    alert("Patient added successfully!");
+                    window.location.reload();
+                });
+            };
+            $scope.selDoc = function (pid) {
+                console.log(pid);
+                window.localStorage.setItem("patientId", pid);
+                $state.go("app.app-doctrlist", {}, {reload: true});
+            };
         })
-		
 
         .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-		
+
         .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-		
-	
-		
-		
-		
+
         .controller('DisbursementCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1270,7 +1399,7 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-        })        
+        })
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = '282';

@@ -4,15 +4,15 @@
     </ion-nav-title>
     <ion-content>
         <div class="row tabnav">
-            <div class="col"><a  ui-sref="app.appointment-list" class="active" >Active</a></div>
-            <div class="col"><a  ui-sref="app.past-appointment-list"  >Past</a></div>
+            <div class="col"><a  ui-sref="app.appointment-list" >Active</a></div>
+            <div class="col"><a  ui-sref="app.past-appointment-list" class="active">Past</a></div>
         </div>
         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_app track by $index | orderBy: 'scheduled_start_time'" >
+        <div  class="list card post-item" ng-repeat="app in all_app_past track by $index | orderBy: 'app.scheduled_start_time'" >
             <div class="post-heading item item-text-wrap p0">
-                <div class="item item-divider" ng-repeat="user in all_usersData[$index]| orderBy: 'scheduled_start_time'">{{user.fname}} {{user.lname}}</div>
+                <div class="item item-divider" ng-repeat="user in all_usersData_past[$index]| orderBy: 'app.scheduled_start_time'">{{user.fname}} {{user.lname}}</div>
                 <div class="p15">
-                    <p ng-repeat="user in all_doctor[$index]| orderBy: 'scheduled_start_time'"><strong>{{user.fname}} {{user.lname}}</strong><br/>
+                    <p ng-repeat="user in all_doctor_past[$index]| orderBy: 'app.scheduled_start_time'"><strong>{{user.fname}} {{user.lname}}</strong><br/>
                         <span ng-repeat="spec in user.specializations">
                             {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                         </span>
@@ -23,11 +23,11 @@
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
+                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.id, prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.mode == 1"><a  ng-click="joinVideo(app.mode, all_time[$index], all_end_time[$index], app.appointment_id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
+                            <div class="col" ng-if="app.mode == 1"><a  ng-click="joinVideo(app.mode, all_time[$index], all_end_time[$index], app.id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
                         </div>
                     </div>

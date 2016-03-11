@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Patients list {{doctrs.length}}</span>
+        <span>Patients list</span>
     </ion-nav-title>
     <ion-content>
 
@@ -22,15 +22,7 @@
         <div class="list mb0" ng-if="users.length == 0">
             <p>No patients</p>
         </div>
-        <div ng-if="doctrs.length > 1">
-            <label class="item item-input item-select" >
-                <div class="input-label">Select Doctor</div>
-                <select name="doctrid" ng-model="drId">
-                    <option value="" >Select </option>
-                    <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
-                </select>
-            </label>
-        </div>
+        
     </ion-content>
     <div class="bar bar-footer bar-positive">
         <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
@@ -44,11 +36,11 @@
                 <h2>Naresh Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
-			<a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
+                        <a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
                 <h2>Leena Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
-			<a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
+                        <a class="item"  ui-sref="app.patient" ui-sref-opts="{reload: true}">
                 <h2>Bhavana Infini</h2>
                 <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
             </a>
@@ -95,7 +87,9 @@
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     </label>
-
+    <input type="hidden" value="" name="adhar" placeholder="Aadhar Id">
+    <input type="hidden" value="" name="gender" placeholder="gender">
+    <input type="hidden" value="" name="dob" placeholder="dob">
     </ion-content>
     <div class="fixedbar">
     <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
