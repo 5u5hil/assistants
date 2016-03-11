@@ -19,15 +19,34 @@ angular.module('your_app_name.controllers', [])
 // APP
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = window.localStorage.getItem('id');
+            $http({
+                    method: 'GET',
+                    url: domain + 'get-sidemenu-lang',
+                    params: {id:$scope.userId,interface:$scope.interface}
+                }).then(function successCallback(response) {
+                    
+                   
+                    if (response.data) {
+                        
+                        $scope.menutext = response.data.dataMenu;
+                        $scope.language = response.data.lang.language;
+                    
+                    } else {
+                      
+                    }
+                }, function errorCallback(response) {
+                   // console.log(response);
+                });
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
-            }
-            // else {
-            // if ($rootScope.userLogged == 0)
-            // $state.go('auth.login');
-            // }
+             } else {
+                if ($rootScope.userLogged == 0)
+                    $state.go('auth.walkthrough');
+             }
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 $http({
