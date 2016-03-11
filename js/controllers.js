@@ -173,8 +173,16 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-doctrs-list',
-                params: {userId: $scope.userId}
+                params: {userId: $scope.userId,interface:$scope.interface}
             }).then(function successCallback(response) {
+                $scope.active = response.data.active;
+                $scope.book = response.data.book;
+                $scope.past = response.data.past;
+                $scope.doctorslang = response.data.doctors;
+                $scope.experience = response.data.experience;
+                $scope.focus_area = response.data.focus_area;
+                $scope.lang = response.data.languages;
+                $scope.language = response.data.lang.language;
                 $scope.doctors = response.data.user;
             }, function errorCallback(e) {
                 console.log(e.responseText);
