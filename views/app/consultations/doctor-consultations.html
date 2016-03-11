@@ -58,7 +58,7 @@
                                         <p ng-repeat="user in week_usersData[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
                                             <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                    {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
                                                     {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
                                         </div>                                                        
@@ -70,8 +70,7 @@
                                                 <a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
                                             <!---div class="col"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                                             <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, week_time[$parent.$index], week_end_time[$parent.$index], app.appointment_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-
+                                            <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, week_time[$parent.$index], week_end_time[$parent.$index], app.appointment_id, prod.user_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
                                             <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
                                         </div>
                                     </div>
@@ -91,7 +90,7 @@
                                         <p ng-repeat="user in all_usersData[$parent.$index]| orderBy: '-appointments.scheduled_start_time'"><strong> {{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
                                             <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                    {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
                                                     {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
                                         </div>

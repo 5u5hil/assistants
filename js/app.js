@@ -563,6 +563,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.patient-join', {
+                        cache: false,
+                        url: "/patient-join/{id:int}/{mode:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patient-join.html",
+                                controller: 'PatientJoinCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.patient-list', {
                         url: "/patient-list",
