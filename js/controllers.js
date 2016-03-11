@@ -52,8 +52,30 @@ angular.module('your_app_name.controllers', [])
         })
 
         //LOGIN
-        .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
-            $scope.doLogIn = function () {
+        .controller('LoginCtrl', function ($scope,$http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+            window.localStorage.setItem('interface_id', '3');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            
+             $http({
+                    method: 'GET',
+                    url: domain + 'get-login',
+                    params: {interface:$scope.interface}
+                }).then(function successCallback(response) {
+                    
+                   console.log(response.data.lang.language);
+                  
+                    if (response.data.data) {    
+                      
+                          $scope.langtext = response.data.data;
+                          $scope.language = response.data.lang.language;
+                        
+                    } else {
+                      
+                    }
+                }, function errorCallback(response) {
+                   // console.log(response);
+                });
+                    $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
                 $.ajax({
