@@ -1868,10 +1868,11 @@ angular.module('your_app_name.controllers', [])
             $scope.tempImgs = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+              $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId,interface:$scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;
@@ -1880,6 +1881,14 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctrs = response.data.doctrs;
                 $scope.patients = response.data.patients;
                 $scope.cases = response.data.cases;
+                $scope.language = response.data.lang.language;
+                $scope.add = response.data.add;
+                $scope.note = response.data.note;
+                $scope.save = response.data.save;
+                $scope.cancel = response.data.cancel;
+                  $scope.plane_text = response.data.plane_text;
+                   $scope.select_category = response.data.select_category;
+                $scope.submit = response.data.submit;
             }, function errorCallback(response) {
                 console.log(response);
             });

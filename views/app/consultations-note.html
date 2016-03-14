@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Consultation Note</span>
+        <span>{{note[language]}}</span>
     </ion-nav-title>
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>        
@@ -134,21 +134,21 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Notes</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
+                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{add[language]}}</button>
                             <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
                         </div>
                     </div>
                     <div class="innerdiv col-50">
                         <div class="item item-divider">Treatment Plan</div>
                         <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{add[language]}} </button>	
                         </div>
                     </div>
                 </div>
             </div>
         </ion-content>
         <div class="footerbar">
-            <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button>
+            <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">{{submit[language]}}</button>
         </div>
     </form>
 </ion-view>
@@ -157,7 +157,7 @@
 <script id="addeval" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Plain Text</h1>
+    <h1 class="title">{{plane_text[language]}}</h1>
 
     </ion-header-bar>
     <ion-content class="padding">
@@ -172,8 +172,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
     </div>
     </ion-modal-view>
 </script>
@@ -217,8 +217,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
     </div>
 
     </ion-modal-view>
@@ -239,8 +239,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
     </div>
     </ion-modal-view>
 </script>
@@ -249,7 +249,7 @@
 <script id="notetype" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Select Category</h1>	 
+    <h1 class="title">{{select_category[language]}}</h1>	 
 
     </ion-header-bar>
     <ion-content>
@@ -300,7 +300,7 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
 
     </div>
     </ion-modal-view>
@@ -311,7 +311,7 @@
 <script id="treatmentp" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Select Category</h1>
+    <h1 class="title">{{select_category[language]}}</h1>
     </ion-header-bar>
     <ion-content>
     <div class="item item-divider">Treatment Plan</div>  
@@ -348,7 +348,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
     </div>
     </ion-modal-view>
 </script>
