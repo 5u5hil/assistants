@@ -1,15 +1,18 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{doctor[0].fname}} {{doctor[0].lname}}</span>
+        <span>{{doctor[0].user_lang[language]}} </span>
     </ion-nav-title>
     <ion-content>
-        <div class="" ng-if="services.length == 0">
+       <div class="" ng-if="services==''">
             <h4 class="txt-center">No Service Listed</h4>
         </div>
-        <div ng-if="services.length > 0">
+        <div ng-if="services!=''">
+           
             <my-tabs class="themetabs">
+                
                 <div ng-repeat="serv in services">
-                    <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1">
+                   
+                    <my-tab  icon="ion-calendar tabicon" title="{{scheduled_video[language]}}"  ng-if="serv == 1">
                         <div class="tabc2">
                             <div class="item-price">Price : INR {{videoProd.price}}</div>
                             <div class="mt15"> 
@@ -28,10 +31,10 @@
                                         </li>
                                     </ul>
                                     <div class="sche-date">
-                                        <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
+                                        <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">{{earliest_slot[language]}}</div> 
                                         <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
                                         <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
-                                        <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
+                                        <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">{{next_slot[language]}}</div>
                                     </div>
                                     <div ng-if="schV[$index] == vs.supersaas_id">
                                         {{vSch[$index]==''? 'No slots available':''}}
@@ -44,14 +47,16 @@
                                     </div>
                                 </div>
                                 <div class="section-footer">   
-                                    <a class="button button-full button-positive" ng-click="bookAppointment(videoProd.id, serv)">Proceed</a>
+                                    <a class="button button-full button-positive" ng-click="bookAppointment(videoProd.id, serv)">{{procced[language]}}</a>
                                 </div>	
                             </div>
                         </div>
 
                     </my-tab>
-                    <div ng-if="instVideo != ''">
-                        <my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();" ng-if="instVideo != ''">
+                   
+                </div>
+                 <div ng-if="instVideo != ''">
+                        <my-tab title="{{instant_video[language]}}" icon="ion-ios-videocam tabicon" ng-click="doit();" ng-if="instVideo != ''">
                             <div class="tabc2">
                                 <div class="item-price">Price : INR {{instVideo.price}}</div>
                                 <div class="tabcontainer"> 
@@ -59,13 +64,12 @@
                                         <li><strong>Instant video consult</strong></li>
                                     </ul>
                                     <p>
-                                        <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
+                                        <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> {{procced[language]}}</button>
                                     </p>
                                 </div>
                             </div>
                         </my-tab>                                
                     </div>
-                </div>
             </my-tabs>
         </div>
 

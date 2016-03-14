@@ -474,6 +474,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.doctor = response.data.user;
+                $scope.language = response.data.lang.language;
                 $scope.videoProd = response.data.video_product;
                 $scope.instVideo = response.data.inst_video;
                 $scope.videoInc = response.data.video_inclusions;
@@ -490,7 +491,12 @@ angular.module('your_app_name.controllers', [])
                 $scope.chatInc = response.data.chat_inclusions;
                 $scope.packages = response.data.packages;
                 $scope.services = response.data.services;
-                console.log($scope.instVideo.length);
+                $scope.instant_video = response.data.instant_video;
+                $scope.earliest_slot = response.data.earliest_slot;
+                $scope.next_slot = response.data.next_slot;
+                $scope.scheduled_video = response.data.scheduled_video;
+                $scope.procced = response.data.procced;
+                //console.log($scope.instVideo.length);
                 //console.log("prodId " + $scope.instVideo + "popopo");
                 //$ionicLoading.hide();
                 angular.forEach($scope.videoSch, function (value, key) {
