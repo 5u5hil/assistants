@@ -1703,11 +1703,23 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.patientId = $stateParams.id;
-            console.log($scope.patientId);
-            
-        })
+       .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+           $scope.patientId = $stateParams.id;
+           $scope.userId = get('id');
+           console.log($scope.patientId);
+           $http({
+               method: 'GET',
+               url: domain + 'assistants/get-patient-details',
+               params: {userId: $scope.userId, patientId: $scope.patientId}
+           }).then(function successCallback(response) {
+               console.log(response.data);
+               $scope.activeAppCnt = response.data.activeAppCnt;
+               $scope.pastAppCnt = response.data.pastAppCnt;
+               $scope.patientDetails = response.data.patientDetails;
+           }, function errorCallback(e) {
+               console.log(e);
+           });
+       })
 
         .controller('MyCtrl', function ($scope, $ionicTabsDelegate) {
             $scope.selectTabWithIndex = function (index) {
