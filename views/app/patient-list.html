@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Patients list</span>
+       <span>{{patient_list[language]}}</span>
     </ion-nav-title>
     <ion-content>
 
@@ -25,7 +25,7 @@
         
     </ion-content>
     <div class="bar bar-footer bar-positive">
-        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
+        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> {{add[language]}}</div>
     </div>
 </ion-view>
 
@@ -49,7 +49,7 @@
 <script id="addp" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Actions</h1>	 
+    <h1 class="title">{{add_patient[language]}}</h1>	 
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
@@ -92,7 +92,7 @@
     <input type="hidden" value="" name="dob" placeholder="dob">
     </ion-content>
     <div class="fixedbar">
-    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{submit[language]}}</button>
     </div>
     </form>
     </ion-modal-view>

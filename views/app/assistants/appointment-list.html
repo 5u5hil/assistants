@@ -1,34 +1,34 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>Appointment List</span>
+        <span>{{tabmenu.appointment_list[language]}}</span>
     </ion-nav-title>
     <ion-content>
         <div class="row tabnav">
-            <div class="col"><a  ui-sref="app.appointment-list" class="active" >Active</a></div>
-            <div class="col"><a  ui-sref="app.past-appointment-list"  >Past</a></div>
+            <div class="col"><a  ui-sref="app.appointment-list" class="active" >{{tabmenu.active[language]}}</a></div>
+            <div class="col"><a  ui-sref="app.past-appointment-list"  >{{tabmenu.past[language]}}</a></div>
         </div>
         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_app track by $index | orderBy: 'scheduled_start_time'" >
+         <div  class="list card post-item" ng-repeat="app in all_app track by $index | orderBy: 'scheduled_start_time'" > <!--| orderBy: 'scheduled_start_time'-->
             <div class="post-heading item item-text-wrap p0">
-                <div class="item item-divider" ng-repeat="user in all_usersData[$index]| orderBy: 'scheduled_start_time'">{{user.fname}} {{user.lname}}</div>
+                <div class="item item-divider" ng-repeat="user in all_usersData[$index]| filter:search | orderBy: 'scheduled_start_time'">{{user.fname}} {{user.lname}}</div> <!--| orderBy: 'scheduled_start_time'-->
                 <div class="p15">
-                    <p ng-repeat="user in all_doctor[$index]| orderBy: 'scheduled_start_time'"><strong>{{user.fname}} {{user.lname}}</strong><br/>
+                    <p ng-repeat="user in all_doctor[$index]| filter:search| orderBy: 'scheduled_start_time'"><strong>{{user.user_lang[language]}}</strong><br/>
                         <span ng-repeat="spec in user.specializations">
                             {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                         </span>
                     </p>
-                    <p><strong>Mode : </strong> {{app.mode==1? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p>
-                    <p><strong>Appointment Time {{all_usersData[$index][0].id}}: </strong> {{app.scheduled_start_time|dateFormat3}}, {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}}</p>
+                    <p><strong>Mode : </strong> {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p>
+                    <p><strong>Appointment Time : </strong> {{app.appointments.scheduled_start_time|dateFormat3}}, {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}}</p>
                 </div>
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
+                            <div class="col" ng-if="app.appointments.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.id, prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
+                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointments.id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.mode == 1"><a  ng-click="joinVideo(app.mode, all_time[$index], all_end_time[$index], app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
+                            <div class="col" ng-if="app.appointments.mode == 1"><a  ng-click="joinVideo(app.appointments.mode, all_time[$index], all_end_time[$index], app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
+                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
         </div>
     </ion-content>
     <div class="fixedbar">
-        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> New</a>
+        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
     </div>
 
 </ion-view>
