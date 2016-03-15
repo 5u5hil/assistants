@@ -10,7 +10,7 @@ $(document).ready(function () {
             $rootScope.username = window.localStorage.getItem('fname');
             $rootScope.userimage = window.localStorage.getItem('image');
             if (document.location.hash == "#/auth/login" || document.location.hash == "#/auth/walkthrough")
-                window.location.href = "#/app/doctor-consultations";
+                window.location.href = "#/app//assistants";
         });
     } else {
         $rootScope.$apply(function () {

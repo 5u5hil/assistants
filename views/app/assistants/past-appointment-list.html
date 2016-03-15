@@ -27,8 +27,8 @@
                             <span class="icon ion-plus-circled"></span> Note
                         </a>
                     </div>
-                    <p ng-repeat="user in all_doctor[$index]| filter:search"><strong>{{user.user_lang[language]}}</strong><br/> <!-- | orderBy: 'scheduled_start_time'-->
-                        <span ng-repeat="spec in user.specializations">
+                    <p ng-repeat="doc in all_doctor[$index]| filter:search"><strong>{{doc.user_lang[language]}}</strong><br/> <!-- | orderBy: 'scheduled_start_time'-->
+                        <span ng-repeat="spec in doc.specializations">
                             {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                         </span>
                     </p>
