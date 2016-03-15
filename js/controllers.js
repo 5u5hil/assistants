@@ -1089,14 +1089,8 @@ angular.module('your_app_name.controllers', [])
                     params: {id: $scope.id, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     //console.log(response.data);
-                    $ionicLoading.hide();
-                    $timeout.cancel(stopped1);
-                    if (response.data == 'success')
-                    {
-                        $state.go('app.thankyou', {'data': response.data});
-                    } else {
-                        $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
-                    }
+                    $scope.tabmenu = response.data.tabmenu;
+                     $scope.language = response.data.lang.language;
                 }, function errorCallback(response) {
                     console.log(response);
                 });
