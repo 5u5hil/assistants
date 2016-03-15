@@ -224,7 +224,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
             $scope.savePatient = function () {
-               // console.log('submit');
+                // console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
@@ -388,7 +388,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Go to consultation add page
             $scope.addCnote = function (appId) {
-                alert(appId);
+                //alert(appId);
                 store({'appId': appId});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
@@ -447,13 +447,13 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
-                   
+
                     $scope.patientadded = response.patientadded;
-                     $scope.language = response.lang.language;
+                    $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                     window.location.reload();
+                    window.location.reload();
                 });
             };
         })
@@ -1018,11 +1018,12 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-order-details',
-                params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface}
+                params: {id: $scope.supid, prodId: $scope.prodid, interface: $scope.interface, patientId: $scope.patientId}
             }).then(function successCallback(responseData) {
                 console.log(responseData.data);
                 $ionicLoading.show({template: 'Loading...'});
                 //$ionicLoading.hide();
+                $scope.patient = responseData.data.patient;
                 $scope.payment = responseData.data.payment;
                 $scope.confirm = responseData.data.confirm;
                 $scope.confirm_appointment = responseData.data.confirm_appointment;
@@ -1299,6 +1300,12 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
+            };
+            //Go to consultation add page
+            $scope.addCnote = function (appId) {
+                //alert(appId);
+                store({'appId': appId});
+                $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
         })
 
