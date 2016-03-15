@@ -267,14 +267,21 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.drId = $stateParams.id;
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
                 url: domain + 'assistapp/get-all-dr-app',
-                params: {drId: $scope.drId, userId: $scope.userId}
+                params: {drId: $scope.drId, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                //
+               
+                $scope.language = response.data.lang.language;
+                $scope.tabmenu = response.data.tabmenu;
+               
+                //
                 $scope.todays_app = response.data.todays_appointments;
                 $scope.todays_usersData = response.data.todays_usersData;
                 $scope.todays_products = response.data.todays_products;
