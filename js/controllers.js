@@ -1962,7 +1962,7 @@ angular.module('your_app_name.controllers', [])
             } else {
                 $scope.patientId = '';
                 $scope.doctorId = window.localStorage.getItem('id');
-                window.localStorage.setItem('patientId', '282');
+                window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
                 $scope.curTime = new Date();
