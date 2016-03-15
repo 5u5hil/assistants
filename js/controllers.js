@@ -812,7 +812,6 @@ angular.module('your_app_name.controllers', [])
             });
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.drId = window.localStorage.getItem('drId');
-
             console.log($scope.drId + "--" + $scope.patientId);
             /* patient confirm */
             $scope.showConfirm = function () {
@@ -832,8 +831,8 @@ angular.module('your_app_name.controllers', [])
                             console.log(patientresponse.data);
                             console.log($scope.drId + "--" + $scope.patientId);
                             window.localStorage.removeItem('kookooid');
-                            //$state.go('app.consultations-profile', {'data': $scope.prodid}, {reload: true});
-                            $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            $state.go('app.doctrslist', {}, {reload: true});
+                            //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                         }, function errorCallback(patientresponse) {
                             //  alert('Oops something went wrong!');
                         });
@@ -896,13 +895,15 @@ angular.module('your_app_name.controllers', [])
                         $timeout.cancel(stopped);
                         window.localStorage.removeItem('kookooid');
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                        $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                        $state.go('app.doctrslist', {}, {reload: true});
+                        //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                     }
                 }, function errorCallback(responsekookoo) {
                     if (responsekookoo.data == 0)
                     {
                         alert('No doctrs available');
-                        $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                        $state.go('app.doctrslist', {}, {reload: true});
+                        //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                     }
                 });
                 $scope.IsVisible = true;
@@ -926,14 +927,14 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'kookoo/check-doctrs-response',
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
-                        console.log($scope.patientId + ' ' + $scope.drId);
+                        //console.log(response);
                         if (response.data == '0')
                         {
-                            //alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
+                            //console.log('id = '+ $scope.patientId+ ' drId = '+ $scope.drId);
+                            alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                            // $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                             $state.go('app.doctrslist', {}, {reload: true});
-                            // $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
                             window.localStorage.setItem('kookooid1', response.data);
@@ -961,6 +962,7 @@ angular.module('your_app_name.controllers', [])
                     params: {kookooid: $scope.kookooID}
                 }).then(function successCallback(patientresponse) {
                     console.log(patientresponse.data);
+                    console.log('Patient Id' + $scope.patientId + 'Doctr Id = ' + $scope.drId);
                     $timeout.cancel(stopped);
                     window.localStorage.removeItem('kookooid');
                     $state.go('app.doctrslist', {}, {reload: true});
