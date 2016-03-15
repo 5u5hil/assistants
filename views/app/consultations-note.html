@@ -40,7 +40,7 @@
                             </label>
                             <div ng-if="field.field == 'Consultant'">
                                 <label class="item item-input item-select" >
-                                    <div class="input-label">Doctor {{doctorId}}</div>
+                                    <div class="input-label">Doctor </div>
                                     <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
