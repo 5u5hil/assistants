@@ -250,12 +250,9 @@ angular.module('your_app_name.controllers', [])
                     params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     if (response.data.dataCat) {
-
                         $scope.cattext = response.data.dataCat;
                         $scope.language = response.data.lang.language;
-
                     } else {
-
                     }
                 }, function errorCallback(response) {
                     // console.log(response);
@@ -354,22 +351,22 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     if (mode == 1) {
-//                        $http({
-//                            method: 'GET',
-//                            url: domain + 'appointment/cancel-app',
-//                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-//                        }).then(function successCallback(response) {
-//                            console.log(response.data);
-//                            if (response.data == 'success') {
-//                                alert('Your appointment is cancelled successfully.');
-//                                $state.go('app.doctor-consultations', {}, {reload: true});
-//                            } else {
-//                                alert('Sorry your appointment is not cancelled.');
-//                            }
-//                            $state.go('app.consultations-list', {}, {reload: true});
-//                        }, function errorCallback(response) {
-//                            console.log(response);
-//                        });
+                        $http({
+                            method: 'GET',
+                            url: domain + 'appointment/cancel-app',
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            if (response.data == 'success') {
+                                alert('Your appointment is cancelled successfully.');
+                                $state.go('app.doctor-consultations', {}, {reload: true});
+                            } else {
+                                alert('Sorry your appointment is not cancelled.');
+                            }
+                            //$state.go('app.consultations-list', {}, {reload: true});
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
                     } else if (mode == 3 || mode == 4) {
                         //ask for 2 options
                     }
@@ -1092,7 +1089,6 @@ angular.module('your_app_name.controllers', [])
             }
         })
 
-
         .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1270,7 +1266,7 @@ angular.module('your_app_name.controllers', [])
                             } else {
                                 alert('Sorry your appointment is not cancelled.');
                             }
-                            $state.go('app.consultations-list', {}, {reload: true});
+                            //$state.go('app.consultations-list', {}, {reload: true});
                         }, function errorCallback(response) {
                             console.log(response);
                         });
@@ -1889,7 +1885,7 @@ angular.module('your_app_name.controllers', [])
             $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
-                url: domain + 'doctrsrecords/get-fields',
+                url: domain + 'assistrecords/get-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -1941,7 +1937,7 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+                    callAjax("POST", domain + "assistrecords/save-consultation", data, function (response) {
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
@@ -1956,7 +1952,7 @@ angular.module('your_app_name.controllers', [])
                     });
                 } else {
                     var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+                    callAjax("POST", domain + "assistrecords/save-consultation", data, function (response) {
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
@@ -2076,7 +2072,7 @@ angular.module('your_app_name.controllers', [])
                     //$ionicLoading.hide();
                 }
                 var ft = new FileTransfer();
-                ft.upload(fileURL, encodeURI(domain + 'doctrsrecords/upload-attachment'), uploadSuccess, function (error) {
+                ft.upload(fileURL, encodeURI(domain + 'assistrecords/upload-attachment'), uploadSuccess, function (error) {
                     //$ionicLoading.show({template: 'Error in connecting...'});
                     //$ionicLoading.hide();
                 }, options);
@@ -2127,7 +2123,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $http({
                 method: 'GET',
-                url: domain + 'doctrsrecords/get-about-fields',
+                url: domain + 'assistrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -2201,7 +2197,7 @@ angular.module('your_app_name.controllers', [])
             //Save Patient History
             $scope.savePatientHistory = function () {
                 var data = new FormData(jQuery("#addRecordForm")[0]);
-                callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
+                callAjax("POST", domain + "assistrecords/save-patient-history", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
@@ -2225,7 +2221,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $http({
                 method: 'GET',
-                url: domain + 'doctrsrecords/get-about-fields',
+                url: domain + 'assistrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
                 console.log(response.data);
