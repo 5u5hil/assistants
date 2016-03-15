@@ -12,7 +12,7 @@
                 
                 <div ng-repeat="serv in services">
                    
-                    <my-tab  icon="ion-calendar tabicon" title="{{scheduled_video[language]}}"  ng-if="serv == 1">
+                    <my-tab  icon="ion-calendar tabicon" title="{{scheduled_video[language]}}"  ng-if="serv == 1" ng-click="doesit();">
                         <div class="tabc2">
                             <div class="item-price">Price : INR {{videoProd.price}}</div>
                             <div class="mt15"> 

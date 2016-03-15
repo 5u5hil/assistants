@@ -711,6 +711,12 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.removeItem('startSlot');
                 window.localStorage.removeItem('endSlot');
             };
+            $scope.doesit = function () {
+                console.log("removeitem iv");
+                window.localStorage.removeItem('IVstartSlot');
+                window.localStorage.removeItem('IVendSlot');
+                  window.localStorage.removeItem('instantV');
+            };
             $scope.checkAvailability = function (uid, prodId) {
                 console.log("prodId " + prodId);
                 console.log("uid " + uid);
