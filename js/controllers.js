@@ -920,12 +920,14 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'kookoo/check-doctrs-response',
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
-                        console.log(response.data);
+                        console.log($scope.patientId+' '+$scope.drId);
                         if (response.data == '0')
                         {
-                            alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
+                            //alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                            $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                           // $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            $state.go('app.doctrslist', {}, {reload: true});
+                            // $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
                             window.localStorage.setItem('kookooid1', response.data);
@@ -933,6 +935,7 @@ angular.module('your_app_name.controllers', [])
 
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
+                         $state.go('app.doctrslist', {}, {reload: true});
                     });
                 }
                 if ($scope.counter == 0) {
