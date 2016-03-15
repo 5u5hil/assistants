@@ -154,6 +154,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.consultation-past', {
+                        cache: false,
                         url: "/consultations/past/{id:int}",
                         views: {
                             'menuContent': {
