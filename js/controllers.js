@@ -224,7 +224,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
             $scope.savePatient = function () {
-                console.log('submit');
+               // console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
@@ -447,11 +447,13 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
-                    console.log(response);
+                   
+                    $scope.patientadded = response.patientadded;
+                     $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
-                    alert("Patient added successfully!");
-                    window.location.reload();
+                    alert($scope.patientadded[$scope.language]);
+                     window.location.reload();
                 });
             };
         })
