@@ -257,6 +257,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.ass-patient-list', {
+                        cache: false,
                         url: "/ass-patient-list/{id:int}",
                         views: {
                             'menuContent': {
@@ -297,6 +298,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.appointment-list', {
+                        cache: false,
                         url: "/appointment-list",
                         views: {
                             'menuContent': {
@@ -306,6 +308,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.past-appointment-list', {
+                        cache: false,
                         url: "/past-appointment-list",
                         views: {
                             'menuContent': {
@@ -316,6 +319,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.new-patient', {
+                        cache: false,
                         url: "/new-patient",
                         views: {
                             'menuContent': {
@@ -577,6 +581,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient-list', {
+                        cache: false,
                         url: "/patient-list",
                         views: {
                             'menuContent': {
