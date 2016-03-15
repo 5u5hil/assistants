@@ -4,7 +4,7 @@ var subscriber;
 angular.module('your_app_name.controllers', [])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
-              $scope.interface = window.localStorage.setItem('interface_id', '3');
+            $scope.interface = window.localStorage.setItem('interface_id', '3');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -22,31 +22,27 @@ angular.module('your_app_name.controllers', [])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $http({
-                    method: 'GET',
-                    url: domain + 'get-sidemenu-lang',
-                    params: {id:$scope.userId,interface:$scope.interface}
-                }).then(function successCallback(response) {
-                    
-                   
-                    if (response.data) {
-                        
-                        $scope.menutext = response.data.dataMenu;
-                        $scope.language = response.data.lang.language;
-                    
-                    } else {
-                      
-                    }
-                }, function errorCallback(response) {
-                   // console.log(response);
-                });
+                method: 'GET',
+                url: domain + 'get-sidemenu-lang',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menutext = response.data.dataMenu;
+                    $scope.language = response.data.lang.language;
+
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
-             } else {
+            } else {
                 if ($rootScope.userLogged == 0)
                     $state.go('auth.walkthrough');
-             }
+            }
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 $http({
@@ -72,31 +68,25 @@ angular.module('your_app_name.controllers', [])
         })
 
         //LOGIN
-        .controller('LoginCtrl', function ($scope,$http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+        .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '3');
             $scope.interface = window.localStorage.getItem('interface_id');
-            
-             $http({
-                    method: 'GET',
-                    url: domain + 'get-login',
-                    params: {id:window.localStorage.getItem('id'),interface:$scope.interface}
-                }).then(function successCallback(response) {
-                    
-                   console.log(response.data.lang.language);
-                  
-                    if (response.data.data) {    
-                      
-                          $scope.langtext = response.data.data;
-                          $scope.language = response.data.lang.language;
-                        
-                    } else {
-                      
-                    }
-                }, function errorCallback(response) {
-                   // console.log(response);
-                });
-                    $scope.doLogIn = function () {
-                        
+
+            $http({
+                method: 'GET',
+                url: domain + 'get-login',
+                params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data.lang.language);
+                if (response.data.data) {
+                    $scope.langtext = response.data.data;
+                    $scope.language = response.data.lang.language;
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+            $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
                 $.ajax({
@@ -173,7 +163,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-doctrs-list',
-                params: {userId: $scope.userId,interface:$scope.interface}
+                params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 $scope.active = response.data.active;
                 $scope.book = response.data.book;
@@ -192,20 +182,20 @@ angular.module('your_app_name.controllers', [])
 
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
-           $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.users = {};
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-list',
-                params: {userId: $scope.userId,interface: $scope.interface}
+                params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
                 $scope.doctrs = response.data.doctrs;
                 $scope.patient_list = response.data.patient_list;
-                 $scope.add = response.data.add;
-                 $scope.add_patient = response.data.add_patient;
-                 $scope.submit = response.data.submit;
-                 $scope.language = response.data.lang.language; 
+                $scope.add = response.data.add;
+                $scope.add_patient = response.data.add_patient;
+                $scope.submit = response.data.submit;
+                $scope.language = response.data.lang.language;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
                     $scope.users = _.reduce(
@@ -247,30 +237,30 @@ angular.module('your_app_name.controllers', [])
             };
         })
         /* Assistants */
-        .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal,$rootScope) {
+        .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-                if(get('id') != null) {
-             $rootScope.userLogged = 1;
-                 $scope.interface = window.localStorage.getItem('interface_id');
-                  $scope.userId = window.localStorage.getItem('id');
-             $http({
+            if (get('id') != null) {
+                $rootScope.userLogged = 1;
+                $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.userId = window.localStorage.getItem('id');
+                $http({
                     method: 'GET',
                     url: domain + 'get-categoty-lang',
-                    params: {id:$scope.userId,interface:$scope.interface}
+                    params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     if (response.data.dataCat) {
-                        
+
                         $scope.cattext = response.data.dataCat;
                         $scope.language = response.data.lang.language;
-                        
+
                     } else {
-                      
+
                     }
                 }, function errorCallback(response) {
-                   // console.log(response);
+                    // console.log(response);
                 });
-            }else{
+            } else {
                 $state.go('auth.walkthrough', {}, {reload: true});
             }
         })
@@ -399,14 +389,14 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-drs-patients',
-                params: {userId: $scope.userId, drId: $scope.drId,interface:$scope.interface}
+                params: {userId: $scope.userId, drId: $scope.drId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
-                 $scope.patient_list = response.data.patient_list;
-                 $scope.add = response.data.add;
-                 $scope.add_patient = response.data.add_patient;
-                 $scope.submit = response.data.submit;
-                 $scope.language = response.data.lang.language; 
+                $scope.patient_list = response.data.patient_list;
+                $scope.add = response.data.add;
+                $scope.add_patient = response.data.add_patient;
+                $scope.submit = response.data.submit;
+                $scope.language = response.data.lang.language;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
 //                    var patient_list = response.data.patient_list;
@@ -715,21 +705,21 @@ angular.module('your_app_name.controllers', [])
                 console.log("removeitem iv");
                 window.localStorage.removeItem('IVstartSlot');
                 window.localStorage.removeItem('IVendSlot');
-                  window.localStorage.removeItem('instantV');
+                window.localStorage.removeItem('instantV');
             };
             $scope.checkAvailability = function (uid, prodId) {
                 console.log("prodId " + prodId);
                 console.log("uid " + uid);
-                 $scope.interface = window.localStorage.getItem('interface_id');
+                $scope.interface = window.localStorage.getItem('interface_id');
                 $rootScope.$broadcast('loading:hide');
                 $ionicLoading.show();
                 $http({
                     method: 'GET',
                     url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: uid,interface:$scope.interface}
+                    params: {id: uid, interface: $scope.interface}
                 }).then(function successCallback(responseData) {
-                   
-                     console.log(responseData.data);
+
+                    console.log(responseData.data);
                     if (responseData) {
                         $scope.check_availability = responseData.data.check_availability
                         $scope.language = responseData.data.lang.language;
@@ -793,20 +783,20 @@ angular.module('your_app_name.controllers', [])
             $scope.uid = $stateParams.uid;
             $scope.interface = window.localStorage.getItem('interface_id');
             $http({
-                    method: 'GET',
-                    url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: $scope.uid,interface:$scope.interface}
-                }).then(function successCallback(responseData) {
-                    
-                        $scope.check_availability = responseData.data.check_availability
-                        $scope.instant_video = responseData.data.instant_video
-                        $scope.language = responseData.data.lang.language;
-                        $scope.confirmation = responseData.data.confirmation
-                    
-                });
+                method: 'GET',
+                url: domain + 'kookoo/check-doctor-availability',
+                params: {id: $scope.uid, interface: $scope.interface}
+            }).then(function successCallback(responseData) {
+
+                $scope.check_availability = responseData.data.check_availability
+                $scope.instant_video = responseData.data.instant_video
+                $scope.language = responseData.data.lang.language;
+                $scope.confirmation = responseData.data.confirmation
+
+            });
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.drId = window.localStorage.getItem('drId');
-            
+
             console.log($scope.drId + "--" + $scope.patientId);
             /* patient confirm */
             $scope.showConfirm = function () {
@@ -920,12 +910,12 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'kookoo/check-doctrs-response',
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
-                        console.log($scope.patientId+' '+$scope.drId);
+                        console.log($scope.patientId + ' ' + $scope.drId);
                         if (response.data == '0')
                         {
                             //alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $timeout.cancel(stopped);
-                           // $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            // $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                             $state.go('app.doctrslist', {}, {reload: true});
                             // $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
                         } else {
@@ -935,7 +925,7 @@ angular.module('your_app_name.controllers', [])
 
                     }, function errorCallback(response) {
                         alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                         $state.go('app.doctrslist', {}, {reload: true});
+                        $state.go('app.doctrslist', {}, {reload: true});
                     });
                 }
                 if ($scope.counter == 0) {
@@ -1021,8 +1011,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.confirm = responseData.data.confirm;
                 $scope.confirm_appointment = responseData.data.confirm_appointment;
                 $scope.language = responseData.data.lang.language;
-                
-                
+
+
                 $scope.product = responseData.data.prod;
                 $scope.prod_inclusion = responseData.data.prod_inclusion;
                 $scope.doctor = responseData.data.doctor;
@@ -1107,99 +1097,99 @@ angular.module('your_app_name.controllers', [])
         })
 
         /*.controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
+         $scope.userId = window.localStorage.getItem('id');
+         $scope.interface = window.localStorage.getItem('interface_id');
+         $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+         $http({
+         method: 'GET',
+         url: domain + 'assistapp/get-all-app',
+         params: {userId: $scope.userId, interface:$scope.interface}
+         }).then(function successCallback(response) {
+         console.log(response.data);
+         $scope.tabmenu = response.data.tabmenu;
+         $scope.language = response.data.lang.language;
+         
+         //end past section
+         $scope.all_app = response.data.all_appointments;
+         $scope.all_usersData = response.data.all_usersData;
+         $scope.all_doctor = response.data.all_doctor;
+         $scope.all_products = response.data.all_products;
+         $scope.all_time = response.data.all_time;
+         $scope.all_end_time = response.data.all_end_time;
+         //past section //
+         $scope.all_app_past = response.data.all_appointments_past;
+         $scope.all_doctor_past = response.data.all_doctor_past;
+         $scope.all_usersData_past = response.data.all_usersData_past;
+         $scope.all_products_past = response.data.all_products_past;
+         $scope.all_time_past = response.data.all_time_past;
+         $scope.all_end_time_past = response.data.all_end_time_past;
+         //end past section//
+         }, function errorCallback(e) {
+         console.log(e);
+         });
+         $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+         $scope.appId = appId;
+         $scope.userId = get('id');
+         $scope.drId = drId;
+         $scope.cancel = '';
+         console.log(drId);
+         console.log(startTime);
+         var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+         console.log(curtime);
+         var timeDiff = getTimeDiff(startTime, curtime);
+         console.log(timeDiff);
+         if (timeDiff < 15) {
+         if (mode == 1) {
+         alert("Appointment can not be cancelled now!");
+         } else {
+         //ask 4 options
+         
+         }
+         } else {
+         if (mode == 1) {
+         $http({
+         method: 'GET',
+         url: domain + 'appointment/cancel-app',
+         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+         }).then(function successCallback(response) {
+         console.log(response.data);
+         if (response.data == 'success') {
+         alert('Your appointment is cancelled successfully.');
+         $state.go('app.doctor-consultations', {}, {reload: true});
+         } else {
+         alert('Sorry your appointment is not cancelled.');
+         }
+         $state.go('app.consultations-list', {}, {reload: true});
+         }, function errorCallback(response) {
+         console.log(response);
+         });
+         } else if (mode == 3 || mode == 4) {
+         //ask for 2 options
+         }
+         }
+         };
+         $scope.joinVideo = function (mode, start, end, appId, patientId) {
+         console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===Dr " + patientId);
+         if ($scope.curTime >= start || $scope.curTime <= end) {
+         console.log('redirect');
+         window.localStorage.setItem("patientId", patientId);
+         //$state.go('app.patient-join', {}, {reload: true});
+         $state.go('app.patient-join', {'id': appId, 'mode': mode}, {reload: true});
+         } else {
+         alert("You can join video before 15 minutes.");
+         }
+         };
+         })
+         */
+        .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
-            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $scope.interface = window.localStorage.getItem('interface_id');
+
             $http({
                 method: 'GET',
                 url: domain + 'assistapp/get-all-app',
-                params: {userId: $scope.userId, interface:$scope.interface}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.tabmenu = response.data.tabmenu;
-                $scope.language = response.data.lang.language;
-                
-                //end past section
-                $scope.all_app = response.data.all_appointments;
-                $scope.all_usersData = response.data.all_usersData;
-                $scope.all_doctor = response.data.all_doctor;
-                $scope.all_products = response.data.all_products;
-                $scope.all_time = response.data.all_time;
-                $scope.all_end_time = response.data.all_end_time;
-                //past section //
-                $scope.all_app_past = response.data.all_appointments_past;
-                $scope.all_doctor_past = response.data.all_doctor_past;
-                $scope.all_usersData_past = response.data.all_usersData_past;
-                $scope.all_products_past = response.data.all_products_past;
-                $scope.all_time_past = response.data.all_time_past;
-                $scope.all_end_time_past = response.data.all_end_time_past;
-                //end past section//
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
-                $scope.appId = appId;
-                $scope.userId = get('id');
-                $scope.drId = drId;
-                $scope.cancel = '';
-                console.log(drId);
-                console.log(startTime);
-                var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-                console.log(curtime);
-                var timeDiff = getTimeDiff(startTime, curtime);
-                console.log(timeDiff);
-                if (timeDiff < 15) {
-                    if (mode == 1) {
-                        alert("Appointment can not be cancelled now!");
-                    } else {
-                        //ask 4 options
-                        
-                    }
-                } else {
-                    if (mode == 1) {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            if (response.data == 'success') {
-                                alert('Your appointment is cancelled successfully.');
-                                $state.go('app.doctor-consultations', {}, {reload: true});
-                            } else {
-                                alert('Sorry your appointment is not cancelled.');
-                            }
-                            $state.go('app.consultations-list', {}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
-                    } else if (mode == 3 || mode == 4) {
-                        //ask for 2 options
-                    }
-                }
-            };
-            $scope.joinVideo = function (mode, start, end, appId, patientId) {
-                console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===Dr " + patientId);
-                if ($scope.curTime >= start || $scope.curTime <= end) {
-                    console.log('redirect');
-                    window.localStorage.setItem("patientId", patientId);
-                    //$state.go('app.patient-join', {}, {reload: true});
-                    $state.go('app.patient-join', {'id': appId, 'mode': mode}, {reload: true});
-                } else {
-                    alert("You can join video before 15 minutes.");
-                }
-            };
-        })
-*/
-.controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
-            $scope.userId = window.localStorage.getItem('id');
-            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-            $scope.interface = window.localStorage.getItem('interface_id');
-           
-            $http({
-                method: 'GET',
-                url: domain + 'assistapp/get-all-app',
-                params: {userId: $scope.userId, interface:$scope.interface}
+                params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.tabmenu = response.data.tabmenu;
@@ -1302,16 +1292,16 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-list',
-                params: {userId: $scope.userId,interface:$scope.interface}
+                params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
                 $scope.doctrs = response.data.doctrs;
-             
+
                 $scope.patient_list = response.data.patient_list;
-                 $scope.add = response.data.add;
-                 $scope.add_patient = response.data.add_patient;
-                 $scope.submit = response.data.submit;
-                 $scope.language = response.data.lang.language; 
+                $scope.add = response.data.add;
+                $scope.add_patient = response.data.add_patient;
+                $scope.submit = response.data.submit;
+                $scope.language = response.data.lang.language;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
                     $scope.users = _.reduce(
@@ -1588,7 +1578,7 @@ angular.module('your_app_name.controllers', [])
         .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-            
+
         })
 
         .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -1712,23 +1702,23 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-       .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-           $scope.patientId = $stateParams.id;
-           $scope.userId = get('id');
-           console.log($scope.patientId);
-           $http({
-               method: 'GET',
-               url: domain + 'assistants/get-patient-details',
-               params: {userId: $scope.userId, patientId: $scope.patientId}
-           }).then(function successCallback(response) {
-               console.log(response.data);
-               $scope.activeAppCnt = response.data.activeAppCnt;
-               $scope.pastAppCnt = response.data.pastAppCnt;
-               $scope.patientDetails = response.data.patientDetails;
-           }, function errorCallback(e) {
-               console.log(e);
-           });
-       })
+        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.patientId = $stateParams.id;
+            $scope.userId = get('id');
+            console.log($scope.patientId);
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/get-patient-details',
+                params: {userId: $scope.userId, patientId: $scope.patientId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.activeAppCnt = response.data.activeAppCnt;
+                $scope.pastAppCnt = response.data.pastAppCnt;
+                $scope.patientDetails = response.data.patientDetails;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
 
         .controller('MyCtrl', function ($scope, $ionicTabsDelegate) {
             $scope.selectTabWithIndex = function (index) {
@@ -1889,11 +1879,11 @@ angular.module('your_app_name.controllers', [])
             $scope.tempImgs = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
-              $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId,interface:$scope.interface}
+                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;
@@ -1907,8 +1897,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.note = response.data.note;
                 $scope.save = response.data.save;
                 $scope.cancel = response.data.cancel;
-                  $scope.plane_text = response.data.plane_text;
-                   $scope.select_category = response.data.select_category;
+                $scope.plane_text = response.data.plane_text;
+                $scope.select_category = response.data.select_category;
                 $scope.submit = response.data.submit;
             }, function errorCallback(response) {
                 console.log(response);
