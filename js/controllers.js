@@ -228,11 +228,12 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
-                    console.log(response);
+                    $scope.patientadded = response.patientadded;
+                    $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
-                    alert("Patient added successfully!");
-                    window.location.reload();
+                    alert($scope.patientadded[$scope.language]);
+                    location.reload();
                 });
             };
         })
@@ -447,13 +448,12 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
-
                     $scope.patientadded = response.patientadded;
                     $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    window.location.reload();
+                    location.reload();
                 });
             };
         })
@@ -1359,11 +1359,12 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
-                    console.log(response);
+                    $scope.patientadded = response.patientadded;
+                    $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
-                    alert("Patient added successfully!");
-                    window.location.reload();
+                    alert($scope.patientadded[$scope.language]);
+                    location.reload();
                 });
             };
             $scope.selDoc = function (pid) {
