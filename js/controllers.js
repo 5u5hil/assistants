@@ -1079,7 +1079,27 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
+        $scope.id = window.localStorage.getItem('id');
+        $scope.interface = window.localStorage.getItem('interface_id');
+        $http({
+                    method: 'GET',
+                    url: domain + 'assistants/thankyou-lang',
+                    params: {id: $scope.id, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    //console.log(response.data);
+                    $ionicLoading.hide();
+                    $timeout.cancel(stopped1);
+                    if (response.data == 'success')
+                    {
+                        $state.go('app.thankyou', {'data': response.data});
+                    } else {
+                        $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
             $scope.data = $stateParams.data;
+            
             $scope.gotohome = function () {
                 $ionicHistory.nextViewOptions({
                     disableBack: true
