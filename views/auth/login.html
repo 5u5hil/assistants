@@ -6,9 +6,6 @@
                     <form name="login_form" class="" novalidate ng-cloak id="loginuser" ng-submit="doLogIn()">
                         <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
                         <my-tabs>
-                            
-
-
                             <my-tab title="{{langtext.login[language]}}">
                                 <div class="list">
                                     <label class="item item-input">
@@ -46,7 +43,7 @@
                 </div>
                 <div class="alternative-actions">
                     <a class="forgot-password button button-small button-clear button-light" ui-sref="auth.forgot-password">
-                       {{langtext.forgot_password[language]}}
+                        {{langtext.forgot_password[language]}}
                     </a>
                     <a class="sign-up button button-small button-clear button-light" ui-sref="auth.signup">
                         <!--Sign Up-->

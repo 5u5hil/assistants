@@ -1204,6 +1204,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_products = response.data.all_products;
                 $scope.all_time = response.data.all_time;
                 $scope.all_end_time = response.data.all_end_time;
+                $scope.all_note = response.data.all_note;
                 //past section //
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_doctor_past = response.data.all_doctor_past;
@@ -1211,6 +1212,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_products_past = response.data.all_products_past;
                 $scope.all_time_past = response.data.all_time_past;
                 $scope.all_end_time_past = response.data.all_end_time_past;
+                $scope.all_note_past = response.data.all_note_past;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);

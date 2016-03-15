@@ -9063,7 +9063,22 @@ span.count-t{    display: inline-block;
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
 .btn-delete,.btn-share,.btn-add,.btn-edit,.btn-delete:hover,.btn-share:hover,.btn-add:hover,.btn-edit:hover,.btn-delete i,.btn-share i,.btn-add i,.btn-edit i{color:#fff;}
-
+.drstatus{    position: absolute;
+              right: 15px;
+              top: 15px;
+              padding: 0px 5px;
+              background: #28a54c;
+              color: #fff;
+              font-size: 11px;
+              border-radius: 3px;}
+.cnote{    position: absolute;
+           right: 10px;
+           top: 45px;
+           padding: 0px 5px;
+           background: #28a54c;
+           color: #fff;
+           font-size: 11px;
+           border-radius: 3px;}
 .fixedbar{    display: -webkit-flex; /* Safari */
               display: flex; position:fixed; bottom:0; width:100%;}
 .fixedbar .button{  -webkit-flex: 1;  /* Safari 6.1+ */
