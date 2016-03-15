@@ -1,11 +1,13 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{note[language]}}</span>
+        <span>Consultation Note {{curTime}}</span>
     </ion-nav-title>
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>        
             <div class="tabcon2">
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                <input type="hidden" value="{{patientId}}" name="patientId" />
+                <input type="hidden" value="{{app.id}}" name="appId" />
                 <input type="hidden" value="Consultation" name="rectype" />
                 <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
                 <div class="fields" ng-repeat="field in fields">                    
@@ -38,9 +40,9 @@
                             </label>
                             <div ng-if="field.field == 'Consultant'">
                                 <label class="item item-input item-select" >
-                                    <div class="input-label">Doctor</div>
+                                    <div class="input-label">Doctor {{doctorId}}</div>
                                     <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
-                                        <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == userId}}" value="{{doc.id}}">{{doc.fname}}</option>
+                                        <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
                             </div>
@@ -48,12 +50,12 @@
                         <div ng-if="field.field_types.value == 'date'">
                             <div ng-if="field.field == 'Consultation Date'">
                                 <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" required />                            
+                                    <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />                            
                                 </label>
                             </div>
                             <div ng-if="field.field == 'Valid till'">
                                 <label class="item item-input listreq hide" id="convalid"><span class='input-label'>{{field.field}} *</span>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" required />                            
+                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
                                 </label>
                             </div>
                         </div>
@@ -68,7 +70,7 @@
                                 <div class="input-label"> {{field.field}}</div>
                                 <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
                                     <option value="0"> Select {{field.field}}</option>
-                                    <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
                                 </select>
                             </label>
                             <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
@@ -134,21 +136,21 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Notes</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{add[language]}}</button>
+                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
                             <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
                         </div>
                     </div>
                     <div class="innerdiv col-50">
                         <div class="item item-divider">Treatment Plan</div>
                         <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{add[language]}} </button>	
+                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
                         </div>
                     </div>
                 </div>
             </div>
         </ion-content>
         <div class="footerbar">
-            <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">{{submit[language]}}</button>
+            <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button>
         </div>
     </form>
 </ion-view>
@@ -157,7 +159,7 @@
 <script id="addeval" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">{{plane_text[language]}}</h1>
+    <h1 class="title">Plain Text</h1>
 
     </ion-header-bar>
     <ion-content class="padding">
@@ -172,8 +174,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
     </div>
     </ion-modal-view>
 </script>
@@ -217,8 +219,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
     </div>
 
     </ion-modal-view>
@@ -239,8 +241,8 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
-    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> {{save[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
     </div>
     </ion-modal-view>
 </script>
@@ -249,7 +251,7 @@
 <script id="notetype" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">{{select_category[language]}}</h1>	 
+    <h1 class="title">Select Category</h1>	 
 
     </ion-header-bar>
     <ion-content>
@@ -300,7 +302,7 @@
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
 
     </div>
     </ion-modal-view>
@@ -311,7 +313,7 @@
 <script id="treatmentp" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">{{select_category[language]}}</h1>
+    <h1 class="title">Select Category</h1>
     </ion-header-bar>
     <ion-content>
     <div class="item item-divider">Treatment Plan</div>  
@@ -348,7 +350,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
     </div>
     </ion-modal-view>
 </script>

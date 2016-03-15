@@ -273,11 +273,9 @@ angular.module('your_app_name.controllers', [])
                 params: {drId: $scope.drId, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
-                //
-               
+                //               
                 $scope.language = response.data.lang.language;
                 $scope.tabmenu = response.data.tabmenu;
-               
                 //
                 $scope.todays_app = response.data.todays_appointments;
                 $scope.todays_usersData = response.data.todays_usersData;
@@ -387,6 +385,12 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
+            };
+            //Go to consultation add page
+            $scope.addCnote = function (appId) {
+                alert(appId);
+                store({'appId': appId});
+                $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
         })
 
@@ -1877,43 +1881,82 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
-            $scope.patientId = '282';
-            $scope.doctorId = window.localStorage.getItem('id');
-            $rootScope.patientId = '282';
-            $rootScope.doctorId = window.localStorage.getItem('id');
+            $scope.appId = $stateParams.appId;
+            $scope.mode = '';
             $scope.catId = '';
             $scope.userId = window.localStorage.getItem('id');
-            window.localStorage.setItem('patientId', '282');
-            window.localStorage.setItem('doctorId', $scope.doctorId);
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
-            $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.interface = window.localStorage.getItem('interface_id');
-            $http({
-                method: 'GET',
-                url: domain + 'assistrecords/get-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.record = response.data.record;
-                $scope.fields = response.data.fields;
-                $scope.problems = response.data.problems;
-                $scope.doctrs = response.data.doctrs;
-                $scope.patients = response.data.patients;
-                $scope.cases = response.data.cases;
-                $scope.language = response.data.lang.language;
-                $scope.add = response.data.add;
-                $scope.note = response.data.note;
-                $scope.save = response.data.save;
-                $scope.cancel = response.data.cancel;
-                $scope.plane_text = response.data.plane_text;
-                $scope.select_category = response.data.select_category;
-                $scope.submit = response.data.submit;
-            }, function errorCallback(response) {
-                console.log(response);
-            });
+            if ($scope.appId != 0) {
+                console.log('get appointment details' + $scope.appId);
+                $http({
+                    method: "GET",
+                    url: domain + "assistrecords/get-app-details",
+                    params: {appId: $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    console.log($scope.mode);
+                    $scope.conDate = response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'HH:mm');
+                    window.localStorage.setItem('patientId', $scope.patientId);
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                    console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            } else {
+                $scope.patientId = '';
+                $scope.doctorId = window.localStorage.getItem('id');
+                window.localStorage.setItem('patientId', '282');
+                window.localStorage.setItem('doctorId', $scope.doctorId);
+                $scope.conDate = new Date();
+                $scope.curTime = new Date();
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistrecords/get-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.record = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.patients = response.data.patients;
+                    $scope.cases = response.data.cases;
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            }
             $scope.gotopage = function (glink) {
                 $state.go(glink);
             };
@@ -1951,6 +1994,15 @@ angular.module('your_app_name.controllers', [])
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
                             alert("Consultation Note added successfully!");
+                            if ($scope.appId != 0) {
+                                $timeout(function () {
+                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                                }, 1000);
+                            } else {
+                                $timeout(function () {
+                                    $state.go('app.assistants', {}, {reload: true});
+                                }, 1000);
+                            }
 //                            $timeout(function () {
 //                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
 //                            }, 1000);
@@ -1965,9 +2017,15 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             alert("Consultation Note added successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-//                            }, 1000);
+                            if ($scope.appId != 0) {
+                                $timeout(function () {
+                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                                }, 1000);
+                            } else {
+                                $timeout(function () {
+                                    $state.go('app.assistants', {}, {reload: true});
+                                }, 1000);
+                            }
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
