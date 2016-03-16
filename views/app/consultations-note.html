@@ -38,15 +38,16 @@
                                     <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                 </select>
                             </label>
-                            <div ng-if="field.field == 'Consultant'">
+                       </div>
+                        <div ng-if="field.field == 'Consultant'">
                                 <label class="item item-input item-select" >
                                     <div class="input-label">Doctor </div>
                                     <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
-                            </div>
                         </div>
+                        
                         <div ng-if="field.field_types.value == 'date'">
                             <div ng-if="field.field == 'Consultation Date'">
                                 <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
