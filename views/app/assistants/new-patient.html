@@ -72,7 +72,7 @@
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
     <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
     </label>
-
+    <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
     <div class="item item-divider">Aadhar Id</div>
     <label class="item item-input">
