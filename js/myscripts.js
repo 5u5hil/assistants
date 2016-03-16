@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     var elem = angular.element(document.querySelector('[ng-app]'));
     var injector = elem.injector();
