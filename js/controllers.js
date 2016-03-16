@@ -831,8 +831,8 @@ angular.module('your_app_name.controllers', [])
                             console.log(patientresponse.data);
                             console.log($scope.drId + "--" + $scope.patientId);
                             window.localStorage.removeItem('kookooid');
-                            $state.go('app.doctrslist', {}, {reload: true});
-                            //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            //$state.go('app.doctrslist', {}, {reload: true});
+                            $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                         }, function errorCallback(patientresponse) {
                             //  alert('Oops something went wrong!');
                         });
@@ -928,13 +928,13 @@ angular.module('your_app_name.controllers', [])
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
                         //console.log(response);
-                        if (response.data == '0')
+                        //console.log($scope.patientId+"--@@@@@--"+$scope.drId);
+                        $timeout.cancel(stopped);
+                        if(response.data == '0')
                         {
-                            //console.log('id = '+ $scope.patientId+ ' drId = '+ $scope.drId);
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                            $timeout.cancel(stopped);
-                            //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
-                            $state.go('app.doctrslist', {}, {reload: true});
+                            $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            //$state.go('app.doctrslist', {}, {reload: true});
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
                             window.localStorage.setItem('kookooid1', response.data);
