@@ -180,9 +180,10 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout) {
+        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.users = {};
             $http({
                 method: 'GET',
