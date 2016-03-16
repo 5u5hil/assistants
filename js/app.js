@@ -268,7 +268,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.ass-patient', {
-                        url: "/ass-patient/{id:int}/{drId:int}",
+                        url: "/ass-patient/{id:string}/{drId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/ass-patient.html",

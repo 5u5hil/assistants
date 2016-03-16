@@ -961,14 +961,17 @@ angular.module('your_app_name.controllers', [])
                     url: domain + 'kookoo/cancel-by-patient',
                     params: {kookooid: $scope.kookooID}
                 }).then(function successCallback(patientresponse) {
-                    console.log(patientresponse.data);
-                    console.log('Patient Id' + $scope.patientId + 'Doctr Id = ' + $scope.drId);
-                    $timeout.cancel(stopped);
+                    //console.log(patientresponse.data);
+                    //console.log('Patient Id' + $scope.patientId + 'Doctr Id = ' + $scope.drId);
+                    //$timeout.cancel(stopped);
+                    if(patientresponse.data){
                     window.localStorage.removeItem('kookooid');
-                    $state.go('app.doctrslist', {}, {reload: true});
-                    //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                    //$state.go('app.doctrslist', {}, {reload: true});
+                    $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                }
                 }, function errorCallback(patientresponse) {
                     console.log(e);
+                    $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                 });
             };
         })
