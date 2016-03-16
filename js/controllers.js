@@ -939,7 +939,7 @@ angular.module('your_app_name.controllers', [])
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
                         //console.log(response);
-                        //console.log($scope.patientId+"--@@@@@--"+$scope.drId);
+                        console.log($scope.patientId+"--@@@@@--"+$scope.drId);
                         $timeout.cancel(stopped);
                         if (response.data == '0')
                         {
@@ -2121,7 +2121,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
                 $scope.curTime = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
@@ -2367,7 +2367,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
@@ -2476,7 +2476,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
