@@ -317,6 +317,27 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.patient-app-list', {
+                        cache: false,
+                        url: "/patient-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
+                            }
+                        }
+                    })
+                    .state('app.patient-past-app-list', {
+                        cache: false,
+                        url: "/patient-past-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-past-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.new-patient', {
                         cache: false,

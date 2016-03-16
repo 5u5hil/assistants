@@ -15,7 +15,7 @@
                 <ion-tab title="{{tabmenu.today[language]}}({{todays_app_past.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in todays_app_past" ><!--| orderBy: '-appointments.scheduled_start_time'-->
+                        <div class="posts-list" ng-repeat="app in todays_app_past" ><!---->
                             <div  class="list card post-item" ng-repeat="prod_past in todays_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
@@ -25,29 +25,29 @@
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <p ng-repeat="user in todays_usersData_past[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
-                                            <div class="col" ng-if="app.appointments.mode == 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    Valid Till {{app.appointments.scheduled_end_time|datetime}} </p></div>
-                                            <div class="col" ng-if="app.appointments.mode != 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                            <div class="col" ng-if="app.mode == 2"><p><strong>Appointment Time : </strong>{{app.scheduled_start_time|dateFormat3}} <br/> 
+                                                    Valid Till {{app.scheduled_end_time|datetime}} </p></div>
+                                            <div class="col" ng-if="app.mode != 2"><p><strong>Appointment Time : </strong>{{app.scheduled_start_time|dateFormat3}} <br/> 
+                                                    {{app.scheduled_start_time|time}} to {{app.scheduled_end_time|time}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
-                                                    {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                    {{app.mode==1 ? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p></div>
                                         </div>
                                         <div class="clr"></div>
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.status==3?'fgreen':'fred'}}"><i class="{{app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.status==3?'Consulted':app.status==4?'Cancelled':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                 <ion-tab title="{{tabmenu.thisweek[language]}}({{week_app_past.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
-                        <div class="posts-list" ng-repeat="app in week_app_past" > <!--| orderBy: '-appointments.scheduled_start_time'-->
+                        <div class="posts-list" ng-repeat="app in week_app_past" > <!---->
                             <div  class="list card post-item" ng-repeat="prod in week_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content">
@@ -69,27 +69,27 @@
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <p ng-repeat="user in week_usersData_past[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
-                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.scheduled_start_time|dateFormat3}} <br/> 
+                                                    {{app.scheduled_start_time|time}} to {{app.scheduled_end_time|time}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
-                                                    {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                    {{app.mode==1 ? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p></div>
                                         </div>                                                        
                                         <div class="clr"></div>
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.status==3?'fgreen':'fred'}}"><i class="{{app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.status==3?'Consulted':app.status==4?'Cancelled':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                 <ion-tab title="{{tabmenu.all[language]}}({{all_app_past.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_app_past.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in all_app_past| orderBy: '-appointments.scheduled_start_time'" ><!---->
+                        <div class="posts-list" ng-repeat="app in all_app_past" ><!---->
                             <div  class="list card post-item" ng-repeat="prod in all_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
@@ -111,27 +111,27 @@
                                             </a>
                                         </div>
                                         <div ng-if="all_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="all_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
-                                        <p ng-repeat="user in all_usersData_past[$parent.$index]| orderBy: '-appointments.scheduled_start_time'"><strong> {{user.fname}} {{user.lname}}</strong></p>
+                                        <p ng-repeat="user in all_usersData_past[$parent.$index]"><strong> {{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
-                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.scheduled_start_time|dateFormat3}} <br/> 
+                                                    {{app.scheduled_start_time|time}} to {{app.scheduled_end_time|time}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
-                                                    {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                    {{app.mode==1? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p></div>
                                         </div>
                                         <div class="clr"></div>
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                            <div class="cardpast-bar {{app.status==3?'fgreen':'fred'}}"><i class="{{app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.status==3?'Consulted':app.status==4?'Cancelled':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
                                         </div>
                                     </div>
                                 </div>

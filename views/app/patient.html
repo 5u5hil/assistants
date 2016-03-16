@@ -36,8 +36,8 @@
         </div>
         <div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
         <div class="list twocolumn">
-            <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
-            <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
+            <a class="item" ui-sref="app.patient-app-list({id: patientDetails.id })"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
+            <a class="item" ui-sref="app.patient-past-app-list({id: patientDetails.id })"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
         </div>
 
         <div class="item item-divider"><i class="icon ion-chatbubbles"></i> Chats</div>
