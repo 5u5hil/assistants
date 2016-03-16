@@ -180,7 +180,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.users = {};
@@ -233,7 +233,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    location.reload();
+                    $timeout(function () {
+                        $state.go('app.patient-list', {}, {reload: true});
+                    }, 1000);
                 });
             };
         })
@@ -459,7 +461,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    location.reload();
+                    $timeout(function () {
+                        $state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
+                    }, 1000);
                 });
             };
         })
@@ -936,7 +940,7 @@ angular.module('your_app_name.controllers', [])
                         //console.log(response);
                         //console.log($scope.patientId+"--@@@@@--"+$scope.drId);
                         $timeout.cancel(stopped);
-                        if(response.data == '0')
+                        if (response.data == '0')
                         {
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
@@ -970,11 +974,11 @@ angular.module('your_app_name.controllers', [])
                     //console.log(patientresponse.data);
                     //console.log('Patient Id' + $scope.patientId + 'Doctr Id = ' + $scope.drId);
                     //$timeout.cancel(stopped);
-                    if(patientresponse.data){
-                    window.localStorage.removeItem('kookooid');
-                    //$state.go('app.doctrslist', {}, {reload: true});
-                    $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
-                }
+                    if (patientresponse.data) {
+                        window.localStorage.removeItem('kookooid');
+                        //$state.go('app.doctrslist', {}, {reload: true});
+                        $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                    }
                 }, function errorCallback(patientresponse) {
                     console.log(e);
                     $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
@@ -1459,7 +1463,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('NewPatientCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading, $filter) {
+        .controller('NewPatientCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading, $filter, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -1514,7 +1518,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    location.reload();
+                    $timeout(function () {
+                        $state.go('app.new-patient', {}, {reload: true});
+                    }, 1000);
                 });
             };
             $scope.selDoc = function (pid) {
