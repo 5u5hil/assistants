@@ -19,6 +19,7 @@ angular.module('your_app_name.controllers', [])
 // APP
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
+            $rootScope.attachpath = domain + "/public";
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $http({
@@ -234,7 +235,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                        $state.go('app.patient-list', {}, {reload: true});
+                    $state.go('app.patient-list', {}, {reload: true});
                 });
             };
         })
@@ -460,7 +461,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                        $state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
+                    $state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
                 });
             };
         })
@@ -2501,7 +2502,7 @@ angular.module('your_app_name.controllers', [])
 
         })
         //View Note
-        .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.noteId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
             $scope.record = {};
@@ -2526,6 +2527,23 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.modal.show();
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
 
         })
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
