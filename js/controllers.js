@@ -180,7 +180,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter) {
+        .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
@@ -234,9 +234,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $timeout(function () {
                         $state.go('app.patient-list', {}, {reload: true});
-                    }, 1000);
                 });
             };
         })
@@ -404,7 +402,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter) {
+        .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter, $state, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.drId = $stateParams.id;
@@ -462,14 +460,12 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $timeout(function () {
                         $state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
-                    }, 1000);
                 });
             };
         })
 
-        .controller('AssPatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading, $state) {
+        .controller('AssPatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading, $state, $timeout) {
             $scope.vSch = [];
             $scope.schV = [];
             $scope.schdate = [];
@@ -939,7 +935,7 @@ angular.module('your_app_name.controllers', [])
                         params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
                     }).then(function successCallback(response) {
                         //console.log(response);
-                        console.log($scope.patientId+"--@@@@@--"+$scope.drId);
+                        console.log($scope.patientId + "--@@@@@--" + $scope.drId);
                         $timeout.cancel(stopped);
                         if (response.data == '0')
                         {
@@ -1519,9 +1515,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $timeout(function () {
-                        $state.go('app.new-patient', {}, {reload: true});
-                    }, 1000);
+                    $state.go('app.new-patient', {}, {reload: true});
                 });
             };
             $scope.selDoc = function (pid) {
@@ -1885,7 +1879,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $timeout) {
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             console.log($scope.patientId);
