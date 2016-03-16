@@ -33,7 +33,7 @@
                         <div ng-if="field.field_types.value == 'text'">
                             <label class="item item-input item-select" ng-if="field.field == 'Patient'">
                                 <div class="input-label">Patient</div>
-                                <select ng-model="formPatient" name="{{field.name}}" ng-change="getPatientId(formPatient)">
+                                <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)">
                                     <option value="0"> Select {{field.field}}</option>
                                     <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                 </select>
@@ -42,7 +42,7 @@
                         <div ng-if="field.field == 'Consultant'">
                                 <label class="item item-input item-select" >
                                     <div class="input-label">Doctor </div>
-                                    <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
+                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)">
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
@@ -137,8 +137,8 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Notes</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
-                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
+                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
+                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"-->
                         </div>
                     </div>
                     <div class="innerdiv col-50">

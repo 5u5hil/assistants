@@ -393,6 +393,12 @@ angular.module('your_app_name.controllers', [])
                 store({'appId': appId});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
+            //Go to consultation view page
+            $scope.viewNote = function (noteId) {
+                alert(noteId);
+                store({'noteId': noteId});
+                $state.go("app.view-note", {'id': noteId}, {reload: true});
+            };
         })
 
         .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter) {
@@ -1084,21 +1090,21 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
             console.log($stateParams.data);
-        $scope.id = window.localStorage.getItem('id');
-        $scope.interface = window.localStorage.getItem('interface_id');
-        $http({
-                    method: 'GET',
-                    url: domain + 'assistants/thankyou-lang',
-                    params: {id: $scope.id, interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    //console.log(response.data);
-                    $scope.tabmenu = response.data.tabmenu;
-                     $scope.language = response.data.lang.language;
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+            $scope.id = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/thankyou-lang',
+                params: {id: $scope.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                //console.log(response.data);
+                $scope.tabmenu = response.data.tabmenu;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $scope.data = $stateParams.data;
-            
+
             $scope.gotohome = function () {
                 $ionicHistory.nextViewOptions({
                     disableBack: true
@@ -1216,7 +1222,7 @@ angular.module('your_app_name.controllers', [])
          };
          })
          */
-        
+
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -1326,6 +1332,12 @@ angular.module('your_app_name.controllers', [])
                 //alert(appId);
                 store({'appId': appId});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
+            };
+            //Go to consultation view page
+            $scope.viewNote = function (noteId) {
+                //alert(appId);
+                store({'noteId': noteId});
+                $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
         })
 
@@ -1439,8 +1451,14 @@ angular.module('your_app_name.controllers', [])
                 store({'appId': appId});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
+            //Go to consultation view page
+            $scope.viewNote = function (noteId) {
+                //alert(appId);
+                store({'noteId': noteId});
+                $state.go("app.view-note", {'id': noteId}, {reload: true});
+            };
         })
-        
+
         .controller('NewPatientCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading, $filter) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -1810,6 +1828,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+
         .controller('SharedwithuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1869,6 +1888,7 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId, patientId: $scope.patientId}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.dob = response.data.dob;
                 $scope.activeAppCnt = response.data.activeAppCnt;
                 $scope.pastAppCnt = response.data.pastAppCnt;
                 $scope.patientDetails = response.data.patientDetails;
@@ -1964,6 +1984,18 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('noteType', function ($scope, $ionicModal, $state) {
+            $scope.check = function (pid, did) {
+                console.log("Patient = " + pid + " dr Id = " + did);
+                if (pid == '' && did == '') {
+                    alert("Please select doctor and patient.");
+                } else if (pid == '') {
+                    alert("Please select patient.");
+                } else if (did == '') {
+                    alert("Please select doctor.");
+                } else {
+                    $scope.modal.show();
+                }
+            };
             $ionicModal.fromTemplateUrl('notetype', {
                 scope: $scope
             }).then(function (modal) {
@@ -2077,7 +2109,7 @@ angular.module('your_app_name.controllers', [])
                 });
             } else {
                 $scope.patientId = '';
-                $scope.doctorId = window.localStorage.getItem('id');
+                $scope.doctorId = '';
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
@@ -2342,7 +2374,12 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patients;
                 $scope.cases = response.data.cases;
                 $scope.abt = response.data.abt;
-                $scope.dob = new Date(response.data.dob);
+                console.log(response.data.patients[0].dob);
+                if (response.data.dob) {
+                    $scope.dob = new Date(response.data.dob);
+                } else {
+                    $scope.dob = new Date(response.data.patients[0].dob);
+                }
                 //$scope.dob = $filter('date')(response.data.dob, 'MM dd yyyy');
                 if ($scope.abt.length > 0) {
                     angular.forEach($scope.abt, function (val, key) {
@@ -2353,6 +2390,12 @@ angular.module('your_app_name.controllers', [])
                             $scope.gender = val.value;
                         }
                     });
+                } else {
+                    if (response.data.patients[0].gender == 1) {
+                        $scope.gender = 'Male';
+                    } else if (response.data.patients[0].gender == 2) {
+                        $scope.gender = 'Female';
+                    }
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;
@@ -2456,7 +2499,34 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
+        //View Note
+        .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.noteId = $stateParams.id;
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.record = {};
+            $scope.recordDetails = {};
+            $scope.problems = {};
+            $scope.doctrs = {};
+            $scope.patients = {};
+            $scope.cases = {};
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-note-details',
+                params: {noteId: $scope.noteId, userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.record = response.data.record;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
 
+        })
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;

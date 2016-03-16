@@ -19,7 +19,7 @@
                 <div class="item item-divider" ng-repeat="user in all_usersData[$index]| filter:search">{{user.fname}} {{user.lname}}</div> <!--| orderBy: 'scheduled_start_time'-->
                 <div class="p15">
                     <div ng-if="all_note[$index].length > 0">
-                        <a class="btn drstatus">
+                        <a class="btn drstatus" ng-click="viewNote(all_note[$index][0].id)" >
                             <span class="icon ion-plus-circled"></span>View Note
                         </a>
                     </div>

@@ -21,7 +21,7 @@
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
                                         <div ng-if="todays_note[$parent.$index].length > 0">
-                                            <a class="btn cnote">
+                                            <a class="btn cnote" ng-click="viewNote(all_note[$index][0].id)")>
                                                 <span class="icon ion-plus-circled"></span> View Note
                                             </a>
                                         </div>
@@ -72,7 +72,7 @@
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content">
                                         <div ng-if="week_note[$parent.$index].length > 0">
-                                            <a class="btn cnote">
+                                            <a class="btn cnote" ng-click="viewNote(week_note[$parent.$index][0].id)" ui-sref-opts="{reload: true}">
                                                 <span class="icon ion-plus-circled"></span>View Note
                                             </a>
                                         </div>
@@ -120,9 +120,7 @@
                             <div  class="list card post-item" ng-repeat="prod in all_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
-                                        <div ng-if="all_note[$parent.$index].length > 0">
-                                            <a class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span>View Note
+                                        <div ng-if="all_note[$parent.$index].leng led" ></span>View Note
                                             </a>
                                         </div>
                                         <div ng-if="all_note[$parent.$index].length == 0">

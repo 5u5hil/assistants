@@ -399,7 +399,16 @@ angular.module('your_app_name', [
                         }
                     })
                     /* end of assistants */
-
+                    .state('app.view-note', {
+                        url: "/view-note/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-consultations-note.html",
+                                controller: 'ViewConsultationsNoteCtrl'
+                            }
+                        }
+                    })
+                    
                     .state('app.consultations-note', {
                         url: "/consultations-note/{appId:int}",
                         views: {

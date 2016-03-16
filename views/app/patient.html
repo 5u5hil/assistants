@@ -11,13 +11,13 @@
                         <div  class="card-content paraspacing">
                             <div class="cardheading txtcenter">{{patientDetails.fname}}  <button style="float:right;"><i class="icon ion-android-create"></i></button></div>
                             <div class="row">
-                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':'Female'}}</div>	
+                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':patientDetails.gender == 2? 'Female':'Na'}}</div>	
                                 <div class="col txt-right">+91 {{patientDetails.phone}}</div>	
                             </div>
 
                             <div class="row">
-                                <div class="col txt-left">27 years</div>	
-                                <div class="col txt-right">{{patientDetails.email}}</div>	
+                                <div class="col txt-left">{{dob}}</div>	
+                                <div class="col txt-right">{{patientDetails.email===null ? 'Na': patientDetails.email}}</div>	
                             </div>
                         </div>
                     </div>
