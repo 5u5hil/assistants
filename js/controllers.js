@@ -942,7 +942,7 @@ angular.module('your_app_name.controllers', [])
                         {
                             $timeout.cancel(stopped);
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                            //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+                            $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                             //$state.go('app.doctrslist', {}, {reload: true});
                         } else {
                             window.localStorage.setItem('kookooid', response.data);
