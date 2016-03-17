@@ -1127,7 +1127,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.removeItem('supid');
                 $ionicHistory.clearCache();
                 $ionicHistory.clearHistory();
-                $state.go('app.doctrslist', {}, {reload: true});
+                $state.go('app.appointment-list', {}, {reload: true});
             }
         })
 
