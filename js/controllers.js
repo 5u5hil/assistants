@@ -2118,7 +2118,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
-                $scope.curTime = new Date();
+                $scope.curTime = new Date(); 
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                 $http({
                     method: 'GET',
