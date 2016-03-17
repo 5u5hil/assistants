@@ -208,11 +208,12 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
+                        
                         url: "/search-medicine",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/search-medicine.html",
-                                controller: 'SearchMedicineCtrl'
+                                controller: 'InventoryCtrl'
                             }
                         }
                     })

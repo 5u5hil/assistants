@@ -1754,9 +1754,41 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('InventoryCtrl', function ($scope,$state, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+//            $http({
+//                            method: 'GET',
+//                            url: domain + 'inventory/get-inventary-page',
+//                            params: {id: $scope.id, interface: $scope.interface}
+//                        }).then(function successCallback(response) {
+//                            console.log(response.data);
+//                            
+//                            //$state.go('app.consultations-list', {}, {reload: true});
+//                        }, function errorCallback(response) {
+//                            console.log(response);
+//                        });
+                
+                
+                
+                $scope.searchMedicine = function (searchkey) {
+                $scope.searchkey  = searchkey
+               //  var data = new FormData(jQuery("#loginuser")[0]);
+                $http({
+                            method: 'GET',
+                            url: domain + 'inventory/search-medicine',
+                            params: {id: $scope.id, interface: $scope.interface,key:$scope.searchkey}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            $scope.getMedicine = response.data.getMedicine;
+                            //$scope.searchkey  = searchkey
+                            $state.go('app.search-medicine', {'key':$scope.searchkey}, {reload: true});
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+            }; 
 
         })
 
@@ -1770,10 +1802,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('SearchMedicineCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-        })
+        
 
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
