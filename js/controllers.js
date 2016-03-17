@@ -937,9 +937,10 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(response) {
                         //console.log(response);
                         console.log($scope.patientId + "--@@@@@--" + $scope.drId);
-                        $timeout.cancel(stopped);
+                       
                         if (response.data == '0')
                         {
+                            $timeout.cancel(stopped);
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                             $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                             //$state.go('app.doctrslist', {}, {reload: true});
