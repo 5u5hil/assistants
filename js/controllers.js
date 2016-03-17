@@ -2117,7 +2117,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
                 $scope.curTime = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
@@ -2393,7 +2393,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
@@ -2502,7 +2502,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
