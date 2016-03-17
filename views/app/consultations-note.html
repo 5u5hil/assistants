@@ -87,13 +87,13 @@
                             <div ng-if="appId != 0">
                                 <label class="item item-input listreq">
                                     <span class="input-label" >{{field.field}} </span>
-                                    <input type="text" placeholder="{{field.field}}" ng-model="curTime" value="{{curTime|time}}" name="{{field.name}}" disabled="disabled" />                            
+                                    <input type="text" placeholder="{{field.field}}" ng-model="curTime" value="{{curTime|timeN}}" name="{{field.name}}" disabled="disabled" />                            
                                 </label>
                             </div>
                             <div ng-if="appId == 0">
                                 <label class="item item-input listreq">
                                     <span class="input-label" >{{field.field}} </span>
-                                    <input type="time" placeholder="{{field.field}}" ng-model="curTime" value="{{curTime|time}}" name="{{field.name}}" />                            
+                                    <input type="time" placeholder="{{field.field}}" ng-model="curTime" value="{{curTime|timeN}}" name="{{field.name}}" />                            
                                 </label>
                             </div>
                         </div>
