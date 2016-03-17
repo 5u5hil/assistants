@@ -47,7 +47,7 @@
 <script id="addnewpatient" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Add Patient</h1>
+    <h1 class="title">{{add_patient[language]}}</h1>
     <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
@@ -100,7 +100,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{submit[language]}}</button>
     </div>
     </form>
     </ion-modal-view>
