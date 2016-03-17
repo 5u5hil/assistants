@@ -9054,7 +9054,7 @@ span.count-t{    display: inline-block;
                    padding: 0 5px;}
 .sdiv{position:relative; }
 .sdiv .overlay{position:absolute; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:99;}
-.mtb15{margin-top:15px; margin-bottom:15px;}
+.mtb15{margin-top:15px; margin-bottom:55px;}
 .custombtn {border:1px #ccc solid; padding:10px 0; text-align:center; width:100%; text-decoration:none; display:block;}
 
 .btn-delete,.btn-delete.activated{background:#ef473a;}
