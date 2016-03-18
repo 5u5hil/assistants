@@ -2150,7 +2150,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
                 $scope.curTime = new Date(); 
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
