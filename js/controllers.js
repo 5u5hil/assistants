@@ -937,7 +937,7 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(response) {
                         //console.log(response);
                         console.log($scope.patientId + "--@@@@@--" + $scope.drId);
-                       
+
                         if (response.data == '0')
                         {
                             $timeout.cancel(stopped);
@@ -1084,9 +1084,9 @@ angular.module('your_app_name.controllers', [])
                     {
                         $state.go('app.thankyou', {'data': response.data});
                     } else {
-                      
-                       alert('Appointment is not booked due to some issues!');
-                       $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
+
+                        alert('Appointment is not booked due to some issues!');
+                        $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                     }
                 }, function errorCallback(response) {
                     console.log(response);
@@ -1756,7 +1756,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope,$state, $http, $stateParams, $ionicModal) {
+        .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -1772,25 +1772,25 @@ angular.module('your_app_name.controllers', [])
 //                        }, function errorCallback(response) {
 //                            console.log(response);
 //                        });
-                
-                
-                
-                $scope.searchMedicine = function (searchkey) {
-                $scope.searchkey  = searchkey
-               //  var data = new FormData(jQuery("#loginuser")[0]);
+
+
+
+            $scope.searchMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                //  var data = new FormData(jQuery("#loginuser")[0]);
                 $http({
-                            method: 'GET',
-                            url: domain + 'inventory/search-medicine',
-                            params: {id: $scope.id, interface: $scope.interface,key:$scope.searchkey}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            $scope.getMedicine = response.data.getMedicine;
-                            //$scope.searchkey  = searchkey
-                            $state.go('app.search-medicine', {'key':$scope.searchkey}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
-            }; 
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    //$scope.searchkey  = searchkey
+                    $state.go('app.search-medicine', {'key': $scope.searchkey}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
 
         })
 
@@ -1804,7 +1804,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        
+
 
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -2091,6 +2091,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.appId = $stateParams.appId;
+            window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
             $scope.userId = window.localStorage.getItem('id');
@@ -2149,7 +2150,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
-                $scope.curTime = new Date(); 
+                $scope.curTime = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                 $http({
                     method: 'GET',
@@ -2419,6 +2420,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -2520,7 +2522,7 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
 //                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
 //                            }, 1000);
                     } else if (response.err != '') {
                         //alert('Please fill mandatory fields');
