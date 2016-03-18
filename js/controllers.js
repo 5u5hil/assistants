@@ -1245,6 +1245,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
                 //end past section
+                $scope.all_data = response.data.all_data;
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
                 $scope.all_doctor = response.data.all_doctor;
