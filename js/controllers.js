@@ -325,7 +325,7 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            $scope.cancelAppointment = function (appId, drId, mode, startTime,pid) {
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, pid) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
                 $scope.drId = drId;
@@ -362,7 +362,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId,pid:$scope.pid}
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId, pid: $scope.pid}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             if (response.data == 'success') {
@@ -959,7 +959,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.IsVisible = false;
                     // $scope.showConfirm();
                     $timeout.cancel(stopped);
-                     alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
+                    alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                     $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                 }
             };
@@ -1307,7 +1307,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId,pid:$scope.pId}
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId, pid: $scope.pId}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             if (response.data == 'success') {
@@ -1746,7 +1746,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                   $state.go('app.appointment-list', {}, {reload: true});
+                    $state.go('app.appointment-list', {}, {reload: true});
                     //window.location.href = "#/app/category-listing";
                 } catch (err) {
                     $ionicHistory.nextViewOptions({
@@ -1806,9 +1806,6 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-
-
-
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -1871,7 +1868,6 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-
 
         .controller('ContentLibraryListCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
@@ -2092,7 +2088,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.appId = $stateParams.appId;
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
@@ -2153,7 +2149,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
-                $scope.curTime = new Date(); 
+                $scope.curTime = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
@@ -2337,7 +2333,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
-                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
+                        var btnhtml = $compile('<button class="button button-positive remove" ng-click="removeCamFile()">X</button><br/>')($scope);
+                        camimg_holder.append(btnhtml);
                         $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
                     }
                     function fail(error) {
@@ -2395,7 +2392,7 @@ angular.module('your_app_name.controllers', [])
                 if (element.files.length > 0) {
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    //jQuery('#valid-till').attr('required', true);
+                    //jQuery('#valid-till').attr('required', true); 
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
                     jQuery('#convalid').addClass('hide');
@@ -2412,6 +2409,7 @@ angular.module('your_app_name.controllers', [])
 //                                "src": e.target.result,
 //                                "class": "thumb-image"
 //                            }).appendTo(image_holder);
+                            //$scope.images.push(e.target.result);
                             $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(image_holder);
                         }
                         image_holder.show();
@@ -2419,6 +2417,13 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
+            $scope.removeCamFile = function () {
+                console.log('camera file removed');
+                $scope.tempImgs = [];
+                $scope.image = [];
+                console.log('remove');
+                jQuery('#camera-status').empty();
+            }
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -2524,7 +2529,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
-                      
+
                         alert("Patient History saved successfully!");
 //                            $timeout(function () {
 //                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
