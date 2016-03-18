@@ -35,7 +35,7 @@
                                 <label class="item item-input item-select hide" ng-if="field.field == 'Patient'">
                                     <div class="input-label">Patient</div>
                                     <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" disabled="disabled">
-                                        <option value="0"> Select {{field.field}}</option>
+                                        <option value=""> Select {{field.field}}</option>
                                         <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                     </select>
                                 </label>
@@ -49,14 +49,15 @@
                             <div ng-if="appId == 0">
                                 <label class="item item-input item-select" ng-if="field.field == 'Patient'">
                                     <div class="input-label">Patient</div>
-                                    <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)">
-                                        <option value="0"> Select {{field.field}}</option>
+                                    <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" >
+                                        <option value=""> Select {{field.field}}</option>
                                         <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                     </select>
                                 </label>
                                 <label class="item item-input item-select" ng-if="field.field == 'Consultant'">
                                     <div class="input-label">Doctor </div>
-                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)">
+                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)" >
+                                         <option value=""> Select {{field.field}}</option>
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
