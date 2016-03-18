@@ -2616,7 +2616,56 @@ angular.module('your_app_name.controllers', [])
                 }
 
             }, {
-                // Use our scope for the scope of the modal to keep it simple
+                // Use our scope for the scope of the modal to keep it simple  ViewPatientHistoryCtrl
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+
+        })
+        
+        .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.noteId = $stateParams.id;
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.record = {};
+            $scope.recordDetails = {};
+            $scope.problems = {};
+            $scope.doctrs = {};
+            $scope.patients = {};
+            $scope.cases = {};
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-patient-history-details',
+                params: {noteId: $scope.noteId, userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.record = response.data.record;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.modal.show();
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple  
                 scope: $scope,
                 // The animation we want to use for the modal entrance
                 animation: 'slide-in-up'
@@ -2626,6 +2675,7 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
+        
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;

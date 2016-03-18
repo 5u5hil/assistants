@@ -208,7 +208,6 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
-                        
                         url: "/search-medicine",
                         views: {
                             'menuContent': {
@@ -318,7 +317,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.patient-app-list', {
                         cache: false,
                         url: "/patient-app-list/{id:int}",
@@ -409,7 +408,16 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+                    .state('app.view-patient-history', {
+                        url: "/consultation-note/view-patient-history",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-patient-history.html",
+                                controller: 'ViewPatientHistoryCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.consultations-note', {
                         url: "/consultations-note/{appId:int}",
                         views: {
@@ -440,6 +448,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
+
 
                     .state('app.family-history', {
                         url: "/consultation-note/family-history",
@@ -599,7 +609,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.patient-join', {
                         cache: false,
                         url: "/patient-join/{id:int}/{mode:int}",
