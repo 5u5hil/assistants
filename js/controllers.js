@@ -958,6 +958,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.IsVisible = false;
                     // $scope.showConfirm();
                     $timeout.cancel(stopped);
+                     alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
                     $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                 }
             };
