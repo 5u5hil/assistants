@@ -2089,6 +2089,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            var imgCnt = 0;
             $scope.appId = $stateParams.appId;
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
@@ -2292,7 +2293,7 @@ angular.module('your_app_name.controllers', [])
             $scope.takePict = function (name) {
                 //console.log(name);
                 var camimg_holder = $("#camera-status");
-                camimg_holder.empty();
+                //camimg_holder.empty();
                 // 2
                 var options = {
                     destinationType: Camera.DestinationType.FILE_URI,
@@ -2333,7 +2334,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
-                        var btnhtml = $compile('<div id="' + imageName + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imageName + '\')">X</button><br/>')($scope);
+                        imgCnt++;
+                        var btnhtml = $compile('<div id="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button><br/>')($scope);
                         camimg_holder.append(btnhtml);
                         $('<span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                     }
@@ -2418,11 +2420,12 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.removeCamFile = function (img) {
-                var index = $scope.tempImgs.indexOf(id);
+                var arrInd = (img-1);
+                var index = $scope.tempImgs.indexOf(arrInd);
                 $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
-                jQuery('#'+img).remove();
+                jQuery('#remcam'+img).remove();
             }
         })
 
