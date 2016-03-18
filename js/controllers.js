@@ -398,7 +398,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Go to consultation view page
             $scope.viewNote = function (noteId) {
-                alert(noteId);
+                //alert(noteId);
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
