@@ -2335,9 +2335,9 @@ angular.module('your_app_name.controllers', [])
                         //alert($scope.picData);
                         $scope.ftLoad = true;
                         imgCnt++;
-                        var btnhtml = $compile('<div id="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button><br/>')($scope);
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
                         camimg_holder.append(btnhtml);
-                        $('<span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                     }
                     function fail(error) {
                         console.log("fail: " + error.code);
@@ -2425,8 +2425,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
-                jQuery('#remcam'+img).remove();
-            }
+                jQuery('.remcam-'+img).remove();
+            };
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
