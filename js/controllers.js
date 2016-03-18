@@ -1309,7 +1309,7 @@ angular.module('your_app_name.controllers', [])
                             console.log(response.data);
                             if (response.data == 'success') {
                                 alert('Your appointment is cancelled successfully.');
-                                $state.go('app.doctor-consultations', {}, {reload: true});
+                                $state.go('app.appointment-list', {}, {reload: true});
                             } else {
                                 alert('Sorry your appointment is not cancelled.');
                             }
