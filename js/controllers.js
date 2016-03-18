@@ -1621,12 +1621,12 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                    $state.go('app.assistants', {}, {reload: true});
+                    $state.go('app.appointment-list', {}, {reload: true});
                 } catch (err) {
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                    $state.go('app.assistants', {}, {reload: true});
+                    $state.go('app.appointment-list', {}, {reload: true});
                 }
             };
         })
@@ -2150,8 +2150,8 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
-                $scope.curTime = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+                $scope.curTime = new Date(); 
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
