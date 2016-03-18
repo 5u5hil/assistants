@@ -2456,9 +2456,9 @@ angular.module('your_app_name.controllers', [])
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'Male';
+                        $scope.gender = 'On';
                     } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'Female';
+                        $scope.gender = 'On';
                     }
                 }
                 console.log($scope.gender);
