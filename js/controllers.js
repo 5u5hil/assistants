@@ -2333,9 +2333,9 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
-                        var btnhtml = $compile('<button class="button button-positive remove" ng-click="removeCamFile()">X</button><br/>')($scope);
+                        var btnhtml = $compile('<div id="' + imageName + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imageName + '\')">X</button><br/>')($scope);
                         camimg_holder.append(btnhtml);
-                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                        $('<span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                     }
                     function fail(error) {
                         console.log("fail: " + error.code);
@@ -2417,12 +2417,12 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-            $scope.removeCamFile = function () {
+            $scope.removeCamFile = function (img) {
+                var index = $scope.tempImgs.indexOf(id);
+                $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
-                $scope.tempImgs = [];
-                $scope.image = [];
-                console.log('remove');
-                jQuery('#camera-status').empty();
+                console.log($scope.tempImgs);
+                jQuery('#'+img).remove();
             }
         })
 
