@@ -2434,7 +2434,7 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'assistrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
-                console.log(response.data);
+                console.log(response.data.abt);
                 $scope.record = response.data.record;
                 $scope.fields = response.data.fields;
                 $scope.problems = response.data.problems;
