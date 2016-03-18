@@ -1084,7 +1084,9 @@ angular.module('your_app_name.controllers', [])
                     {
                         $state.go('app.thankyou', {'data': response.data});
                     } else {
-                        $state.go('app.failure', {'id': response.data.orderId, 'serviceId': response.data.scheduleId});
+                      
+                       alert('Appointment is not booked due to some issues!');
+                       $state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
                     }
                 }, function errorCallback(response) {
                     console.log(response);
