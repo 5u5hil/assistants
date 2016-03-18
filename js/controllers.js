@@ -325,10 +325,11 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+            $scope.cancelAppointment = function (appId, drId, mode, startTime,pid) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
                 $scope.drId = drId;
+                $scope.pid = pid;
                 $scope.cancel = '';
                 console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -361,7 +362,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId,pid:$scope.pid}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             if (response.data == 'success') {
@@ -1268,10 +1269,11 @@ angular.module('your_app_name.controllers', [])
                 var re = new RegExp($scope.searchText, 'i');
                 return !$scope.searchText || re.test(obj.name) || re.test(obj.age.toString());
             };
-            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, pId) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
                 $scope.drId = drId;
+                $scope.pId = pId;
                 $scope.cancel = '';
                 console.log(drId);
                 console.log(startTime);
@@ -1305,7 +1307,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId,pid:$scope.pId}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             if (response.data == 'success') {
@@ -2516,17 +2518,19 @@ angular.module('your_app_name.controllers', [])
             };
             //Save Patient History
             $scope.savePatientHistory = function () {
+                $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistrecords/save-patient-history", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
+                      
                         alert("Patient History saved successfully!");
 //                            $timeout(function () {
 //                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
 //                            }, 1000);
                     } else if (response.err != '') {
-                        //alert('Please fill mandatory fields');
+                        alert('Please fill mandatory fields');
                     }
                 });
             };

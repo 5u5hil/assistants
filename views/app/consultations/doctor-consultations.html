@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="col" ng-if="app.mode == 1"><a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                                            <div class="col" ng-if="app.mode == 1"><a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time,todays_usersData[$parent.$index][0].id)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <!---<div class="col" ng-if="app.mode == 1"><a confirmed-click="reschedule(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.id, prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <div class="col" ng-if="app.mode == 1"><a ng-click="joinVideo(app.mode, todays_time[$index], todays_end_time[$index], app.id, prod.user_id)" class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
@@ -100,7 +100,7 @@
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
                                             <div class="col"ng-if="app.mode == 1">
-                                                <a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                                                <a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time,week_usersData[$parent.$index][0].id)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <!---div class="col"><a confirmed-click="reschedule(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.id, prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <div class="col" ng-if="app.mode == 1"><a ng-click="joinVideo(app.mode, week_time[$parent.$index], week_end_time[$parent.$index], app.id, prod.user_id)" class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
-                                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time,all_usersData[$parent.$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <!---<div class="col" ng-if="app.mode == 1"><a confirmed-click="reschedule(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
                                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.id, prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                                             <!---<div class="col" ng-if="app.mode == 3 || app.mode == 4"><a confirmed-click="reschedule(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
