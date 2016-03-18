@@ -2437,6 +2437,7 @@ angular.module('your_app_name.controllers', [])
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
+            $scope.gend = '';
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
@@ -2473,8 +2474,10 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     if (response.data.patients[0].gender == 1) {
                         $scope.gender = 'On';
+                        $scope.gend = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
                         $scope.gender = 'On';
+                        $scope.gend = 'Female';
                     }
                 }
                 console.log($scope.gender);
