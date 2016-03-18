@@ -24,12 +24,12 @@
                         </a>
                     </div>
                     <div ng-if="all_note[$index].length == 0">
-                        <a ng-click="addCnote(app.id)"  class="btn drstatus">
+                        <a ng-click="addCnote(app.app.id)"  class="btn drstatus">
                             <span class="icon ion-plus-circled"></span> Note
                         </a>
                     </div>
                     <div ng-if="all_note.length == 0">
-                        <a ng-click="addCnote(app.id)" class="btn drstatus">
+                        <a ng-click="addCnote(app.app.id)" class="btn drstatus">
                             <span class="icon ion-plus-circled"></span> Note
                         </a>
                     </div>
@@ -38,8 +38,8 @@
                             {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                         </span>
                     </p>
-                    <p><strong>Mode : </strong> {{app.mode==1? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p>
-                    <p><strong>Appointment Time : </strong> {{app.scheduled_start_time|dateFormat3}}, {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}}</p>
+                    <p><strong>Mode : </strong> {{app.app.mode==1? 'Video': app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}</p>
+                    <p><strong>Appointment Time : </strong> {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}</p>
                 </div>
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">
