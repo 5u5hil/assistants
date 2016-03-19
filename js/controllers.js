@@ -2289,11 +2289,11 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-                    jQuery("#precase").addClass('hide');
-                    jQuery("#newcase").removeClass('hide');
+                    jQuery(".fields #precase").addClass('hide');
+                    jQuery(".fields #newcase").removeClass('hide');
                 } else if (type == 0) {
-                    jQuery("#precase").removeClass('hide');
-                    jQuery("#newcase").addClass('hide');
+                    jQuery(".fields #precase").removeClass('hide');
+                    jQuery(".fields #newcase").addClass('hide');
                 }
             };
             //Take images with camera
