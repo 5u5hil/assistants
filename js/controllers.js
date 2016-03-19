@@ -1761,8 +1761,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
 //            $http({
@@ -1775,26 +1773,34 @@ angular.module('your_app_name.controllers', [])
 //                            //$state.go('app.consultations-list', {}, {reload: true});
 //                        }, function errorCallback(response) {
 //                            console.log(response);
-//                        });
-
-
-
+//                        });    
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-                $http({
-                    method: 'GET',
-                    url: domain + 'inventory/search-medicine',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
-                }).then(function successCallback(response) {
-                    console.log(response.data);
-                    $scope.getMedicine = response.data.getMedicine;
-                    //$scope.searchkey  = searchkey
-                    $state.go('app.search-medicine', {'key': $scope.searchkey}, {reload: true});
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+                $state.go('app.search-medicine', {'key': $scope.searchkey}, {reload: true});
+
             };
+
+        })
+
+        .controller('SerachInventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
+            $scope.getMedicine = [];
+            $scope.searchkey = $stateParams.key;
+            console.log($scope.searchkey);
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
 
         })
 
@@ -1809,8 +1815,8 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
+           
+            $scope.mId = $stateParams.mid;
         })
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -2421,12 +2427,12 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.removeCamFile = function (img) {
-                var arrInd = (img-1);
+                var arrInd = (img - 1);
                 var index = $scope.tempImgs.indexOf(arrInd);
                 $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
-                jQuery('.remcam-'+img).remove();
+                jQuery('.remcam-' + img).remove();
             };
         })
 
@@ -2633,7 +2639,7 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
-        
+
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.noteId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
@@ -2678,7 +2684,7 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
-        
+
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;

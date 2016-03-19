@@ -187,6 +187,7 @@ angular.module('your_app_name', [
                     })
 
 
+
                     .state('app.disbursement', {
                         url: "/disbursement",
                         views: {
@@ -208,17 +209,17 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
-                        url: "/search-medicine",
+                        url: "/search-medicine/{key:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/search-medicine.html",
-                                controller: 'InventoryCtrl'
+                                controller: 'SerachInventoryCtrl'
                             }
                         }
                     })
 
                     .state('app.medicine-details', {
-                        url: "/medicine-details",
+                        url: "/medicine-details/{mid:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/medicine-details.html",

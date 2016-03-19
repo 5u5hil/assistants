@@ -6,22 +6,22 @@
 		  <div class="list list-inset txt-center">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text"  value="Crocin">
+                <input type="text"  value="{{searchkey}}">
             </label>
 			<button class="button button-positive mt15">Search</button>	
         </div>
 	
 
-		<div class="item item-divider ng-binding">Starting with "Crocin"</div>
+		<div class="item item-divider ng-binding">Starting with "{{searchkey}}"</div>
 
-		<div class="scont" >
+			<div class="scont" >
             
-            	 <div class="posts-list msearchlist">
+                            <div class="posts-list msearchlist" ng-repeat="medicine in getMedicine">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
-                        <a class="lhref p10" ui-sref="app.medicine-details" >
-                         <span class="fbold">Crocin </span>
-                        <span class="flt-right">3 strips</span>
+                        <a class="lhref p10" ui-sref="app.medicine-details({mid:medicine.id})" >
+                         <span class="fbold">{{medicine.name}}</span>
+                        <span class="flt-right">{{medicine.unit_per_item}} {{medicine.item_form}}</span>
                         </a>
 						
                         <div class="post-actions">
