@@ -199,7 +199,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.add-disbursement', {
-                        url: "/add-disbursement",
+                        url: "/add-disbursement/{mid:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/add-disbursement.html",
