@@ -2355,7 +2355,7 @@ angular.module('your_app_name.controllers', [])
                 console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
-                        $scope.picData = getImgUrl(value);
+                        $scope.picData = $scope.image[key]; //getImgUrl(value);
                         console.log($scope.picData);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
                         console.log("From for " + imgName);
