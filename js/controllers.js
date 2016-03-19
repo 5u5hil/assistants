@@ -1254,6 +1254,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
                 //past section //
+                $scope.all_data_past = response.data.all_data_past;
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_doctor_past = response.data.all_doctor_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
@@ -1815,7 +1816,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-           
+
             $scope.mId = $stateParams.mid;
         })
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -2542,11 +2543,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
-
                         alert("Patient History saved successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
-//                            }, 1000);
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
