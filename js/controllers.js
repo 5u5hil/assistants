@@ -1831,12 +1831,47 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DisbursementCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
+            $scope.mId = $stateParams.mid;
+            $scope.curDate = new Date();
+            $scope.curTime = new Date();
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/disbursement',
+                params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                 $scope.userD = response.data.userD;
+                 $scope.userP = response.data.userP;
+                 $scope.service = response.data.service;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            
+            
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
            
             $scope.mId = $stateParams.mid;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/medicine-details',
+                params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.medicineforprob = response.data.medicineforprob;
+               
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+    
         })
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -1851,6 +1886,25 @@ angular.module('your_app_name.controllers', [])
         .controller('AddDisbursementCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            
+            
+            $scope.searchMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
+            };
 
             $scope.showPopup = function () {
                 $scope.data = {};

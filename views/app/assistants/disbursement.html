@@ -6,29 +6,25 @@
 	
 	<label class="item item-input item-select">
 		<div class="input-label">Patient</div>
-		<select name="">
-			<option value="" >Select </option>
-			<option  value="" selected>Naresh</option>
-			<option  value="">Leena</option>
-			<option  value="">Bhavana</option>
+		<select name="pname">
+                    <option value="" selected="selected">Select Patient </option>
+                    <option ng-repeat="user in userP" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
 		</select>
 	</label>
 
 	<label class="item item-input item-select">
 		<div class="input-label">Doctor</div>
-		<select name="">
-			<option value="" >Select </option>
-			<option  value="">Dr. Naresh</option>
-			<option  value="" selected>Dr. Leena</option>
-			<option  value="">Dr. Bhavana</option>
+		<select name="dname">
+			<option value="" selected="selected">Select Doctor </option>
+                    <option ng-repeat="user in userD" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
 		</select>
 	</label>
 
 	<label class="item item-input listreq"><span class='input-label'>Consultation Date</span>
-	<input type="date" ng-model="" placeholder="" value="03/08/2016"  name="das" required /></label>
+	<input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="das" required /></label>
 
-	<label class="item item-input listreq"><span class='input-label'>Consultation Date</span>
-	<input type="time" ng-model="" placeholder="" value="03/08/2016"  name="daas" required /></label>
+	<label class="item item-input listreq"><span class='input-label'>Consultation Time</span>
+	<input type="time" ng-model="curTime" placeholder="" value="{{curTime}}"  name="daas" required /></label>
 
 
         
@@ -36,7 +32,7 @@
 		<div class="input-label">Patient Type</div>
 		<select name="">
 			<option value="" >Select </option>
-			<option  value="" selected>Outpatient</option>
+			<option  value="">Outpatient</option>
 			<option  value="">Inpatient</option>
 			<option  value="">Emergency</option>
 		</select>
@@ -44,11 +40,10 @@
 
 		<label class="item item-input item-select">
 		<div class="input-label">Mode</div>
-		<select name="">
-			<option value="" >Select </option>
-			<option  value="" selected>Clinic</option>
-			<option  value="">Home</option>
-			<option  value="">Video</option>
+		<select name="service">
+			<option value=""  selected="selected" >Select mode </option>
+                        <option ng-repeat="serv in service" value="{{serv.id}}" >{{serv.service}}</option>
+			
 		</select>
 	</label>
 
@@ -56,11 +51,11 @@
 		<a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
 		</div>
 
-		<div class="item newlist-item">
+		<!--<div class="item newlist-item">
 		<div class="hreflink"><h2 class="ng-binding">Crocin 
 		<span class="flt-right">3 strips</span></h2></div>
 <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-close-empty"></i></div>
-		</div>
+		</div>-->
 
 
 
