@@ -1843,16 +1843,10 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-<<<<<<< HEAD
                  $scope.userD = response.data.userD;
                  $scope.userP = response.data.userP;
                  $scope.service = response.data.service;
                  $scope.medicine = response.data.medicine;
-=======
-                $scope.userD = response.data.userD;
-                $scope.userP = response.data.userP;
-                $scope.service = response.data.service;
->>>>>>> origin/master
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
