@@ -1843,10 +1843,10 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-                 $scope.userD = response.data.userD;
-                 $scope.userP = response.data.userP;
-                 $scope.service = response.data.service;
-                 $scope.medicine = response.data.medicine;
+                $scope.userD = response.data.userD;
+                $scope.userP = response.data.userP;
+                $scope.service = response.data.service;
+                $scope.medicine = response.data.medicine;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
@@ -1885,7 +1885,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AddDisbursementCtrl', function ($scope,$state, $http, $stateParams, $ionicPopup, $ionicModal) {
+        .controller('AddDisbursementCtrl', function ($scope, $state, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
 
@@ -1896,7 +1896,7 @@ angular.module('your_app_name.controllers', [])
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 $scope.itemform = '';
-                
+
                 $http({
                     method: 'GET',
                     url: domain + 'inventory/search-medicine',
@@ -1913,62 +1913,62 @@ angular.module('your_app_name.controllers', [])
 
             };
 
-            $scope.showPopup = function (mid,name) {
+            $scope.showPopup = function (mid, name) {
                 $scope.medicineId = mid;
                 $scope.medicineName = name;
                 $http({
-                method: 'GET',
-                url: domain + 'inventory/get-item-form',
-                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.itemform = response.data.itemform;
-              
-                
-                var htmlstring ='<div class="row"><div class="col col-33">\n\
+                    method: 'GET',
+                    url: domain + 'inventory/get-item-form',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.itemform = response.data.itemform;
+
+
+                    var htmlstring = '<div class="row"><div class="col col-33">\n\
                      <input type="number" ng-model="data.quantity" value="1"  min="1" max="10">\n\
                         </div><div class="col col-67">\n\
                         <select class="selectpopup" name="itemform" ng-model="data.itemform" >\n\
                         <option value="" selected>Please Select</option>';
-            angular.forEach($scope.itemform, function (value, key) {
-                        htmlstring +='<option value="'+value.item_form_name+'">'+value.item_form_name+'</option>';
+                    angular.forEach($scope.itemform, function (value, key) {
+                        htmlstring += '<option value="' + value.item_form_name + '">' + value.item_form_name + '</option>';
                     });
-                        htmlstring +='</select>\n\
+                    htmlstring += '</select>\n\
                         </div>\n\
                         </div>';
-                // An elaborate, custom popup
-                var myPopup = $ionicPopup.show({
-                    template: htmlstring,
-                    title: 'Quantity',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancel'},
-                        {
-                            text: '<b>Ok</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                if ((!$scope.data.quantity)||(!$scope.data.itemform)) {
-                                    //don't allow the user to close unless he enters wifi password
-                                    e.preventDefault();
-                                } else {
-                                  //  return $scope.medicineId+'-'+$scope.medicineName+'-'+$scope.data.quantity+'-'+$scope.data.itemform;
-                                return 1;
+                    // An elaborate, custom popup
+                    var myPopup = $ionicPopup.show({
+                        template: htmlstring,
+                        title: 'Quantity',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Ok</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    if ((!$scope.data.quantity) || (!$scope.data.itemform)) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                        //  return $scope.medicineId+'-'+$scope.medicineName+'-'+$scope.data.quantity+'-'+$scope.data.itemform;
+                                        return 1;
+                                    }
                                 }
                             }
+                        ]
+                    });
+
+                    myPopup.then(function (res) {
+                        console.log('data', res);
+                        if (res == '1') {
+                            // $state.go('app.disbursement', {'id':}, {reload: true});
                         }
-                    ]
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
                 });
 
-                myPopup.then(function (res) {
-                    console.log('data', res);
-                    if(res == '1'){
-                       // $state.go('app.disbursement', {'id':}, {reload: true});
-                    }
-                });
-                }, function errorCallback(response) {
-                console.log(response);
-            });
-               
             };
 
             $ionicModal.fromTemplateUrl('infomedicine', {
@@ -2333,13 +2333,13 @@ angular.module('your_app_name.controllers', [])
             //Save FormData
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
-                console.log("TempImgs Save= "+$scope.tempImgs);
+                console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
                         $scope.picData = getImgUrl(value);
                         console.log($scope.picData);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
-                        console.log("From for "+imgName);
+                        console.log("From for " + imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.image.push(imgName);
@@ -2426,42 +2426,42 @@ angular.module('your_app_name.controllers', [])
                     alert(imageData);
                     var imageData = imageData;
                     onImageSuccess(imageData);
-                    function onImageSuccess(fileURI) {
-                        //createFileEntry(fileURI);
-                    }
-//                    function createFileEntry(fileURI) {
-//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-//                    }$scope.images
-
-                    var imageName = imageData.fullPath.substr(imageData.fullPath.lastIndexOf('/') + 1);
-                    ; //entry.nativeURL;
-                    $scope.$apply(function () {
-                        $scope.images.push(imageData);
-                        $scope.tempImgs.push(imageName);
-                    });
-                    //Display fields
-                    console.log("Image URL"+ $scope.images);
-                    console.log($scope.tempImgs.length);
-                    if ($scope.tempImgs.length == 0) {
-                        console.log($("#image-holder").html());
-                        if (($("#image-holder").html()) == '') {
-                            jQuery('#convalid').addClass('hide');
-                            jQuery('#coninprec').addClass('hide');
+                    function onImageSuccess(imageData) {
+                        var imageName = imageData.substr(imageData.lastIndexOf('/') + 1);
+                        console.log(imageName);
+                        //entry.nativeURL;
+                        $scope.$apply(function () {
+                            $scope.images.push(imageData);
+                            $scope.tempImgs.push(imageName);
+                        });
+                        //Display fields
+                        console.log("Image URL" + $scope.images);
+                        console.log($scope.tempImgs.length);
+                        if ($scope.tempImgs.length == 0) {
+                            console.log($("#image-holder").html());
+                            if (($("#image-holder").html()) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
                         } else {
                             jQuery('#convalid').removeClass('hide');
                             jQuery('#coninprec').removeClass('hide');
                         }
-                    } else {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
+                        $scope.picData = getImgUrl(imageName);
+                        alert($scope.picData);
+                        $scope.ftLoad = true;
+                        imgCnt++;
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        camimg_holder.append(btnhtml);
+                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+                        //createFileEntry(fileURI);
                     }
-                    $scope.picData = getImgUrl(imageName);
-                    alert($scope.picData);
-                    $scope.ftLoad = true;
-                    imgCnt++;
-                    var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
-                    camimg_holder.append(btnhtml);
-                    $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+//                    function createFileEntry(fileURI) {
+//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+//                    }$scope.images                    
 //                    // 5
 //                    function copyFile(fileEntry) {
 //                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
@@ -2856,7 +2856,6 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
-
         })
 
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
