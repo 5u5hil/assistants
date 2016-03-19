@@ -51,11 +51,11 @@
 		<a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
 		</div>
 
-		<!--<div class="item newlist-item">
-		<div class="hreflink"><h2 class="ng-binding">Crocin 
-		<span class="flt-right">3 strips</span></h2></div>
+        <div class="item newlist-item" ng-repeat="medi in medicine">
+		<div class="hreflink"><h2 class="ng-binding">{{medi.name}} 
+		<span class="flt-right">{{medi.total_item}}  {{medi.item_form}} </span></h2></div>
 <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-close-empty"></i></div>
-		</div>-->
+		</div>
 
 
 

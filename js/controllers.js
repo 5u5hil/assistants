@@ -1846,6 +1846,7 @@ angular.module('your_app_name.controllers', [])
                  $scope.userD = response.data.userD;
                  $scope.userP = response.data.userP;
                  $scope.service = response.data.service;
+                 $scope.medicine = response.data.medicine;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
@@ -1884,13 +1885,17 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AddDisbursementCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal) {
+        .controller('AddDisbursementCtrl', function ($scope,$state, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-            
+            $scope.medicineId = '';
+            $scope.medicineName = '';
+            $scope.data = {};
             
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
+                $scope.itemform = '';
+                
                 $http({
                 method: 'GET',
                 url: domain + 'inventory/search-medicine',
@@ -1907,11 +1912,32 @@ angular.module('your_app_name.controllers', [])
 
             };
 
-            $scope.showPopup = function () {
-                $scope.data = {};
+            $scope.showPopup = function (mid,name) {
+                $scope.medicineId = mid;
+                $scope.medicineName = name;
+                $http({
+                method: 'GET',
+                url: domain + 'inventory/get-item-form',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.itemform = response.data.itemform;
+              
+                
+                var htmlstring ='<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="data.quantity" value="1"  min="1" max="10">\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup" name="itemform" ng-model="data.itemform" >\n\
+                        <option value="" selected>Please Select</option>';
+            angular.forEach($scope.itemform, function (value, key) {
+                        htmlstring +='<option value="'+value.item_form_name+'">'+value.item_form_name+'</option>';
+                    });
+                        htmlstring +='</select>\n\
+                        </div>\n\
+                        </div>';
                 // An elaborate, custom popup
                 var myPopup = $ionicPopup.show({
-                    template: '<div class="row"><div class="col col-33"><input type="number" ng-model="data.wifi"></div><div class="col col-67"><select class="selectpopup"><option>Bottle</option></select></div></div>',
+                    template: htmlstring,
                     title: 'Quantity',
                     scope: $scope,
                     buttons: [
@@ -1920,11 +1946,12 @@ angular.module('your_app_name.controllers', [])
                             text: '<b>Ok</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                if (!$scope.data.wifi) {
+                                if ((!$scope.data.quantity)||(!$scope.data.itemform)) {
                                     //don't allow the user to close unless he enters wifi password
                                     e.preventDefault();
                                 } else {
-                                    return $scope.data.wifi;
+                                  //  return $scope.medicineId+'-'+$scope.medicineName+'-'+$scope.data.quantity+'-'+$scope.data.itemform;
+                                return 1;
                                 }
                             }
                         }
@@ -1932,8 +1959,15 @@ angular.module('your_app_name.controllers', [])
                 });
 
                 myPopup.then(function (res) {
-                    console.log('Tapped!', res);
+                    console.log('data', res);
+                    if(res == '1'){
+                       // $state.go('app.disbursement', {'id':}, {reload: true});
+                    }
                 });
+                }, function errorCallback(response) {
+                console.log(response);
+            });
+               
             };
 
             $ionicModal.fromTemplateUrl('infomedicine', {

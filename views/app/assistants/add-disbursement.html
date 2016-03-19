@@ -11,10 +11,10 @@
               <a ng-click="searchMedicine(search)"  class="button button-positive mt15">Search</a>	
         </div>
 
-        <div class="scont" >
-            <div class="item item-divider ng-binding">Starting with "Crocin"</div>
+        <div class="scont" ng-if="getMedicine!=''" >
+            <div class="item item-divider ng-binding" >Starting with "Crocin"</div>
             <div class="item newlist-item" ng-repeat="medicine in getMedicine">
-                <div ng-click="showPopup()" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
+                <div ng-click="showPopup(medicine.id,medicine.name)" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
                         <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}}</span></h2></div>
                         
                 <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
@@ -22,11 +22,11 @@
         </div>
 
 
-        <div class="scont" >
-            <div class="item item-divider ng-binding">Other Matches</div>			
+        <div class="scont" ng-if="otherMedicine!=''" >
+            <div class="item item-divider ng-binding" >Other Matches</div>			
             <div class="item newlist-item"  ng-repeat="otherm in otherMedicine">
-                <div ng-click="showPopup()" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
-                        <span class="flt-right">{{otherm.name}} {{otherm.name}}</span></h2></div>
+                <div ng-click="showPopup(otherm.id,otherm.name)" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
+                        <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}}</span></h2></div>
                 <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
             </div>			
 
