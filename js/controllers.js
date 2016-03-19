@@ -2339,6 +2339,25 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        //Display fields
+                        $scope.tempImgs
+                        if ($scope.tempImgs.length == 0) {
+                            if (($("#image-holder").html) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                        } else {
+                            if (($("#image-holder").html) != '') {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            } else {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            }
+                        }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
@@ -2434,6 +2453,23 @@ angular.module('your_app_name.controllers', [])
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
                 jQuery('.remcam-' + img).remove();
+                if ($scope.tempImgs.length == 0) {
+                    if (($("#image-holder").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
+                } else {
+                    if (($("#image-holder").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
+                }
             };
         })
 
