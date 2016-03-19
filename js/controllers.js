@@ -1254,6 +1254,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
                 //past section //
+                $scope.all_data_past = response.data.all_data_past;
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_doctor_past = response.data.all_doctor_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
@@ -1855,7 +1856,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-           
+
             $scope.mId = $stateParams.mid;
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
@@ -2414,6 +2415,21 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        //Display fields
+                        console.log($scope.tempImgs.length);
+                        if ($scope.tempImgs.length == 0) {
+                            console.log($("#image-holder").html());
+                            if (($("#image-holder").html()) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                        } else {
+                            jQuery('#convalid').removeClass('hide');
+                            jQuery('#coninprec').removeClass('hide');
+                        }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
@@ -2475,16 +2491,21 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
+                    console.log($("#camera-status").html());
                     jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    //jQuery('#valid-till').attr('required', true); 
+                    //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    jQuery('#convalid').addClass('hide');
-                    jQuery('#coninprec').addClass('hide');
+                    if (($("#camera-status").html()) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', false);
                 }
-
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
@@ -2507,8 +2528,20 @@ angular.module('your_app_name.controllers', [])
                 var index = $scope.tempImgs.indexOf(arrInd);
                 $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
-                console.log($scope.tempImgs);
+                console.log($scope.tempImgs.length);
                 jQuery('.remcam-' + img).remove();
+                if ($scope.tempImgs.length == 0) {
+                    if (($("#image-holder").html()) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
+                } else {
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
+                }
             };
         })
 
@@ -2618,11 +2651,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
-
                         alert("Patient History saved successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
-//                            }, 1000);
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
