@@ -2340,7 +2340,9 @@ angular.module('your_app_name.controllers', [])
                             $scope.tempImgs.push(imageName);
                         });
                         //Display fields
+                        console.log($scope.tempImgs.length);
                         if ($scope.tempImgs.length == 0) {
+                            console.log($("#image-holder").html());
                             if (($("#image-holder").html()) == '') {
                                 jQuery('#convalid').addClass('hide');
                                 jQuery('#coninprec').addClass('hide');
@@ -2349,13 +2351,8 @@ angular.module('your_app_name.controllers', [])
                                 jQuery('#coninprec').removeClass('hide');
                             }
                         } else {
-                            if (($("#image-holder").html()) != '') {
-                                jQuery('#convalid').removeClass('hide');
-                                jQuery('#coninprec').removeClass('hide');
-                            } else {
-                                jQuery('#convalid').addClass('hide');
-                                jQuery('#coninprec').addClass('hide');
-                            }
+                            jQuery('#convalid').removeClass('hide');
+                            jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
@@ -2418,13 +2415,9 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    if (($("#camera-status").html()) == '') {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    } else {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    }
+                    console.log($("#camera-status").html());
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
@@ -2437,7 +2430,6 @@ angular.module('your_app_name.controllers', [])
                     }
                     //jQuery('#valid-till').attr('required', false);
                 }
-
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
@@ -2460,7 +2452,7 @@ angular.module('your_app_name.controllers', [])
                 var index = $scope.tempImgs.indexOf(arrInd);
                 $scope.tempImgs.splice(index, 1);
                 console.log('camera file removed');
-                console.log($scope.tempImgs);
+                console.log($scope.tempImgs.length);
                 jQuery('.remcam-' + img).remove();
                 if ($scope.tempImgs.length == 0) {
                     if (($("#image-holder").html()) == '') {
@@ -2471,13 +2463,8 @@ angular.module('your_app_name.controllers', [])
                         jQuery('#coninprec').removeClass('hide');
                     }
                 } else {
-                    if (($("#image-holder").html()) != '') {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    } else {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    }
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                 }
             };
         })
