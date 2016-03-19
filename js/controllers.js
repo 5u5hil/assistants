@@ -395,6 +395,7 @@ angular.module('your_app_name.controllers', [])
             $scope.addCnote = function (appId) {
                 //alert(appId);
                 store({'appId': appId});
+                store({'from': 'app.doctor-consultations'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -1343,6 +1344,7 @@ angular.module('your_app_name.controllers', [])
             $scope.addCnote = function (appId) {
                 //alert(appId);
                 store({'appId': appId});
+                store({'from': 'app.appointment-list'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -1461,6 +1463,7 @@ angular.module('your_app_name.controllers', [])
             $scope.addCnote = function (appId) {
                 //alert(appId);
                 store({'appId': appId});
+                store({'from': 'app.patient-app-list'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -2352,6 +2355,7 @@ angular.module('your_app_name.controllers', [])
             //Save FormData
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
+                $scope.from = get('from');
                 console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -2373,18 +2377,12 @@ angular.module('your_app_name.controllers', [])
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
                             alert("Consultation Note added successfully!");
-                            if ($scope.appId != 0) {
-                                $timeout(function () {
-                                    //$state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-                                }, 1000);
-                            } else {
-                                $timeout(function () {
-                                    //$state.go('app.assistants', {}, {reload: true});
-                                }, 1000);
-                            }
-//                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-//                            }, 1000);
+                            if ($scope.from == 'app.appointment-list')
+                                $state.go('app.appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.patient-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -2396,15 +2394,12 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             alert("Consultation Note added successfully!");
-                            if ($scope.appId != 0) {
-                                $timeout(function () {
-                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-                                }, 1000);
-                            } else {
-                                $timeout(function () {
-                                    $state.go('app.assistants', {}, {reload: true});
-                                }, 1000);
-                            }
+                            if ($scope.from == 'app.appointment-list')
+                                $state.go('app.appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.patient-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -2442,7 +2437,7 @@ angular.module('your_app_name.controllers', [])
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
-                    alert(imageData);
+                    //alert(imageData);
                     var imageData = imageData;
                     onImageSuccess(imageData);
                     function onImageSuccess(imageData) {
@@ -2468,7 +2463,7 @@ angular.module('your_app_name.controllers', [])
                             jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
-                        alert($scope.picData);
+                        //alert($scope.picData);
                         $scope.ftLoad = true;
                         imgCnt++;
                         var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
