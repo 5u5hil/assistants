@@ -2156,7 +2156,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'assistrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                        params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -2182,7 +2182,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -2309,11 +2309,13 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-                    jQuery("#precase").addClass('hide');
-                    jQuery("#newcase").removeClass('hide');
-                } else {
-                    jQuery("#precase").removeClass('hide');
-                    jQuery("#newcase").addClass('hide');
+
+                    jQuery(".fields #precase").addClass('hide');
+                    jQuery(".fields #newcase").removeClass('hide');
+                } else if (type == 0) {
+                    jQuery(".fields #precase").removeClass('hide');
+                    jQuery(".fields #newcase").addClass('hide');
+
                 }
             };
             //Take images with camera
