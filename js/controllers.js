@@ -2136,7 +2136,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'assistrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                        params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -2162,7 +2162,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, interface: $scope.interface}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
