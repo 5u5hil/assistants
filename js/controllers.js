@@ -2297,12 +2297,14 @@ angular.module('your_app_name.controllers', [])
             };
             //Save FormData
             $scope.submit = function () {
-                $ionicLoading.show({template: 'Adding...'});
+                //$ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
                         $scope.picData = getImgUrl(value);
+                        console.log($scope.picData);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
+                        console.log(imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.image.push(imgName);
@@ -2319,11 +2321,11 @@ angular.module('your_app_name.controllers', [])
                             alert("Consultation Note added successfully!");
                             if ($scope.appId != 0) {
                                 $timeout(function () {
-                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                                    //$state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
                                 }, 1000);
                             } else {
                                 $timeout(function () {
-                                    $state.go('app.assistants', {}, {reload: true});
+                                    //$state.go('app.assistants', {}, {reload: true});
                                 }, 1000);
                             }
 //                            $timeout(function () {
@@ -2431,7 +2433,7 @@ angular.module('your_app_name.controllers', [])
                             jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
-                        //alert($scope.picData);
+                        alert($scope.picData);
                         $scope.ftLoad = true;
                         imgCnt++;
                         var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
@@ -2481,6 +2483,7 @@ angular.module('your_app_name.controllers', [])
                 }
                 var ft = new FileTransfer();
                 ft.upload(fileURL, encodeURI(domain + 'assistrecords/upload-attachment'), uploadSuccess, function (error) {
+                    console.log("Error = "+error.code);
                     //$ionicLoading.show({template: 'Error in connecting...'});
                     //$ionicLoading.hide();
                 }, options);
