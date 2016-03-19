@@ -1796,11 +1796,31 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
+                 $scope.otherMedicine = response.data.otherMedicine;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
                 console.log(response);
             });
+            
+             $scope.searchMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                //  var data = new FormData(jQuery("#loginuser")[0]);
+               $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                 $scope.otherMedicine = response.data.otherMedicine;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
+            };
 
         })
 
@@ -2291,7 +2311,7 @@ angular.module('your_app_name.controllers', [])
                 if (type == 1) {
                     jQuery("#precase").addClass('hide');
                     jQuery("#newcase").removeClass('hide');
-                } else if (type == 0) {
+                } else {
                     jQuery("#precase").removeClass('hide');
                     jQuery("#newcase").addClass('hide');
                 }
