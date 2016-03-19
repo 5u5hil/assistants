@@ -1888,7 +1888,9 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
+
         .controller('AddDisbursementCtrl', function ($scope, $state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
+
             $scope.medicineId = '';
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
@@ -1950,11 +1952,13 @@ angular.module('your_app_name.controllers', [])
                                 text: '<b>Ok</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
+
                                     if ((!$scope.data.quantity) && (!$scope.data.itemform)) {
                                         //don't allow the user to close unless he enters wifi password
                                         e.preventDefault();
                                     } else {
                                         $scope.dataitem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+
                                         //  return $scope.medicineId+'-'+$scope.medicineName+'-'+$scope.data.quantity+'-'+$scope.data.itemform;
                                         return 1;
                                     }
@@ -1965,8 +1969,10 @@ angular.module('your_app_name.controllers', [])
 
                     myPopup.then(function (res) {
                         console.log('data', res);
+
                         console.log('dat-----' + $scope.dataitem)
                         if (res == '1') {
+
 
                         }
                     });
@@ -1974,11 +1980,13 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
 
+
                 $scope.gotodisbursement = function () {
                     alert($scope.mid);
                     $rootScope.dataitem = $scope.dataitem;
                     $state.go('app.disbursement', {'mid': $scope.mid}, {reload: true});
                 }
+
 
             };
 
@@ -2344,13 +2352,13 @@ angular.module('your_app_name.controllers', [])
             //Save FormData
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
-                //alert($scope.tempImgs.length);
+                console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
                         $scope.picData = getImgUrl(value);
                         console.log($scope.picData);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
-                        console.log(imgName);
+                        console.log("From for " + imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.image.push(imgName);
@@ -2412,7 +2420,6 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-
                     jQuery(".fields #precase").addClass('hide');
                     jQuery(".fields #newcase").removeClass('hide');
                 } else if (type == 0) {
@@ -2435,44 +2442,45 @@ angular.module('your_app_name.controllers', [])
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
-                    //alert(imageData);
+                    alert(imageData);
+                    var imageData = imageData;
                     onImageSuccess(imageData);
-                    function onImageSuccess(fileURI) {
-                        //createFileEntry(fileURI);
-                    }
-//                    function createFileEntry(fileURI) {
-//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-//                    }$scope.images
-                    $scope.$apply(function () {
-                        $scope.images.push(imageData);
-                    });
-                    var imageName = imageData.fullPath.substr(imageData.fullPath.lastIndexOf('/') + 1);
-                    ; //entry.nativeURL;
-                    $scope.$apply(function () {
-                        $scope.tempImgs.push(imageName);
-                    });
-                    //Display fields
-                    console.log($scope.tempImgs.length);
-                    if ($scope.tempImgs.length == 0) {
-                        console.log($("#image-holder").html());
-                        if (($("#image-holder").html()) == '') {
-                            jQuery('#convalid').addClass('hide');
-                            jQuery('#coninprec').addClass('hide');
+                    function onImageSuccess(imageData) {
+                        var imageName = imageData.substr(imageData.lastIndexOf('/') + 1);
+                        console.log(imageName);
+                        //entry.nativeURL;
+                        $scope.$apply(function () {
+                            $scope.images.push(imageData);
+                            $scope.tempImgs.push(imageName);
+                        });
+                        //Display fields
+                        console.log("Image URL" + $scope.images);
+                        console.log($scope.tempImgs.length);
+                        if ($scope.tempImgs.length == 0) {
+                            console.log($("#image-holder").html());
+                            if (($("#image-holder").html()) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
                         } else {
                             jQuery('#convalid').removeClass('hide');
                             jQuery('#coninprec').removeClass('hide');
                         }
-                    } else {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
+                        $scope.picData = getImgUrl(imageName);
+                        alert($scope.picData);
+                        $scope.ftLoad = true;
+                        imgCnt++;
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        camimg_holder.append(btnhtml);
+                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+                        //createFileEntry(fileURI);
                     }
-                    $scope.picData = getImgUrl(imageName);
-                    alert($scope.picData);
-                    $scope.ftLoad = true;
-                    imgCnt++;
-                    var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
-                    camimg_holder.append(btnhtml);
-                    $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+//                    function createFileEntry(fileURI) {
+//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+//                    }$scope.images                    
 //                    // 5
 //                    function copyFile(fileEntry) {
 //                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
@@ -2867,7 +2875,6 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
-
         })
 
         .controller('FilterCtrl', function ($scope, $http, $stateParams) {
