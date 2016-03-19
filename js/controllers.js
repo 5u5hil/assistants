@@ -2339,13 +2339,13 @@ angular.module('your_app_name.controllers', [])
             //Save FormData
             $scope.submit = function () {
                 //$ionicLoading.show({template: 'Adding...'});
-                //alert($scope.tempImgs.length);
+                console.log("TempImgs Save= "+$scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
                         $scope.picData = getImgUrl(value);
                         console.log($scope.picData);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
-                        console.log(imgName);
+                        console.log("From for "+imgName);
                         $scope.ftLoad = true;
                         $scope.uploadPicture();
                         $scope.image.push(imgName);
@@ -2407,7 +2407,6 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-
                     jQuery(".fields #precase").addClass('hide');
                     jQuery(".fields #newcase").removeClass('hide');
                 } else if (type == 0) {
@@ -2430,7 +2429,8 @@ angular.module('your_app_name.controllers', [])
                 };
                 // 3
                 $cordovaCamera.getPicture(options).then(function (imageData) {
-                    //alert(imageData);
+                    alert(imageData);
+                    var imageData = imageData;
                     onImageSuccess(imageData);
                     function onImageSuccess(fileURI) {
                         //createFileEntry(fileURI);
@@ -2438,15 +2438,15 @@ angular.module('your_app_name.controllers', [])
 //                    function createFileEntry(fileURI) {
 //                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
 //                    }$scope.images
-                    $scope.$apply(function () {
-                        $scope.images.push(imageData);
-                    });
+
                     var imageName = imageData.fullPath.substr(imageData.fullPath.lastIndexOf('/') + 1);
                     ; //entry.nativeURL;
                     $scope.$apply(function () {
+                        $scope.images.push(imageData);
                         $scope.tempImgs.push(imageName);
                     });
                     //Display fields
+                    console.log("Image URL"+ $scope.images);
                     console.log($scope.tempImgs.length);
                     if ($scope.tempImgs.length == 0) {
                         console.log($("#image-holder").html());
