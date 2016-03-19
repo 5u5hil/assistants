@@ -2340,7 +2340,6 @@ angular.module('your_app_name.controllers', [])
                             $scope.tempImgs.push(imageName);
                         });
                         //Display fields
-                        $scope.tempImgs
                         if ($scope.tempImgs.length == 0) {
                             if (($("#image-holder").html) == '') {
                                 jQuery('#convalid').addClass('hide');
@@ -2419,13 +2418,23 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    jQuery('#convalid').removeClass('hide');
-                    jQuery('#coninprec').removeClass('hide');
-                    //jQuery('#valid-till').attr('required', true); 
+                    if (($("#camera-status").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
+                    //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    jQuery('#convalid').addClass('hide');
-                    jQuery('#coninprec').addClass('hide');
+                    if (($("#camera-status").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', false);
                 }
 
