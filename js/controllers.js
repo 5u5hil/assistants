@@ -1797,29 +1797,29 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
-                 $scope.otherMedicine = response.data.otherMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
                 console.log(response);
             });
-            
-             $scope.searchMedicine = function (searchkey) {
+
+            $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-               $http({
-                method: 'GET',
-                url: domain + 'inventory/search-medicine',
-                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.getMedicine = response.data.getMedicine;
-                 $scope.otherMedicine = response.data.otherMedicine;
-                //$scope.searchkey  = searchkey
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
+                    //$scope.searchkey  = searchkey
 
-            }, function errorCallback(response) {
-                console.log(response);
-            });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
 
             };
 
@@ -1843,16 +1843,16 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-                 $scope.userD = response.data.userD;
-                 $scope.userP = response.data.userP;
-                 $scope.service = response.data.service;
+                $scope.userD = response.data.userD;
+                $scope.userP = response.data.userP;
+                $scope.service = response.data.service;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
                 console.log(response);
             });
-            
-            
+
+
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -1867,12 +1867,12 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.medicineforprob = response.data.medicineforprob;
-               
+
 
             }, function errorCallback(response) {
                 console.log(response);
             });
-    
+
         })
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -1887,23 +1887,23 @@ angular.module('your_app_name.controllers', [])
         .controller('AddDisbursementCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-            
-            
+
+
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 $http({
-                method: 'GET',
-                url: domain + 'inventory/search-medicine',
-                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.getMedicine = response.data.getMedicine;
-                $scope.otherMedicine = response.data.otherMedicine;
-                //$scope.searchkey  = searchkey
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
+                    //$scope.searchkey  = searchkey
 
-            }, function errorCallback(response) {
-                console.log(response);
-            });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
 
             };
 
@@ -2392,54 +2392,84 @@ angular.module('your_app_name.controllers', [])
                     //alert(imageData);
                     onImageSuccess(imageData);
                     function onImageSuccess(fileURI) {
-                        createFileEntry(fileURI);
+                        //createFileEntry(fileURI);
                     }
-                    function createFileEntry(fileURI) {
-                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-                    }
-                    // 5
-                    function copyFile(fileEntry) {
-                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-                        var newName = makeid() + name;
-                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
-                            fileEntry.copyTo(
-                                    fileSystem2,
-                                    newName,
-                                    onCopySuccess,
-                                    fail
-                                    );
-                        },
-                                fail);
-                    }
-                    // 6
-                    function onCopySuccess(entry) {
-                        var imageName = entry.nativeURL;
-                        $scope.$apply(function () {
-                            $scope.tempImgs.push(imageName);
-                        });
-                        //Display fields
-                        console.log($scope.tempImgs.length);
-                        if ($scope.tempImgs.length == 0) {
-                            console.log($("#image-holder").html());
-                            if (($("#image-holder").html()) == '') {
-                                jQuery('#convalid').addClass('hide');
-                                jQuery('#coninprec').addClass('hide');
-                            } else {
-                                jQuery('#convalid').removeClass('hide');
-                                jQuery('#coninprec').removeClass('hide');
-                            }
+//                    function createFileEntry(fileURI) {
+//                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+//                    }$scope.images
+                    $scope.$apply(function () {
+                        $scope.images.push(imageData);
+                    });
+                    var imageName = imageData.fullPath.substr(imageData.fullPath.lastIndexOf('/') + 1);
+                    ; //entry.nativeURL;
+                    $scope.$apply(function () {
+                        $scope.tempImgs.push(imageName);
+                    });
+                    //Display fields
+                    console.log($scope.tempImgs.length);
+                    if ($scope.tempImgs.length == 0) {
+                        console.log($("#image-holder").html());
+                        if (($("#image-holder").html()) == '') {
+                            jQuery('#convalid').addClass('hide');
+                            jQuery('#coninprec').addClass('hide');
                         } else {
                             jQuery('#convalid').removeClass('hide');
                             jQuery('#coninprec').removeClass('hide');
                         }
-                        $scope.picData = getImgUrl(imageName);
-                        alert($scope.picData);
-                        $scope.ftLoad = true;
-                        imgCnt++;
-                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
-                        camimg_holder.append(btnhtml);
-                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
                     }
+                    $scope.picData = getImgUrl(imageName);
+                    alert($scope.picData);
+                    $scope.ftLoad = true;
+                    imgCnt++;
+                    var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                    camimg_holder.append(btnhtml);
+                    $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+//                    // 5
+//                    function copyFile(fileEntry) {
+//                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+//                        var newName = makeid() + name;
+//                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
+//                            fileEntry.copyTo(
+//                                    fileSystem2,
+//                                    newName,
+//                                    onCopySuccess,
+//                                    fail
+//                                    );
+//                        },
+//                                fail);
+//                    }
+                    // 6
+//                    function onCopySuccess(entry) {
+//                        var imageName = entry.nativeURL;
+//                        $scope.$apply(function () {
+//                            $scope.tempImgs.push(imageName);
+//                        });
+//                        //Display fields
+//                        console.log($scope.tempImgs.length);
+//                        if ($scope.tempImgs.length == 0) {
+//                            console.log($("#image-holder").html());
+//                            if (($("#image-holder").html()) == '') {
+//                                jQuery('#convalid').addClass('hide');
+//                                jQuery('#coninprec').addClass('hide');
+//                            } else {
+//                                jQuery('#convalid').removeClass('hide');
+//                                jQuery('#coninprec').removeClass('hide');
+//                            }
+//                        } else {
+//                            jQuery('#convalid').removeClass('hide');
+//                            jQuery('#coninprec').removeClass('hide');
+//                        }
+//                        $scope.picData = getImgUrl(imageName);
+//                        alert($scope.picData);
+//                        $scope.ftLoad = true;
+//                        imgCnt++;
+//                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+//                        camimg_holder.append(btnhtml);
+//                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
+//                    }
                     function fail(error) {
                         console.log("fail: " + error.code);
                     }
@@ -2483,7 +2513,7 @@ angular.module('your_app_name.controllers', [])
                 }
                 var ft = new FileTransfer();
                 ft.upload(fileURL, encodeURI(domain + 'assistrecords/upload-attachment'), uploadSuccess, function (error) {
-                    console.log("Error = "+error.code);
+                    console.log("Error = " + error.code);
                     //$ionicLoading.show({template: 'Error in connecting...'});
                     //$ionicLoading.hide();
                 }, options);
