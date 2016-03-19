@@ -2449,10 +2449,8 @@ angular.module('your_app_name.controllers', [])
                         var imageName = imageData.substr(imageData.lastIndexOf('/') + 1);
                         console.log(imageName);
                         //entry.nativeURL;
-                        $scope.$apply(function () {
-                            $scope.images.push(imageData);
-                            $scope.tempImgs.push(imageName);
-                        });
+                        $scope.images.push(imageData);
+                        $scope.tempImgs.push(imageName);
                         //Display fields
                         console.log("Image URL" + $scope.images);
                         console.log($scope.tempImgs.length);
