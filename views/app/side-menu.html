@@ -23,17 +23,17 @@
                             <img class="user-image" ng-if="userimage == ''" ng-src="img/default-user.jpg" spinner-on-load>
                         </pre-img>
                     </div>
-                    <h2 class="greeting">Hi {{username}} </h2>
-                    <p class="message">Welcome</p>
+                   <h2 class="greeting">Hi {{username}} </h2>
+                    <p class="message">{{menutext.welcome[language]}} </p>
                 </ion-item>
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.assistants">
                     <i class="icon ion-home"></i>
-                    <h2 class="menu-text">Home</h2>
+                   <h2 class="menu-text">{{menutext.home[language]}}</h2>
                 </ion-item>
 
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>
-                    <h2 class="menu-text">Logout</h2>
+                      <h2 class="menu-text">{{menutext.logout[language]}}</h2>
                 </ion-item>
 
             </ion-list>

@@ -5,7 +5,6 @@ angular.module('underscore', [])
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
         });
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -72,11 +71,9 @@ angular.module('your_app_name', [
                     console.log("enabling swipe back and restoring transition to platform default", $ionicConfig.views.transition());
                 }
             });
-
             $ionicPlatform.on("resume", function () {
                 PushNotificationsService.register();
             });
-
         })
 
 
@@ -147,17 +144,18 @@ angular.module('your_app_name', [
 
                     .state('app.doctor-consultations', {
                         cache: false,
-                        url: "/doctor-consultations",
+                        url: "/doctor-consultations/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/doctor-consultations.html",
+                                templateUrl: "views/app/consultations/doctor-consultations.html",
                                 controller: 'DoctorConsultationsCtrl'
                             }
                         }
                     })
 
                     .state('app.consultation-past', {
-                        url: "/consultations/past",
+                        cache: false,
+                        url: "/consultations/past/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations/consultations-past.html",
@@ -165,8 +163,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
                     /* assistants */
 
                     .state('app.assistants', {
@@ -191,8 +187,9 @@ angular.module('your_app_name', [
                     })
 
 
+
                     .state('app.disbursement', {
-                        url: "/disbursement",
+                        url: "/disbursement/{mid:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/disbursement.html",
@@ -202,7 +199,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.add-disbursement', {
-                        url: "/add-disbursement",
+                        url: "/add-disbursement/{mid:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/add-disbursement.html",
@@ -212,17 +209,17 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
-                        url: "/search-medicine",
+                        url: "/search-medicine/{key:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/search-medicine.html",
-                                controller: 'SearchMedicineCtrl'
+                                controller: 'SerachInventoryCtrl'
                             }
                         }
                     })
 
                     .state('app.medicine-details', {
-                        url: "/medicine-details",
+                        url: "/medicine-details/{mid:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/medicine-details.html",
@@ -250,8 +247,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
                     .state('app.doctrslist', {
                         url: "/doctrslist",
                         views: {
@@ -263,7 +258,8 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.ass-patient-list', {
-                        url: "/ass-patient-list",
+                        cache: false,
+                        url: "/ass-patient-list/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/ass-patient-list.html",
@@ -272,23 +268,12 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.ass-patient', {
-                        url: "/ass-patient",
+                        url: "/ass-patient/{id:string}/{drId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/ass-patient.html",
                                 controller: 'AssPatientCtrl'
-                            }
-                        }
-                    })
-
-					.state('app.ass-payment', {
-                        url: "/ass-payment",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/assistants/ass-payment.html",
-                                controller: 'AssPaymentCtrl'
                             }
                         }
                     })
@@ -303,7 +288,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-                     .state('app.ass-outgo', {
+                    .state('app.ass-outgo', {
                         url: "/ass-outgo",
                         views: {
                             'menuContent': {
@@ -312,8 +297,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					 .state('app.appointment-list', {
+
+                    .state('app.appointment-list', {
+                        cache: false,
                         url: "/appointment-list",
                         views: {
                             'menuContent': {
@@ -322,8 +308,40 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					 .state('app.new-patient', {
+                    .state('app.past-appointment-list', {
+                        cache: false,
+                        url: "/past-appointment-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/past-appointment-list.html",
+                                controller: 'AppointmentListCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.patient-app-list', {
+                        cache: false,
+                        url: "/patient-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
+                            }
+                        }
+                    })
+                    .state('app.patient-past-app-list', {
+                        cache: false,
+                        url: "/patient-past-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-past-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.new-patient', {
+                        cache: false,
                         url: "/new-patient",
                         views: {
                             'menuContent': {
@@ -332,8 +350,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					 .state('app.app-doctrlist', {
+
+                    .state('app.app-doctrlist', {
                         url: "/app-doctrlist",
                         views: {
                             'menuContent': {
@@ -342,23 +360,67 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-					.state('app.thankyou', {
-                        url: "/thankyou",
+                    .state('app.payment', {
+                        url: "/payment",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/assistants/thankyou.html",
-                                controller: 'AppDoctrlistCtrl'
+                                templateUrl: "views/app/payment.html",
+                                controller: 'PaymentCtrl'
                             }
                         }
                     })
-					
-					
-					
+
+                    .state('app.checkavailable', {
+                        cache: false,
+                        url: "/checkavailable/{data:int}/{uid:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/checkavailable.html",
+                                controller: 'CheckavailableCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.failure', {
+                        url: "/failure/{id:int}/{serviceId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/failure.html",
+                                controller: 'FailureCtrl'
+                            }
+                        }
+                    })
+                    .state('app.thankyou', {
+                        url: "/thankyou/{data:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/thankyou.html",
+                                controller: 'ThankyouCtrl'
+                            }
+                        }
+                    })
                     /* end of assistants */
+                    .state('app.view-note', {
+                        url: "/view-note/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-consultations-note.html",
+                                controller: 'ViewConsultationsNoteCtrl'
+                            }
+                        }
+                    })
+                    .state('app.view-patient-history', {
+                        url: "/consultation-note/view-patient-history",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-patient-history.html",
+                                controller: 'ViewPatientHistoryCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.consultations-note', {
-                        url: "/consultations-note",
+                        url: "/consultations-note/{appId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations-note.html",
@@ -387,6 +449,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
+
 
                     .state('app.family-history', {
                         url: "/consultation-note/family-history",
@@ -546,8 +610,20 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
+                    .state('app.patient-join', {
+                        cache: false,
+                        url: "/patient-join/{id:int}/{mode:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patient-join.html",
+                                controller: 'PatientJoinCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.patient-list', {
+                        cache: false,
                         url: "/patient-list",
                         views: {
                             'menuContent': {
@@ -558,7 +634,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
-                        url: "/patient",
+                        url: "/patient/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/patient.html",
@@ -632,7 +708,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
 
                     .state('app.patient-record', {
                         url: "/patient-record",

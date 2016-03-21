@@ -6,6 +6,8 @@
         <ion-content>        
             <div class="tabcon2">
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                <input type="hidden" value="{{patientId}}" name="patientId" />
+                <input type="hidden" value="{{app.id}}" name="appId" />
                 <input type="hidden" value="Consultation" name="rectype" />
                 <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
                 <div class="fields" ng-repeat="field in fields">                    
@@ -29,48 +31,107 @@
                     </div>
                     <div ng-if="field.field != 'Case Id'">
                         <div ng-if="field.field_types.value == 'text'">
-                            <label class="item item-input item-select" ng-if="field.field == 'Patient'">
-                                <div class="input-label">Patient</div>
-                                <select ng-model="formPatient" name="{{field.name}}" ng-change="getPatientId(formPatient)">
-                                    <option value="0"> Select {{field.field}}</option>
-                                    <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
-                                </select>
-                            </label>
-                            <div ng-if="field.field == 'Consultant'">
-                                <label class="item item-input item-select" >
-                                    <div class="input-label">Doctor</div>
-                                    <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
-                                        <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == userId}}" value="{{doc.id}}">{{doc.fname}}</option>
+                            <div ng-if="appId != 0">
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Patient'">
+                                    <div class="input-label">Patient</div>
+                                    <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" disabled="disabled">
+                                        <option value=""> Select {{field.field}}</option>
+                                        <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
+                                    </select>
+                                </label>
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Consultant'">
+                                    <div class="input-label">Doctor </div>
+                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)" disabled="disabled">
+                                        <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div ng-if="appId == 0">
+                                <label class="item item-input item-select" ng-if="field.field == 'Patient'">
+                                    <div class="input-label">Patient</div>
+                                    <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" >
+                                        <option value=""> Select {{field.field}}</option>
+                                        <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
+                                    </select>
+                                </label>
+                                <label class="item item-input item-select" ng-if="field.field == 'Consultant'">
+                                    <div class="input-label">Doctor </div>
+                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)" >
+                                         <option value=""> Select {{field.field}}</option>
+                                        <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
                             </div>
                         </div>
                         <div ng-if="field.field_types.value == 'date'">
-                            <div ng-if="field.field == 'Consultation Date'">
-                                <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" required />                            
-                                </label>
+                            <div ng-if="appId != 0">
+                                <div ng-if="field.field == 'Consultation Date'">
+                                    <label class="item item-input listreq hide"><span class='input-label'>{{field.field}}</span>
+                                        <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" />                            
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="appId == 0">
+                                <div ng-if="field.field == 'Consultation Date'">
+                                    <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
+                                        <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />                            
+                                    </label>
+                                </div>
                             </div>
                             <div ng-if="field.field == 'Valid till'">
                                 <label class="item item-input listreq hide" id="convalid"><span class='input-label'>{{field.field}} *</span>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" required />                            
+                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
                                 </label>
                             </div>
                         </div>
                         <div ng-if="field.field_types.value == 'time'">
-                            <label class="item item-input listreq">
-                                <span class="input-label" >{{field.field}} </span>
-                                <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />                            
-                            </label>
+                            <div ng-if="appId != 0">
+                                <label class="item item-input listreq hide">
+                                    <span class="input-label" >{{field.field}} </span>
+                                    <input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" disabled="disabled" />                            
+                                </label>
+                            </div>
+                            <div ng-if="appId == 0">
+                                <label class="item item-input listreq">
+                                    <span class="input-label" >{{field.field}} </span>
+                                    <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />                            
+                                </label>
+                            </div>
                         </div>
                         <div ng-if="field.field_types.value == 'select'">
-                            <label class="item item-input item-select" ng-if="field.field == 'Mode'">
-                                <div class="input-label"> {{field.field}}</div>
-                                <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                    <option value="0"> Select {{field.field}}</option>
-                                    <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
-                                </select>
-                            </label>
+                            <div ng-if="appId != 0">
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Mode'" >
+                                    <div class="input-label"> {{field.field}}</div>
+                                    <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
+                                        <option value="0"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Patient Type'" >
+                                    <div class="input-label"> {{field.field}}</div>
+                                    <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
+                                        <option value="0"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div ng-if="appId == 0">
+                                <label class="item item-input item-select" ng-if="field.field == 'Mode'">
+                                    <div class="input-label"> {{field.field}}</div>
+                                    <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                        <option value="0"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                                <label class="item item-input item-select" ng-if="field.field == 'Patient Type'">
+                                    <div class="input-label"> {{field.field}}</div>
+                                    <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                        <option value="0"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                            </div>
+
                             <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
                                 <div class="input-label"> {{field.field}}</div>
                                 <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
@@ -78,7 +139,7 @@
                                     <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
                                 </select>
                             </label>
-                            <label class="item item-input item-select" ng-if="field.field != 'Includes Prescription' && field.field != 'Mode'">
+                            <label class="item item-input item-select" ng-if="field.field != 'Includes Prescription' && field.field != 'Patient Type' && field.field != 'Mode'">
                                 <div class="input-label"> {{field.field}}</div>
                                 <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
                                     <option value="0"> Select {{field.field}}</option>
@@ -120,8 +181,9 @@
                                         <div class="btncamera" ng-click="takePict('{{field.name}}')" ><!-- <i class="ion-android-camera"></i> -->Camera</div>
                                         <!--                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />-->
                                         <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                    </div><br/>
-                                    <div id="camera-status"></div>
+                                        <br/>
+                                        <div id="camera-status"></div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -134,8 +196,8 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Notes</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
-                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
+                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
+                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"-->
                         </div>
                     </div>
                     <div class="innerdiv col-50">

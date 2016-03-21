@@ -1,6 +1,6 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>Doctors</span>
+        <span>{{doctorslang[language]}}</span>
     </ion-nav-title>
     <ion-content>
         <div class="list list-inset">
@@ -10,20 +10,20 @@
             </label>
         </div>
         <div class="list consultview mt15">
-            <h4>{{doctors.length==0?'No Doctors': ''}} </h4>
-            <div class="posts-list" ng-repeat="doc in doctors| filter:search | orderBy:['-doctorpresense.presence','fname', 'lname']">
+            <h4>{{doctors.length==0?'No Doctors': ''}}</h4>
+          
+            <div class="posts-list" ng-repeat="doc in doctors| filter:search | orderBy:['-doctorpresense.presence', 'fname', 'lname']">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
-                        <a ui-sref="app.ass-patient" class="card-content" >
-                         
+                        <a ui-sref="app.ass-patient({id: {{patientId}}, drId: {{doc.id}}})" class="card-content" ui-sref-opts="{reload: true}">
                             <div ng-if="doc.doctorpresense.presence == '1'" class="drstatus">Online</div>
                             <div class="card-left">	
                                 <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
                             </div>
                             <div class="card-detail txt-left">
-                                <p><strong>{{doc.fname}} {{doc.lname}}</strong><br/>
-                                    <span ng-repeat="spec in doc.specializations| filter:search">
-                                        {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
+                                <p><strong>{{doc.user_lang[language]}} </strong><br/>
+                                    <span ng-repeat="spec in doc.specializations">
+                                          {{spec[language]}}{{$last==true? '': ',&nbsp;'}} 
                                     </span></p>
                             </div>
                             <div class="row txt-left">
@@ -33,17 +33,15 @@
                             </div>
                             <div class="row txt-left">
                                 <div class="col"><p><strong>Languages</strong><br/><span ng-repeat="lang in doc.languages">
-                                            {{lang.language}}{{$last==true? '': ',&nbsp;'}}
+                                            {{lang[language]}}{{$last==true? '': ',&nbsp;'}}
                                         </span></p></div>	
                                 <div class="col"><p><strong>Focus Area</strong><br/>
                                         <span ng-repeat="focus in doc.focuses">
-                                            {{focus.focus}}{{$last==true? '': ',&nbsp;'}}
+                                            {{focus[language]}}{{$last==true? '': ',&nbsp;'}}
                                         </span></p></div>	
                             </div>
                             <div class="clr"></div>
-                     
                         </a>
-                        
                     </div>
                 </div>
             </div>

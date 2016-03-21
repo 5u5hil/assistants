@@ -1,0 +1,56 @@
+<ion-view cache-view="false" class="records-view">
+    <ion-nav-title>
+        <span>{{tabmenu.appointment_list[language]}}</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="row tabnav">
+            <div class="col"><a  ui-sref="app.appointment-list" >{{tabmenu.active[language]}}</a></div>
+            <div class="col"><a  ui-sref="app.past-appointment-list" class="active">{{tabmenu.past[language]}}</a></div>
+        </div>
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="search">
+            </label>
+        </div>
+        <h4 class="txt-center"> {{all_app_past.length==0? 'No appointments': ''}}</h4>
+        <div  class="list card post-item" ng-repeat="app in all_data_past| filter:search track by $index" > <!-- | orderBy: 'scheduled_start_time' -->
+            <div class="post-heading item item-text-wrap p0">                
+                <div class="item item-divider" ng-repeat="user in app.user">{{user.fname}} {{user.lname}}</div> <!-- | orderBy: 'scheduled_start_time' -->
+                <div class="p15">
+                    <div ng-if="all_note_past[$index].length > 0">
+                        <a class="btn drstatus" ng-click="viewNote(all_note_past[$index][0].id)">
+                            <span class="icon ion-plus-circled" ></span>View Note
+                        </a>
+                    </div>
+                    <div ng-if="all_note_past[$index].length == 0">
+                        <a ng-click="addCnote(app.id)" class="btn drstatus">
+                            <span class="icon ion-plus-circled"></span> Note
+                        </a>
+                    </div>
+                    <div ng-if="all_note_past.length == 0">
+                        <a ng-click="addCnote(app.id)" class="btn drstatus">
+                            <span class="icon ion-plus-circled"></span> Note
+                        </a>
+                    </div>
+                    <p ng-repeat="doc in app.doct"><strong>{{doc.user_lang[language]}}</strong><br/> <!-- | orderBy: 'scheduled_start_time'-->
+                        <span ng-repeat="spec in doc.specializations">
+                            {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
+                        </span>
+                    </p>
+                    <p><strong>Mode : </strong> {{app.app.mode==1? 'Video': app.app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}</p>
+                    <p><strong>Appointment Time : </strong> {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}</p>
+                </div>
+                <div class="post-actions  post-footer p0">
+                    <div class="row cardbtn-small p0">
+                        <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.status==6?'Patient no-show':app.status==7?'Doctor no-show':''}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="fixedbar">
+        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
+    </div>
+
+</ion-view>
