@@ -8568,7 +8568,10 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
 .card-content{    padding: 10px 10px 5px 10px; text-align:justify; position:relative; display:block; text-decoration:none;}
 .card-content a{ text-decoration:none; }
 .user-image-circle{width:55px; height:55px; border-radius:50%; border:1px #ccc solid; margin:0 15px 0px 0; float:left; display:inline-block;}
-.cbtn{ text-align:center; padding:5px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+.cbtn{ text-align:center; padding:9px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+
+
+
 .p0{padding:0;}
 .f33{font-size:33px;}
 .card-left{width:50px; float:left;}
@@ -9059,7 +9062,12 @@ span.count-t{    display: inline-block;
 
 .btn-delete,.btn-delete.activated{background:#ef473a;}
 .btn-share,.btn-share.activated{background:#387ef5;}
-.btn-add,.btn-add.activated{background:#28a54c; /*green */}
+.btn-add,.btn-add.activated,.bg-green,.spbtn{background:#28a54c; /*green */}
+.spbtn{color:#fff;
+       margin: 0 15px;
+       border-radius: 5px;
+       border: 0;
+}
 .btn-edit,.btn-edit.activated{background:#28a54c;}
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
@@ -9248,13 +9256,15 @@ h1.post-title{font-size:26px;}
 .lhref{display:block; text-decoration:none;}
 .infoheader{padding: 10px 15px;
 
-    margin-bottom: 25px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.4);}
+            margin-bottom: 25px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.4);}
 .agreelink a{text-decoration:none; color:#387ef5;}
 .card-date{border-top: 1px #eee solid;
-    padding: 5px 0 0 0;
-    margin: 8px 0 0 0;}
-
+           padding: 5px 0 0 0;
+           margin: 8px 0 0 0;}
+.toggle-view-anchor{right: 10px;}
+.ditem-content{margin: 10px 15px;}
+.Ditemselect{padding: 10px ! important;}
 /* added by leena */
 .listck{    position: absolute;
             left: 9px;

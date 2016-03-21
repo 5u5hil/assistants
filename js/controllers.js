@@ -3030,7 +3030,22 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#coninprec').removeClass('hide');
                 }
             };
+
         })
+
+    .controller('selectPatientCtrl',function($scope, $ionicModal){
+
+            $ionicModal.fromTemplateUrl('selectpatient', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+    })
+
+
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = window.localStorage.getItem('patientId');
