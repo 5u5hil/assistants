@@ -95,22 +95,35 @@
     </ion-modal-view>
 -->
 <script id="addp" type="text/ng-template">
- <ion-modal-view>
+  <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">{{add_patient[language]}}</h1>
     <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
-    <ion-content >
+    <ion-content>
+    <div ng-if="doctrs.length==1">
+    <input type="hidden" name="doctrid" value="{{doctrs[0].id}}" />
+    </div>
+    <div ng-if="doctrs.length>1">
+    <label class="item item-input item-select" >
+    <div class="input-label">Select Doctor</div>
+    <select name="doctrid" ng-model="drId" required>
+    <option value="" >Select </option>
+    <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}} {{doc.lname}}</option>
+    </select>
+    <div ng-show="addpatient.doctrid.$error.required" class="serror">Doctor Name is required.</div>
+    </label>
+    </div>
+    
     <div class="item item-divider">Name</div>
     <label class="item item-input">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
     <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
     </label>
-    <input type="hidden" name="doctrid" value="{{drId}}" ng-model="drId" />
+    <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
-     <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <div class="item item-divider">Aadhar Id</div>
     <label class="item item-input">
     <input type="number" name="adhar" placeholder="Aadhar Id">
@@ -132,14 +145,14 @@
     </ion-list>			
     <div class="item item-divider">Date Of Birth</div> 	
     <label class="item item-input">
-    <input type="date" placeholder="DOB" ng-model="curTime" value="{{curTime|dateFormat4}}" name="dob">
+    <input type="date" placeholder="DOB" value={{curTime|dateFormat4}} ng-model="curTime" name="dob">
     </label>
 
     </ion-content>
     <div class="fixedbar">
     <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{submit[language]}}</button>
     </div>
-    </form> 
+    </form>
     </ion-modal-view>
 </script>
 

@@ -14,42 +14,37 @@
             </label>
         </div>
         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_app track by $index" > <!--| orderBy: 'scheduled_start_time'-->
+        <div  class="list card post-item" ng-repeat="app in all_data | filter:search track by $index" > <!--| orderBy: 'scheduled_start_time'-->
             <div class="post-heading item item-text-wrap p0">
-                <div class="item item-divider" ng-repeat="user in all_usersData[$index]">{{user.fname}} {{user.lname}}</div> <!--| orderBy: 'scheduled_start_time'-->
+                <div class="item item-divider" ng-repeat="user in app.user">{{user.fname}} {{user.lname}}</div> <!--| orderBy: 'scheduled_start_time'-->
                 <div class="p15">
-                    <div ng-if="all_note[$index].length > 0">
-                        <a class="btn drstatus" ng-click="viewNote(all_note[$index][0].id)">
+                    <div ng-if="app.note.length > 0">
+                        <a class="btn drstatus" ng-click="viewNote(app.note[0].id)">
                             <span class="icon ion-plus-circled"></span>View Note
                         </a>
                     </div>
-                    <div ng-if="all_note[$index].length == 0">
-                        <a ng-click="addCnote(app.id)"  class="btn drstatus">
+                    <div ng-if="app.note.length == 0">
+                        <a ng-click="addCnote(app.app.id)"  class="btn drstatus">
                             <span class="icon ion-plus-circled"></span> Note
                         </a>
-                    </div>
-                    <div ng-if="all_note.length == 0">
-                        <a ng-click="addCnote(app.id)" class="btn drstatus">
-                            <span class="icon ion-plus-circled"></span> Note
-                        </a>
-                    </div>
-                    <p ng-repeat="doc in all_doctor[$index]| filter:search"><strong>{{doc.user_lang[language]}}</strong><br/>
+                    </div>                    
+                    <p ng-repeat="doc in app.doct"><strong>{{doc.user_lang[language]}}</strong><br/>
                         <span ng-repeat="spec in doc.specializations">
                             {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
                         </span>
                     </p>
-                    <p><strong>Mode : </strong> {{app.mode==1? 'Video': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}</p>
-                    <p><strong>Appointment Time : </strong> {{app.scheduled_start_time|dateFormat3}}, {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}}</p>
+                    <p><strong>Mode : </strong> {{app.app.mode==1? 'Video': app.app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}</p>
+                    <p><strong>Appointment Time : </strong> {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}</p>
                 </div>
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.id, prod.user_id, app.mode, app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.app.id, prod.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app..id prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.app.id, prod.app.user_id, app.app.mode, app.app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.mode == 1"><a  ng-click="joinVideo(app.mode, all_time[$index], all_end_time[$index], app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
-                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 1"><a  ng-click="joinVideo(app.app.mode, all_time[$index], all_end_time[$index], app.app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
                         </div>
                     </div>
                 </div>

@@ -147,12 +147,488 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
+        .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+            $scope.patientId = $stateParams.id;
+            $scope.catIds = [];
+            $scope.catId = [];
+            $scope.docId = '';
+            $scope.userId = get('id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-patient-record-category',
+                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.categories = response.data.categories;
+                $scope.doctrs = response.data.doctrs;
+                $scope.userRecords = response.data.recordCount;
+                $scope.patient = response.data.patient;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.getIds = function (id) {
+                console.log(id);
+                if ($scope.catId[id]) {
+                    $scope.catIds.push(id);
+                } else {
+                    var index = $scope.catIds.indexOf(id);
+                    $scope.catIds.splice(index, 1);
+                }
+                console.log($scope.catIds);
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete all Records by category
+            $scope.delete = function () {
+                if ($scope.catIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.catIds);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            $state.go('app.createdbyu', {id: $scope.patientId}, {reload:true});
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.catIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.catIds);
+                            $http({
+                                method: 'POST',
+                                url: domain + 'assistrecords/share-all',
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                    $state.go('app.createdbyu', {id: $scope.patientId}, {reload:true});
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
+
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.category = [];
+            $scope.catId = $stateParams.id;
+            $scope.patientId = $stateParams.patientId;
+            $scope.limit = 3;
+            $scope.recId = [];
+            $scope.recIds = [];
+            $scope.userId = get('id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-records-details',
+                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.records = response.data.records;
+                if ($scope.records.length != 0) {
+                    if ($scope.records[0].record_metadata.length == 6) {
+                        $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                    }
+                }
+                $scope.category = response.data.category;
+                $scope.doctors = response.data.doctors;
+                $scope.problems = response.data.problems;
+                $scope.cases = response.data.cases;
+                $scope.patient = response.data.patient;
+                $scope.doctrs = response.data.shareDoctrs;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $scope.getRecords = function (cat) {
+                console.log(cat);
+                $scope.catId = cat;
+                //$stateParams.id = cat;
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistrecords/get-records-details',
+                    params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.records = response.data.records;
+                    if ($scope.records.length != 0) {
+                        if ($scope.records[0].record_metadata.length == 6) {
+                            $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                        }
+                    }
+                    $scope.doctrs = response.data.shareDoctrs;
+                    //$scope.category = response.data.category;
+                    console.log($scope.catId);
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+                $rootScope.$digest;
+            };
+//            $scope.addRecord = function () {
+//                $state.go('app.add-category', {'id': button.id}, {reload: true});
+//            };
+            //Delete Records by Category
+            $scope.getRecIds = function (id) {
+                console.log(id);
+                if ($scope.recId[id]) {
+                    $scope.recIds.push(id);
+                } else {
+                    var index = $scope.recIds.indexOf(id);
+                    $scope.recIds.splice(index, 1);
+                }
+                console.log($scope.recIds);
+
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete all Records by category
+            $scope.delete = function () {
+                if ($scope.recIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.recIds);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/delete-by-category',
+                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            $timeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.recIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.recIds);
+                            $http({
+                                method: 'POST',
+                                url: domain + 'records/share-by-category',
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                    $timeout(function () {
+                                        window.location.reload();
+                                    }, 1000);
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            // Delete and share buttons hide show
+            $scope.recordDelete = function () {
+                jQuery('.selectrecord').css('display', 'block');
+                jQuery('.btview').css('display', 'none');
+                jQuery('#rec1').css('display', 'none');
+                jQuery('#rec3').css('display', 'block');
+
+            };
+            $scope.recordShare = function () {
+                jQuery('.selectrecord').css('display', 'block');
+                jQuery('.btview').css('display', 'none');
+                jQuery('#rec1').css('display', 'none');
+                jQuery('#rec2').css('display', 'block');
+
+            }
+            $scope.CancelAction = function () {
+                jQuery('.selectrecord').css('display', 'none');
+                jQuery('.btview').css('display', 'block');
+                jQuery('#rec1').css('display', 'block');
+                jQuery('#rec2').css('display', 'none');
+                jQuery('#rec3').css('display', 'none');
+            };
+
+            $scope.selectcheckbox = function ($event) {
+                console.log($event);
+                // if($event==true){
+                // jQuery(this).addClass('asd123');
+                // }
+            };
+            //Show share model
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+
+
+            $scope.print = function () {
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+                var print_page = '<img src="http://stage.doctrs.in/public/frontend/uploads/attachments/7V7Lr1456500103323.jpg"  height="600" width="300" />';
+                //console.log(print_page);  
+                cordova.plugins.printer.print(print_page, 'alpha', function () {
+                    alert('printing finished or canceled');
+                });
+            };
+        })
+
+        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+            $scope.recordId = $stateParams.id;
+            $scope.userId = get('id');
+            $scope.patientId = $stateParams.patientId;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.isNumber = function (num) {
+                return angular.isNumber(num);
+            }
+            $http({
+                method: 'GET',
+                url: domain + 'records/get-record-details',
+                params: {id: $stateParams.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.category = response.data.record;
+                $scope.problem = response.data.problem;
+                $scope.doctors = response.data.doctrs;
+                $scope.doctrs = response.data.shareDoctrs;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            //DELETE Modal
+            $scope.delete = function (id) {
+                console.log($scope.category[0].category);
+                $http({
+                    method: 'POST',
+                    url: domain + 'records/delete',
+                    params: {id: id}
+                }).then(function successCallback(response) {
+                    alert("Record deleted successfully!");
+                    $timeout(function () {
+                        $state.go('app.records-view', {'id': $scope.category[0].category}, {}, {reload: true});
+                        //$state.go('app.category-detail');
+                    }, 1000);
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.docId != '') {
+                    var confirm = window.confirm("Do you really want to share?");
+                    if (confirm) {
+                        console.log($scope.recordId);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/share',
+                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId}
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            if (response.data == 'Success') {
+                                alert("Records shared successfully!");
+                                $timeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+
+                    }
+                } else {
+                    alert("Please select doctor to share with!");
+                }
+            };
+            //EDIT Modal
+//            $scope.edit = function (id, cat) {
+//                $state.go('app.edit-record', {'id': id, 'cat': cat});
+//                //window.location.href = "http://192.168.2.169:8100/#/app/edit-record/" + id + "/" + cat;
+//            };
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.modal.show();
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+
+            //Show share model
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
+
+        .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+            $scope.patientId = $stateParams.id;
+            $scope.userId = get('id');
+            $scope.catIds = [];
+            $scope.catId = [];
+            $scope.docId = '';
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-patients-shared-record-category',
+                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.categories = response.data.categories;
+                $scope.doctrs = response.data.doctrs;
+                $scope.userRecords = response.data.recordCount;
+                $scope.patient = response.data.patient;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.getIds = function (id) {
+                console.log(id);
+                if ($scope.catId[id]) {
+                    $scope.catIds.push(id);
+                } else {
+                    var index = $scope.catIds.indexOf(id);
+                    $scope.catIds.splice(index, 1);
+                }
+                console.log($scope.catIds);
+            };
+            $scope.getDocId = function (id) {
+                console.log(id);
+                $scope.docId = id;
+            };
+            //Delete all Records by category
+            $scope.delete = function () {
+                if ($scope.catIds.length > 0) {
+                    var confirm = window.confirm("Do you really want to delete?");
+                    if (confirm) {
+                        console.log($scope.catIds);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'records/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId}
+                        }).then(function successCallback(response) {
+                            alert("Records deleted successfully!");
+                            $timeout(function () {
+                                window.location.reload();
+                                //$state.go('app.category-detail');
+                            }, 1000);
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+                } else {
+                    alert("Please select records to delete!");
+                }
+            };
+            //Share all records by Category
+            $scope.share = function () {
+                if ($scope.catIds.length > 0) {
+                    if ($scope.docId != '') {
+                        var confirm = window.confirm("Do you really want to share?");
+                        if (confirm) {
+                            console.log($scope.catIds);
+                            $http({
+                                method: 'POST',
+                                url: domain + 'assistrecords/share-all',
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId}
+                            }).then(function successCallback(response) {
+                                console.log(response);
+                                if (response.data == 'Success') {
+                                    alert("Records shared successfully!");
+                                    $timeout(function () {
+                                        window.location.reload();
+                                    }, 1000);
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        }
+                    } else {
+                        alert("Please select doctor to share with!");
+                    }
+                } else {
+                    alert("Please select records to share!");
+                }
+            };
+            $ionicModal.fromTemplateUrl('share', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
         })
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.specId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             console.log(get('patientId'));
@@ -164,8 +640,9 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-doctrs-list',
-                params: {userId: $scope.userId, interface: $scope.interface}
+                params: {userId: $scope.userId, id: $stateParams.id, interface: $scope.interface}
             }).then(function successCallback(response) {
+                console.log(response);
                 $scope.active = response.data.active;
                 $scope.book = response.data.book;
                 $scope.past = response.data.past;
@@ -174,7 +651,9 @@ angular.module('your_app_name.controllers', [])
                 $scope.focus_area = response.data.focus_area;
                 $scope.lang = response.data.languages;
                 $scope.language = response.data.lang.language;
+                $scope.langtext = response.data.data;
                 $scope.doctors = response.data.user;
+                $scope.spec = response.data.spec;
             }, function errorCallback(e) {
                 console.log(e.responseText);
             });
@@ -182,7 +661,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter, $state) {
-            $scope.userId = window.localStorage.getItem('id');
+            $scope.userId = get('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.users = {};
@@ -264,6 +743,32 @@ angular.module('your_app_name.controllers', [])
             } else {
                 $state.go('auth.walkthrough', {}, {reload: true});
             }
+        })
+
+        .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
+
+            $scope.dnlink = function ($nurl) {
+                $state.go($nurl);
+            }
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.imgpath = domain;
+            $scope.specializations = [];
+            $scope.userId = get('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/get-doctrs-spec',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $ionicLoading.hide();
+                console.log(response.data);
+                $scope.specializations = response.data.spec;
+                $scope.language = response.data.lang.language;
+                $scope.langtext = response.data.langText;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
         })
 
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
@@ -1147,92 +1652,6 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        /*.controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
-         $scope.userId = window.localStorage.getItem('id');
-         $scope.interface = window.localStorage.getItem('interface_id');
-         $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-         $http({
-         method: 'GET',
-         url: domain + 'assistapp/get-all-app',
-         params: {userId: $scope.userId, interface:$scope.interface}
-         }).then(function successCallback(response) {
-         console.log(response.data);
-         $scope.tabmenu = response.data.tabmenu;
-         $scope.language = response.data.lang.language;
-         
-         //end past section
-         $scope.all_app = response.data.all_appointments;
-         $scope.all_usersData = response.data.all_usersData;
-         $scope.all_doctor = response.data.all_doctor;
-         $scope.all_products = response.data.all_products;
-         $scope.all_time = response.data.all_time;
-         $scope.all_end_time = response.data.all_end_time;
-         //past section //
-         $scope.all_app_past = response.data.all_appointments_past;
-         $scope.all_doctor_past = response.data.all_doctor_past;
-         $scope.all_usersData_past = response.data.all_usersData_past;
-         $scope.all_products_past = response.data.all_products_past;
-         $scope.all_time_past = response.data.all_time_past;
-         $scope.all_end_time_past = response.data.all_end_time_past;
-         //end past section//
-         }, function errorCallback(e) {
-         console.log(e);
-         });
-         $scope.cancelAppointment = function (appId, drId, mode, startTime) {
-         $scope.appId = appId;
-         $scope.userId = get('id');
-         $scope.drId = drId;
-         $scope.cancel = '';
-         console.log(drId);
-         console.log(startTime);
-         var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
-         console.log(curtime);
-         var timeDiff = getTimeDiff(startTime, curtime);
-         console.log(timeDiff);
-         if (timeDiff < 15) {
-         if (mode == 1) {
-         alert("Appointment can not be cancelled now!");
-         } else {
-         //ask 4 options
-         
-         }
-         } else {
-         if (mode == 1) {
-         $http({
-         method: 'GET',
-         url: domain + 'appointment/cancel-app',
-         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-         }).then(function successCallback(response) {
-         console.log(response.data);
-         if (response.data == 'success') {
-         alert('Your appointment is cancelled successfully.');
-         $state.go('app.doctor-consultations', {}, {reload: true});
-         } else {
-         alert('Sorry your appointment is not cancelled.');
-         }
-         $state.go('app.consultations-list', {}, {reload: true});
-         }, function errorCallback(response) {
-         console.log(response);
-         });
-         } else if (mode == 3 || mode == 4) {
-         //ask for 2 options
-         }
-         }
-         };
-         $scope.joinVideo = function (mode, start, end, appId, patientId) {
-         console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===Dr " + patientId);
-         if ($scope.curTime >= start || $scope.curTime <= end) {
-         console.log('redirect');
-         window.localStorage.setItem("patientId", patientId);
-         //$state.go('app.patient-join', {}, {reload: true});
-         $state.go('app.patient-join', {'id': appId, 'mode': mode}, {reload: true});
-         } else {
-         alert("You can join video before 15 minutes.");
-         }
-         };
-         })
-         */
-
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -1369,6 +1788,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
                 //end past section
+                $scope.all_data = response.data.all_data;
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
                 $scope.all_doctor = response.data.all_doctor;
@@ -1377,6 +1797,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
                 //past section //
+                $scope.all_data_past = response.data.all_data_past;
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_doctor_past = response.data.all_doctor_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
@@ -1485,7 +1906,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
                 $scope.doctrs = response.data.doctrs;
-
                 $scope.patient_list = response.data.patient_list;
                 $scope.add = response.data.add;
                 $scope.add_patient = response.data.add_patient;
@@ -1852,14 +2272,10 @@ angular.module('your_app_name.controllers', [])
                 $scope.userP = response.data.userP;
                 $scope.service = response.data.service;
                 $scope.medicine = response.data.medicine;
-
                 //$scope.searchkey  = searchkey
-
             }, function errorCallback(response) {
                 console.log(response);
             });
-
-
         })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -1893,7 +2309,6 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('AddDisbursementCtrl', function ($scope, $state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
-
             $scope.medicineId = '';
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
@@ -1983,15 +2398,11 @@ angular.module('your_app_name.controllers', [])
                 }, function errorCallback(response) {
                     console.log(response);
                 });
-
-
                 $scope.gotodisbursement = function () {
                     alert($scope.mid);
                     $rootScope.dataitem = $scope.dataitem;
                     $state.go('app.disbursement', {'mid': $scope.mid}, {reload: true});
-                }
-
-
+                };
             };
 
             $ionicModal.fromTemplateUrl('infomedicine', {
@@ -2002,11 +2413,6 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-        })
-
-        .controller('SharedwithuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
         })
 
         .controller('ContentLibraryListCtrl', function ($scope, $http, $stateParams) {
@@ -2830,27 +3236,92 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
-            $scope.noteId = $stateParams.id;
+//            $scope.noteId = $stateParams.id;
+//            $scope.userId = window.localStorage.getItem('id');
+//            $scope.record = {};
+//            $scope.recordDetails = {};
+//            $scope.problems = {};
+//            $scope.doctrs = {};
+//            $scope.patients = {};
+//            $scope.cases = {};
+//            $http({
+//                method: 'GET',
+//                url: domain + 'assistrecords/get-patient-history-details',
+//                params: {noteId: $scope.noteId, userId: $scope.userId, interface: $scope.interface}
+//            }).then(function successCallback(response) {
+//                console.log(response.data);
+//                $scope.record = response.data.record;
+//                $scope.recordDetails = response.data.recordsDetails;
+//                $scope.problems = response.data.problem;
+//                $scope.doctrs = response.data.doctrs;
+//                $scope.patients = response.data.patient;
+//                $scope.cases = response.data.caseData;
+//                console.log($scope.recordDetails);
+//            }, function errorCallback(response) {
+//                console.log(response);
+//            });
+
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.catId = 'Patient History';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
+            $scope.gend = '';
             $scope.userId = window.localStorage.getItem('id');
-            $scope.record = {};
-            $scope.recordDetails = {};
-            $scope.problems = {};
-            $scope.doctrs = {};
-            $scope.patients = {};
-            $scope.cases = {};
+            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            $scope.curTime = new Date();
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
-                url: domain + 'assistrecords/get-patient-history-details',
-                params: {noteId: $scope.noteId, userId: $scope.userId, interface: $scope.interface}
+                url: domain + 'assistrecords/get-about-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
-                console.log(response.data);
+                console.log(response.data.abt);
                 $scope.record = response.data.record;
-                $scope.recordDetails = response.data.recordsDetails;
-                $scope.problems = response.data.problem;
+                $scope.fields = response.data.fields;
+                $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
-                $scope.patients = response.data.patient;
-                $scope.cases = response.data.caseData;
-                console.log($scope.recordDetails);
+                $scope.patients = response.data.patients;
+                $scope.cases = response.data.cases;
+                $scope.abt = response.data.abt;
+                console.log(response.data.patients[0].dob);
+                if (response.data.dob) {
+                    $scope.dob = new Date(response.data.dob);
+                } else if (response.data.patients[0].dob != '0000-00-00') {
+                    $scope.dob = new Date(response.data.patients[0].dob);
+                } else {
+                    $scope.dob = new Date();
+                }
+                //$scope.dob = $filter('date')(response.data.dob, 'MM dd yyyy');
+                if ($scope.abt.length > 0) {
+                    angular.forEach($scope.abt, function (val, key) {
+                        console.log(val.fields.field + "==" + val.value);
+                        var field = val.fields.field;
+                        if (field.toString() == 'Gender') {
+                            console.log(field);
+                            $scope.gender = val.value;
+                        }
+                    });
+                } else {
+                    if (response.data.patients[0].gender == 1) {
+                        $scope.gender = 'On';
+                        $scope.gend = 'Male';
+                    } else if (response.data.patients[0].gender == 2) {
+                        $scope.gender = 'On';
+                        $scope.gend = 'Female';
+                    }
+                }
+                console.log($scope.gender);
+                $scope.selCondition = response.data.knConditions;
+                if ($scope.selCondition.length > 0) {
+                    angular.forEach($scope.selCondition, function (val, key) {
+                        $scope.conIds.push(val.id);
+                        $scope.selConditions.push({'condition': val.condition});
+                    });
+                }
+                $scope.conditions = response.data.conditions;
+                console.log($scope.conIds);
             }, function errorCallback(response) {
                 console.log(response);
             });
