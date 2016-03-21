@@ -281,8 +281,7 @@ angular.module('your_app_name.controllers', [])
                     scope: $scope,
                     buttons: [
                         {text: 'Cancel'},
-                        {
-                            text: '<b>Ok</b>',
+                        {  text: '<b>Ok</b>',
                             type: 'button-positive',
                             onTap: function (e) {
                                 if (!$scope.data.wifi) {
