@@ -8568,7 +8568,10 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
 .card-content{    padding: 10px 10px 5px 10px; text-align:justify; position:relative; display:block; text-decoration:none;}
 .card-content a{ text-decoration:none; }
 .user-image-circle{width:55px; height:55px; border-radius:50%; border:1px #ccc solid; margin:0 15px 0px 0; float:left; display:inline-block;}
-.cbtn{ text-align:center; padding:5px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+.cbtn{ text-align:center; padding:9px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+
+
+
 .p0{padding:0;}
 .f33{font-size:33px;}
 .card-left{width:50px; float:left;}
@@ -9059,7 +9062,12 @@ span.count-t{    display: inline-block;
 
 .btn-delete,.btn-delete.activated{background:#ef473a;}
 .btn-share,.btn-share.activated{background:#387ef5;}
-.btn-add,.btn-add.activated{background:#28a54c; /*green */}
+.btn-add,.btn-add.activated,.bg-green,.spbtn{background:#28a54c; /*green */}
+.spbtn{color:#fff;
+       margin: 0 15px;
+       border-radius: 5px;
+       border: 0;
+}
 .btn-edit,.btn-edit.activated{background:#28a54c;}
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
@@ -9248,14 +9256,83 @@ h1.post-title{font-size:26px;}
 .lhref{display:block; text-decoration:none;}
 .infoheader{padding: 10px 15px;
 
-    margin-bottom: 25px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.4);}
+            margin-bottom: 25px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.4);}
 .agreelink a{text-decoration:none; color:#387ef5;}
 .card-date{border-top: 1px #eee solid;
-    padding: 5px 0 0 0;
-    margin: 8px 0 0 0;}
+           padding: 5px 0 0 0;
+           margin: 8px 0 0 0;}
+.toggle-view-anchor{right: 10px;}
+.ditem-content{margin: 10px 15px;}
+.Ditemselect{padding: 10px ! important;}
+/* added by leena */
+.listck{    position: absolute;
+            left: 9px;
+            top: 27%;
+            padding: 3px;
+            background: #000;
+            z-index: 9999;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;}
 
+.listck:before{content:''; display:block; border-radius:50%; position:absolute; background:#000; top:-50%; left:-50%;}
+.clistck{      position: absolute;
+               top: 2px;
+               z-index: 9;
+               width: 50px;
+               border: 0;
+               padding: 14px 5px 0 0;
+               /* background: #fff; */
+               height: 95%;}
+.crecordlist{position:relative;}
+.crecordlist .item-checkbox{padding-left: 11px;
+                            border: 0;}
+.crecordlist .item-checkbox{background:none;}
+.crecordlist .item-content.disable-pointer-events{display:none !important; }
+.action-sheet-cancel,.action-sheet-cancel button{background:#387ef5 !important;}
+.action-sheet-cancel .button{color:#fff !important; text-align:center !important;}
 
+.cselect{    position: static !important;
+             width: 100%;
+             direction: ltr !important;
+             padding: 8px 0 8px 0px !important;
+             /* font-weight:bold; */
+}
+
+.card-viewbtn{text-align: center;
+              background: #387ef5; 
+              padding: 5px;
+              margin-top: 5px; color:#fff;  /* border:1px #387ef5 solid; */
+}
+.attachcard{ display:block; font-size:20px; margin:5px 0; text-align:center; position:relative;}
+.selectrecord{display:none;}
+.selectrecord label{padding:6px 5px 5px 50px; /* background:#387ef5;  *//* text-align:center;  */    margin-top: 4px;     border-radius: 0px !important;}
+.selectrecord label.cactive  span{color:#fff; }
+.selectrecord label span{color:#387ef5; }
+.selectrecord  label .checkbox-icon:before{  border-width: 0;
+                                             background: none;
+                                             border: 1px #387ef5 solid;
+                                             width: 100% !important;
+                                             margin-left: 0 !important;
+                                             margin-top: 0 !important; height:85% !important;}
+
+.selectrecord.active{display:block;}
+.rec2, .rec3{display:none;}
+.rec3 a{width:50%;    width: 50% !important;
+        border: 0;
+        border-radius: 0px !important;}
+.rec2 a{width:50%;    width: 50% !important;
+        border: 0;
+        border-radius: 0px !important;}
+
+.selectrecord input[type="checkbox"],.selectrecord  .checkbox-icon{width:auto !important;     height: 30px;}
+.selectrecord .item-content.disable-pointer-events{position:absolute; z-index:99; left:40%; top:10px;}
+.selectrecord .item.item-checkbox{height:32px; position:relative; }
+.selectrecord .checkbox input:before, .selectrecord .checkbox-icon:before{border-radius:0;}
+.selectrecord .item-checkbox .checkbox{left:0; right:0; top:0;   margin-top:0 !important;}
+.btview a{text-decoration:none;}
+/* added by leena END */
 /* endcss */
 
 

@@ -5,34 +5,48 @@
     <ion-content>
         <div class="content-section">
             <div class="list card" style="margin:0;">
-                <div class="item item-body allp" ng-repeat="doc in doctor">
-                    <p><strong>Doctor:  {{doc.user_lang[language]}}</strong><br/>
+                <div class="allp" ng-repeat="doc in doctor">
+                <div class="item item-divider">Doctor</div>
+
+                    <div class="ditem-content"><strong>{{doc.user_lang[language]}}</strong><br/>
                         <span ng-repeat="spec in doc.specializations">
                             {{spec.specialization}},   
                         </span>
-                    </p>
-                    <p><strong>Patient: {{patient[0].fname}} {{patient[0].lname}}</strong><br/>
+                    </div>
+                        <div class="item item-divider">Patient</div>
+                     <div class="ditem-content"><strong>{{patient[0].fname}} {{patient[0].lname}}</strong><br/>
                         {{patient[0].phone}}
-                    </p>
+                    </div>
                     <!--<p><strong>Qualification</strong><br/>MBBS,MD</p>-->
 
-                    <ul class="clist">
-                        <li ng-repeat="pro in product">{{pro.desc}}, {{pro.mode}} </li>
-                        <li ng-repeat="pInc in  prod_inclusion track by $index">{{pInc.mode}}, {{pInc.desc}},
-                            <span ng-if="pInc.discount < 100">Discount : {{pInc.discount}} %</span>, {{pInc.validity_in_days}} Days</li>
-                    </ul>
-                    <p ng-if="product[0].mode != 'Chat'"><strong>Appointment Details:</strong> <br/> 
-                        <span ng-if="startSlot">
-                            <strong>Date: </strong> {{startSlot| dateFormat3}} <br/>
-                            <strong>Time: </strong> {{startSlot| time1}} To {{endSlot| time1}}<br/>
+                    
+
+                    <div class="item item-divider" ng-if="product[0].mode != 'Chat'">Appointment Details</div>
+                    <div class="ditem-content" ng-if="product[0].mode != 'Chat'">
+
+                            
+
+                        <span ng-repeat="pro in product">  
+                        <strong>Mode : </strong> {{pro.desc}}, {{pro.mode}} <br/>
+                         <!-- <strong>Discount : </strong> 
+                   <span ng-if="pInc.discount < 100">Discount : {{pInc.discount}} %</span>, {{pInc.validity_in_days}} Days -->
+                         </span>
+
+
+                            <span ng-repeat="pInc in  prod_inclusion track by $index">  <strong>Discount : </strong> {{pro.desc}}, {{pro.mode}}  </span>   
+
+                          <span ng-if="startSlot">
+                            <strong>Date : </strong> {{startSlot| dateFormat3}} <br/>
+                            <strong>Time : </strong> {{startSlot| time1}} To {{endSlot| time1}}<br/>
                         </span>
                         <span ng-if="!startSlot">
-                            <strong>Date: </strong> {{curTime| dateFormat3}} <br/>
-                            <strong>Time: </strong> {{IVstartSlot| time1}} To {{IVendSlot| time1}}<br/>
+                            <strong>Date : </strong> {{curTime| dateFormat3}} <br/>
+                            <strong>Time : </strong> {{IVstartSlot| time1}} To {{IVendSlot| time1}}<br/>
                         </span>
-                        <!---<strong>Mode: </strong> Video<br/>
-                        <strong>Address: </strong> 10AM to 11AM <br/>-->
-                    </p>
+
+                    </div>
+
+                   
                 </div>
             </div>
         </div>

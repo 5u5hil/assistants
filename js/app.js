@@ -142,6 +142,17 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.consultations-list', {
+                        //cache: false,
+                        url: "/consultations-list",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultations/consultations-list.html",
+                                controller: 'ConsultationsListCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.doctor-consultations', {
                         cache: false,
                         url: "/doctor-consultations/{id:int}",
@@ -248,7 +259,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.doctrslist', {
-                        url: "/doctrslist",
+                        url: "/doctrslist/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/doctrslist.html",
@@ -410,7 +421,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.view-patient-history', {
-                        url: "/consultation-note/view-patient-history",
+                        url: "/consultation-note/view-patient-history/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/view-patient-history.html",
@@ -561,7 +572,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.createdbyu', {
-                        url: "/createdbyu",
+                        url: "/createdbyu/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/createdbyu.html",
@@ -570,8 +581,30 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.records-view', {
+                        cache: false,
+                        url: "/records-view/{id:int}/{patientId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/records/records-view.html",
+                                controller: 'RecordsViewCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.record-details', {
+                        cache: false,
+                        url: "/record-details/{id:int}/{patientId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/records/record-details.html",
+                                controller: 'RecordDetailsCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.sharedwithu', {
-                        url: "/sharedwithu",
+                        url: "/sharedwithu/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/sharedwithu.html",

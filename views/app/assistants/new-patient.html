@@ -2,9 +2,9 @@
     <ion-nav-title>
         <span>{{patient_list[language]}}</span>
     </ion-nav-title>
-    <ion-nav-buttons side="right">
+    <!--<ion-nav-buttons side="right">
         <div ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"></div>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
 
     <ion-content>
         <div class="list list-inset">
@@ -42,6 +42,10 @@
     <!-- 	 <div class="fixedbar">
       <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
            </div> -->
+
+ <div class="fixedbar">
+        <div class="button btn-add" ng-click="modal.show();"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</div>
+    </div>
 </ion-view>
 
 <script id="addnewpatient" type="text/ng-template">

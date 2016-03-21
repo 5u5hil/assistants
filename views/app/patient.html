@@ -26,14 +26,14 @@
         </div>	
         <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
         <div class="list twocolumn">
-            <a class="item" ui-sref="#"><h2 class="ctitle">Patient</h2></a>
+            <a class="item" ui-sref="app.view-patient-history({id: patientDetails.id})"><h2 class="ctitle">Patient</h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
         </div>	
-<!--        <div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
+        <div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
         <div class="list twocolumn">
-            <a class="item" ui-sref="app.createdbyu"><h2 class="ctitle">Created by you    <span class="count2">15</span></h2></a>
+            <a class="item" ui-sref="app.createdbyu({id: patientDetails.id})"><h2 class="ctitle">Created by you    <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Shared with you <span class="count2">10</span></h2></a>
-        </div>-->
+        </div>
         <div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.patient-app-list({id: patientDetails.id })"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
