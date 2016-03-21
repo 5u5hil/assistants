@@ -1342,14 +1342,14 @@ angular.module('your_app_name.controllers', [])
             };
             //Go to consultation add page
             $scope.addCnote = function (appId) {
-                //alert(appId);
+                console.log(appId);
                 store({'appId': appId});
                 store({'from': 'app.appointment-list'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
             $scope.viewNote = function (noteId) {
-                //alert(appId);
+                console.log(noteId);
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
@@ -2654,8 +2654,10 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data.patients[0].dob);
                 if (response.data.dob) {
                     $scope.dob = new Date(response.data.dob);
-                } else {
+                } else if (response.data.patients[0].dob != '0000-00-00') {
                     $scope.dob = new Date(response.data.patients[0].dob);
+                } else {
+                    $scope.dob = new Date();
                 }
                 //$scope.dob = $filter('date')(response.data.dob, 'MM dd yyyy');
                 if ($scope.abt.length > 0) {
