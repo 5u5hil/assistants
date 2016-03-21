@@ -9062,7 +9062,12 @@ span.count-t{    display: inline-block;
 
 .btn-delete,.btn-delete.activated{background:#ef473a;}
 .btn-share,.btn-share.activated{background:#387ef5;}
-.btn-add,.btn-add.activated{background:#28a54c; /*green */}
+.btn-add,.btn-add.activated,.bg-green,.spbtn{background:#28a54c; /*green */}
+.spbtn{color:#fff;
+    margin: 0 15px;
+    border-radius: 5px;
+    border: 0;
+}
 .btn-edit,.btn-edit.activated{background:#28a54c;}
 .btn-delete,.btn-share,.btn-add,.btn-edit{line-height:44px !important;}
 .btn-delete.activated,.btn-share.activated,.btn-add.activated,.btn-edit.activated{ border:0;}
