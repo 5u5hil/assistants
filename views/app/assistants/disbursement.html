@@ -2,76 +2,95 @@
     <ion-nav-title>
         <span>Disbursement</span>
     </ion-nav-title>
+    <form method="post" id="disbursement" name="disbursement" novalidate>
     <ion-content>
-	
-	<label class="item item-input item-select">
-		<div class="input-label">Patient</div>
-		<select name="pname">
-                    <option value="" selected="selected">Select Patient </option>
-                    <option ng-repeat="user in userP" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
-		</select>
-	</label>
+        <input type="hidden" ng-model="interface" name='interface' value="{{interface}}">
+         <input type="hidden" ng-model="id" name='id' value="{{id}}">
+        
+            <label class="item item-input item-select">
+                <div class="input-label">Patient</div>
+                <select ng-model="pname" name="pname" required="">
+                    <option value="" selected="selected" required>Select Patient </option>
+                    <option  ng-repeat="user in userP" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
+                </select>
+            </label>
 
-	<label class="item item-input item-select">
-		<div class="input-label">Doctor</div>
-		<select name="dname">
-			<option value="" selected="selected">Select Doctor </option>
+            <label class="item item-input item-select">
+                <div class="input-label">Doctor</div>
+                <select  ng-model="dname" name="dname" required="">
+                    <option value="" selected="selected" required>Select Doctor </option>
                     <option ng-repeat="user in userD" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
-		</select>
-	</label>
+                </select>
+            </label>
 
-	<label class="item item-input listreq"><span class='input-label'>Consultation Date</span>
-	<input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="das" required /></label>
+            <label class="item item-input listreq"><span class='input-label'>Consultation Date</span>
+                <input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="curdate" required /></label>
 
-	<label class="item item-input listreq"><span class='input-label'>Consultation Time</span>
-	<input type="time" ng-model="curTime" placeholder="" value="{{curTime}}"  name="daas" required /></label>
+            <label class="item item-input listreq"><span class='input-label'>Consultation Time</span>
+                <input type="time" ng-model="curTime" placeholder="" value="{{curtime}}"  name="curtime" /></label>
 
 
-        
-		<label class="item item-input item-select">
-		<div class="input-label">Patient Type</div>
-		<select name="">
-			<option value="" >Select </option>
-			<option  value="">Outpatient</option>
-			<option  value="">Inpatient</option>
-			<option  value="">Emergency</option>
-		</select>
-	</label>
 
-		<label class="item item-input item-select">
-		<div class="input-label">Mode</div>
-		<select name="service">
-			<option value=""  selected="selected" >Select mode </option>
-                        <option ng-repeat="serv in service" value="{{serv.id}}" >{{serv.service}}</option>
-			
-		</select>
-	</label>
+            <label class="item item-input item-select">
+                <div class="input-label">Patient Type</div>
+                <select ng-model="patientType" name="patient_type" required="" ng-init="-1">
+                    <option value="" selected="selected">Select </option>
+                    <option  ng-repeat="ptype in patient_type"  value="{{ptype.id}}">{{ptype.patient_type}}</option>
+                </select>
+            </label>
 
-		<div class="item item-divider mt15">Disbursement
-		<a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine[0].id})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
-		</div>
+            <label class="item item-input item-select">
+                <div class="input-label">Mode</div>
+                <select ng-model="serviceMode" name="service" required="" ng-init="-1">
+                    <option value=""  selected="selected" >Select mode </option>
+                    <option  ng-repeat="serv in service" value="{{serv.id}}" >{{serv.service}}</option>
 
-        <div class="item newlist-item" ng-repeat="medi in medicine">
-		<div class="hreflink"><h2 class="ng-binding">{{medi.name}} 
-		<span class="flt-right">{{medi.total_item}}  {{medi.item_form}} </span></h2></div>
-<div class="uinfo" ng-click="modal.show();"><i class="ion-ios-close-empty"></i></div>
-		</div>
-        
-        <div class="item newlist-item" ng-repeat="datai in dataitem">
-		<div class="hreflink"><h2 class="ng-binding">{{datai.name}} 
-		<span class="flt-right">{{datai.quantity}}  {{datai.itemform}} </span></h2></div>
-<div class="uinfo" ng-click="modal.show();"><i class="ion-ios-close-empty"></i></div>
-		</div>
+                </select>
+            </label>
 
+            <div class="item item-divider mt15" ng-if="medicine!=0">Disbursement
+                <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine[0].id})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
+            </div>
+          <div class="item item-divider mt15" ng-if="medicine==0">Disbursement
+                <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
+            </div>
+
+         <div class="item newlist-item"  ng-repeat="medi in medicine">
+                <div class="hreflink" ng-if="medi.id !=''" ><h2 class="ng-binding">{{medi.name}} 
+                         <input type="hidden" name="itemid" value="{{medi.id}}">
+                        <input type="hidden" name="itemname" value="{{medi.name}}">
+                        <span class="flt-right"><input type="number" name="quantity" value="1" min='1' max='10'>
+                          <input type="text" value="{{medi.item_form}}"  name="item_form[]" readonly="">   
+                           
+                           <!-- <select name="item_form">
+
+                                <option ng-repeat="itemf in itemform" ng-selected="datai.itemform == itemf.form_name" value="{{itemf.id}}" >{{itemf.item_form_name}}</option>
+                            </select> -->
+                        </span></h2></div>
+                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
+            </div>
+
+            <div class="item newlist-item" ng-repeat="datai in dataitem">
+                <div class="hreflink"><h2 class="ng-binding">{{datai.name}}
+                        <input type="hidden" name="newitemid[]" value="{{datai.id}}">
+                        <input type="hidden" name="newitemname[]" value="{{datai.name}}">
+                        <span class="flt-right"> <input type="number" name="newquantity[]" value="{{datai.quantity}}">
+                            <input type="text" value="{{datai.itemform}}"  name="item_form[]" readonly="">  
+                           
+                        </span></h2></div>
+                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
+            </div>
 
 
 
 
     </ion-content>
-	
-	<div class="fixedbar">
-    
-	<a class="button btn-delete">Cancel</a>
-	<a class="button btn-add" ui-sref="#">Save </a>
-	</div>
+
+            <div class="fixedbar">
+
+                <a class="button btn-delete">Cancel</a>
+                <button type="submit" ng-click="doDisbursement();" class="button btn-add"  ng-disabled="disbursement.$invalid" >Save</button>
+            </div>
+        </form>
+
 </ion-view>

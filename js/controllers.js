@@ -22,6 +22,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.attachpath = domain + "/public";
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
+            $scope.CurrentDate = new Date();
             $http({
                 method: 'GET',
                 url: domain + 'get-sidemenu-lang',
@@ -1831,7 +1832,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('DisbursementCtrl', function ($scope, $http, $rootScope, $stateParams, $ionicModal) {
+        .controller('DisbursementCtrl', function ($scope, $state, $http, $rootScope, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
             console.log($rootScope.dataitem);
             $scope.mId = $stateParams.mid;
@@ -1845,16 +1846,53 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.id, interface: $scope.interface, mid: $scope.mId}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.id = window.localStorage.getItem('id');
                 $scope.userD = response.data.userD;
                 $scope.userP = response.data.userP;
                 $scope.service = response.data.service;
+               
                 $scope.medicine = response.data.medicine;
+                $scope.patient_type = response.data.patient_type;
+                //$scope.itemform = response.data.itemform;
 
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
                 console.log(response);
             });
+
+            $scope.doDisbursement = function () {
+
+                var data = new FormData(jQuery("#disbursement")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + 'inventory/disbursement-outgo',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response);
+                        if (response == '1') {
+                            $state.go('app.inventory');
+                        } else {
+                            alert('Something went wrong!')
+                            $state.go('app.inventory');
+                        }
+
+                        $rootScope.$digest;
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                });
+            };
+            
+            $scope.removeItem = function(itemId){
+             alert('Product removed.');
+             $rootScope.dataitem.splice(itemId, 1);
+                
+            };
 
 
         })
@@ -1924,19 +1962,19 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'inventory/get-item-form',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey,mid:$scope.medicineId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
-
+                    $scope.data.quantity  =1;
 
                     var htmlstring = '<div class="row"><div class="col col-33">\n\
-                     <input type="number" ng-model="data.quantity" value="1" name="qunatity" min="1" max="10">\n\
+                     <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
                         </div><div class="col col-67">\n\
-                        <select class="selectpopup" name="itemform" ng-model="data.itemform" >\n\
+                        <select class="selectpopup"  name="itemform" ng-model="data.itemform"  >\n\
                         <option value="" selected>Please Select</option>';
                     angular.forEach($scope.itemform, function (value, key) {
-                        htmlstring += '<option value="' + value.item_form_name + '">' + value.item_form_name + '</option>';
+                        htmlstring += '<option ng-model="form_name" ng-init="-1" value="' + value.form_name + '">' + value.form_name + '</option>';
                     });
                     htmlstring += '</select>\n\
                         </div>\n\
