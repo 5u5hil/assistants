@@ -8568,7 +8568,10 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
 .card-content{    padding: 10px 10px 5px 10px; text-align:justify; position:relative; display:block; text-decoration:none;}
 .card-content a{ text-decoration:none; }
 .user-image-circle{width:55px; height:55px; border-radius:50%; border:1px #ccc solid; margin:0 15px 0px 0; float:left; display:inline-block;}
-.cbtn{ text-align:center; padding:5px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+.cbtn{ text-align:center; padding:9px 0; margin:1px; background:#eee; display:block; text-decoration:none;}
+
+
+
 .p0{padding:0;}
 .f33{font-size:33px;}
 .card-left{width:50px; float:left;}
@@ -9255,6 +9258,9 @@ h1.post-title{font-size:26px;}
     padding: 5px 0 0 0;
     margin: 8px 0 0 0;}
 
+.toggle-view-anchor{right: 10px;}
+.ditem-content{margin: 10px 15px;}
+.Ditemselect{padding: 10px ! important;}
 
 /* endcss */
 

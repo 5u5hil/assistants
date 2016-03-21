@@ -21,22 +21,13 @@
                                     <span class='error text-center'  style="color:#e42012;" ng-model='loginError' ng-bind-html='loginError' ></span>
                                 </div>
 
-                                <div class="item item-body bottom-content">
+                                <div class="item-body bottom-content">
                                     <button type="submit" class="button button-positive button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
                                         {{langtext.login[language]}}
                                     </button>
                                 </div>
                             </my-tab>
-                            <!--      <my-tab title="Social">
-                                     <div class="txtcenter mtb20">
-                                         <h2 class="txtcenter">Login with Social Media</h2>
-                                         <div class="row">
-                                             <div class="col ion-social-facebook iconbuttons " data-pack="social" data-tags="facebook"></div>
-                                             <div class="col ion-social-tumblr iconbuttons" data-pack="social" data-tags="twitter"></div>
-                                             <div class="col ion-social-google iconbuttons " data-pack="social" data-tags="google"></div>
-                                         </div>
-                                     </div>
-                                 </my-tab> -->
+                       
                         </my-tabs>
 
                     </form>
