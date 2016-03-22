@@ -476,7 +476,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'POST',
                             url: domain + 'assistrecords/share',
-                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared,}
+                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             console.log(response);
                             if (response.data == 'Success') {
@@ -515,7 +515,13 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
+            $scope.submitmodal = function () {
+                console.log($scope.catIds);
+                $scope.modal.hide();
+            };
+        })
 
+        .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             //Show share model
             $ionicModal.fromTemplateUrl('share', {
                 scope: $scope,
