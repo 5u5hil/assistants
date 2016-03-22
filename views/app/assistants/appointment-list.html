@@ -14,7 +14,7 @@
             </label>
         </div>
         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_data | filter:search track by $index" > <!--| orderBy: 'scheduled_start_time'-->
+        <div  class="list card post-item" ng-repeat="app in all_data| filter:search track by $index" > <!--| orderBy: 'scheduled_start_time'-->
             <div class="post-heading item item-text-wrap p0">
                 <div class="item item-divider">
                     {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
@@ -24,47 +24,44 @@
                     <div class="row" ng-repeat="doc in app.doct">
                         <div class="col"><strong>{{doc.user_lang[language]}}</strong></div>
                         <div class="col txt-right"><span ng-repeat="spec in doc.specializations">
-                            {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
-                        </span></div>
+                                {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
+                            </span></div>
                     </div> 
-                 </div>
+                </div>
 
                 <div class="p5 brd-bottom">
 
                     <div class="row" ng-repeat="user in app.user">
                         <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
                         <div class="col txt-right">
-                        {{user.phone}}
-                    <!--     <span ng-repeat="spec in doc.specializations">
-                            {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
-                        </span> -->
+                            {{user.phone}}
+                            <!--     <span ng-repeat="spec in doc.specializations">
+                                    {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
+                                </span> -->
                         </div>
                     </div>
+                </div>
 
-               
-</div>
-                
-                 <div class="row">
-                     <div class="col txt-center">
-                         <a class="btn crdview-plus" >
+                <div class="row">
+                    <div class="col txt-center">
+                        <a class="btn crdview-plus" >
                             <span class="icon ion-plus-circled"></span> Medicine
                         </a>
-                     </div>
-                     <div class="col txt-center">
-                     <div ng-if="app.note.length > 0">
-                        <a class="btn crdview" ng-click="viewNote(app.note[0].id)" >
-                            <span class="icon ion-eye"></span> View Note
-                        </a>
                     </div>
-                     <div ng-if="app.note.length == 0">
-                        <a ng-click="addCnote(app.app.id)"  class="btn crdview-plus">
-                            <span class="icon ion-plus-circled"></span> Note
-                        </a>
+                    <div class="col txt-center">
+                        <div ng-if="app.note.length > 0">
+                            <a class="btn crdview" ng-click="viewNote(app.note[0].id)" >
+                                <span class="icon ion-eye"></span> View Note
+                            </a>
+                        </div>
+                        <div ng-if="app.note.length == 0">
+                            <a ng-click="addCnote(app.app.id, 'app')"  class="btn crdview-plus">
+                                <span class="icon ion-plus-circled"></span> Note
+                            </a>
+                        </div>
                     </div>
+                </div>
 
-                    </div>
-                 </div>
-              
 
                 <div class="post-actions p0">
                     <div class="row cardbtn-small p0">

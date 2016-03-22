@@ -679,12 +679,9 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
-                $scope.doctrs = response.data.doctrs;
-                $scope.patient_list = response.data.patient_list;
-                $scope.add = response.data.add;
-                $scope.add_patient = response.data.add_patient;
-                $scope.submit = response.data.submit;
+                $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
+                $scope.doctrs = response.data.doctrs;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
                     $scope.users = _.reduce(
@@ -717,6 +714,7 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
+                    jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
                     $scope.language = response.lang.language;
                     $ionicLoading.hide();
@@ -728,11 +726,12 @@ angular.module('your_app_name.controllers', [])
         })
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
             $rootScope.dataitem = "";
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
+                window.localStorage.removeItem('patientId');
+                window.localStorage.removeItem('drId');
+                window.localStorage.removeItem('doctorId');
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
                 $http({
@@ -931,10 +930,7 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId, drId: $scope.drId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
-                $scope.patient_list = response.data.patient_list;
-                $scope.add = response.data.add;
-                $scope.add_patient = response.data.add_patient;
-                $scope.submit = response.data.submit;
+                $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
@@ -972,6 +968,7 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
+                    jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
                     $scope.language = response.lang.language;
                     $ionicLoading.hide();
@@ -1768,10 +1765,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 console.log(appId);
                 store({'appId': appId});
-                store({'from': 'app.appointment-list'});
+                if (from == 'app')
+                    store({'from': 'app.appointment-list'});
+                else if (from == 'past')
+                    store({'from': 'app.past-appointment-list'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -1889,10 +1889,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 //alert(appId);
                 store({'appId': appId});
-                store({'from': 'app.patient-app-list'});
+                if (from == 'app')
+                    store({'from': 'app.patient-app-list'});
+                else if (from == 'past')
+                    store({'from': 'app.patient-past-app-list'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -1913,12 +1916,9 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.allUsers.length);
-                $scope.doctrs = response.data.doctrs;
-                $scope.patient_list = response.data.patient_list;
-                $scope.add = response.data.add;
-                $scope.add_patient = response.data.add_patient;
-                $scope.submit = response.data.submit;
+                $scope.tabmenu = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
+                $scope.doctrs = response.data.doctrs;
                 if (response.data.allUsers.length > 0) {
                     var data = response.data.allUsers;
                     $scope.users = _.reduce(
@@ -1952,12 +1952,14 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
+                    jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
                     $scope.language = response.lang.language;
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $state.go('app.new-patient', {}, {reload: true});
+                    window.location.reload();
+                    //$state.go('app.new-patient', {}, {reload: true});
                 });
             };
             $scope.selDoc = function (pid) {
