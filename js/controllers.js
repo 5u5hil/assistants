@@ -720,7 +720,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $state.go('app.patient-list', {}, {reload: true});
+                    window.location.reload();
+                    //$state.go('app.patient-list', {}, {reload: true});
                 });
             };
         })
@@ -974,7 +975,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     $scope.modal.hide();
                     alert($scope.patientadded[$scope.language]);
-                    $state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
+                    window.location.reload();
+                    //$state.go('app.ass-patient-list', {'id': $scope.drId}, {reload: true});
                 });
             };
         })
