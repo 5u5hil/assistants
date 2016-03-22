@@ -150,6 +150,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
             $scope.patientId = $stateParams.id;
+            $scope.shared = 0;
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
@@ -157,7 +158,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-patient-record-category',
-                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface}
+                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface, shared: $scope.shared}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.categories = response.data.categories;
@@ -189,11 +190,11 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.catIds);
                         $http({
                             method: 'POST',
-                            url: domain + 'records/delete-all',
-                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid}
+                            url: domain + 'assistrecords/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
-                            $state.go('app.createdbyu', {id: $scope.patientId}, {reload:true});
+                            $state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -212,12 +213,12 @@ angular.module('your_app_name.controllers', [])
                             $http({
                                 method: 'POST',
                                 url: domain + 'assistrecords/share-all',
-                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId}
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
-                                    $state.go('app.createdbyu', {id: $scope.patientId}, {reload:true});
+                                    $state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -247,6 +248,7 @@ angular.module('your_app_name.controllers', [])
             $scope.category = [];
             $scope.catId = $stateParams.id;
             $scope.patientId = $stateParams.patientId;
+            $scope.shared = $stateParams.shared;
             $scope.limit = 3;
             $scope.recId = [];
             $scope.recIds = [];
@@ -254,7 +256,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-records-details',
-                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+                params: {id: $stateParams.id, userId: $scope.userId, shared: $scope.shared, patientId: $scope.patientId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.records = response.data.records;
@@ -264,6 +266,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
                 $scope.category = response.data.category;
+                $scope.createdby = response.data.createdby;
                 $scope.doctors = response.data.doctors;
                 $scope.problems = response.data.problems;
                 $scope.cases = response.data.cases;
@@ -279,7 +282,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-records-details',
-                    params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
+                    params: {id: $stateParams.id, userId: $scope.userId, shared: $scope.shared, patientId: $scope.patientId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.records = response.data.records;
@@ -323,13 +326,11 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.recIds);
                         $http({
                             method: 'POST',
-                            url: domain + 'records/delete-by-category',
-                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId}
+                            url: domain + 'assistrecords/delete-by-category',
+                            params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
-                            $timeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            window.location.reload();
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -347,15 +348,13 @@ angular.module('your_app_name.controllers', [])
                             console.log($scope.recIds);
                             $http({
                                 method: 'POST',
-                                url: domain + 'records/share-by-category',
-                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId}
+                                url: domain + 'assistrecords/share-by-category',
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
-                                    $timeout(function () {
-                                        window.location.reload();
-                                    }, 1000);
+                                    window.location.reload();
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -425,6 +424,7 @@ angular.module('your_app_name.controllers', [])
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
+            $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
@@ -432,13 +432,15 @@ angular.module('your_app_name.controllers', [])
             }
             $http({
                 method: 'GET',
-                url: domain + 'records/get-record-details',
-                params: {id: $stateParams.id, interface: $scope.interface}
+                url: domain + 'assistrecords/get-record-details',
+                params: {id: $stateParams.id, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.recordDetails = response.data.recordsDetails;
                 $scope.category = response.data.record;
                 $scope.problem = response.data.problem;
+                $scope.cases = response.data.cases;
+                $scope.patient = response.data.patient;
                 $scope.doctors = response.data.doctrs;
                 $scope.doctrs = response.data.shareDoctrs;
             }, function errorCallback(response) {
@@ -449,8 +451,8 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.category[0].category);
                 $http({
                     method: 'POST',
-                    url: domain + 'records/delete',
-                    params: {id: id}
+                    url: domain + 'assistrecords/delete',
+                    params: {id: id, shared: $scope.shared}
                 }).then(function successCallback(response) {
                     alert("Record deleted successfully!");
                     $timeout(function () {
@@ -473,15 +475,13 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.recordId);
                         $http({
                             method: 'POST',
-                            url: domain + 'records/share',
-                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId}
+                            url: domain + 'assistrecords/share',
+                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared,}
                         }).then(function successCallback(response) {
                             console.log(response);
                             if (response.data == 'Success') {
                                 alert("Records shared successfully!");
-                                $timeout(function () {
-                                    window.location.reload();
-                                }, 1000);
+                                window.location.reload();
                             }
                         }, function errorCallback(e) {
                             console.log(e);
@@ -531,6 +531,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.patientId = $stateParams.id;
+            $scope.shared = 1;
             $scope.userId = get('id');
             $scope.catIds = [];
             $scope.catId = [];
@@ -538,7 +539,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-patients-shared-record-category',
-                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface}
+                params: {userId: $scope.userId, patientId: $stateParams.id, interface: $scope.interface, shared: $scope.shared}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.categories = response.data.categories;
@@ -570,8 +571,8 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.catIds);
                         $http({
                             method: 'POST',
-                            url: domain + 'records/delete-all',
-                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId}
+                            url: domain + 'assistrecords/delete-all',
+                            params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             alert("Records deleted successfully!");
                             $timeout(function () {
@@ -596,7 +597,7 @@ angular.module('your_app_name.controllers', [])
                             $http({
                                 method: 'POST',
                                 url: domain + 'assistrecords/share-all',
-                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId}
+                                params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
@@ -2273,7 +2274,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.userD = response.data.userD;
                 $scope.userP = response.data.userP;
                 $scope.service = response.data.service;
-               
+
                 $scope.medicine = response.data.medicine;
 
                 $scope.patient_type = response.data.patient_type;
@@ -2312,11 +2313,11 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
-            
-            $scope.removeItem = function(itemId){
-             alert('Product removed.');
-             $rootScope.dataitem.splice(itemId, 1);
-                
+
+            $scope.removeItem = function (itemId) {
+                alert('Product removed.');
+                $rootScope.dataitem.splice(itemId, 1);
+
             };
 
 
@@ -2386,11 +2387,11 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'inventory/get-item-form',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey,mid:$scope.medicineId}
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, mid: $scope.medicineId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
-                    $scope.data.quantity  =1;
+                    $scope.data.quantity = 1;
 
                     var htmlstring = '<div class="row"><div class="col col-33">\n\
                      <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
@@ -2513,6 +2514,8 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.dob = response.data.dob;
+                $scope.recordsCreatedCnt = response.data.recordsCreatedCnt;
+                $scope.recordsSharedCnt = response.data.recordsSharedCnt;
                 $scope.activeAppCnt = response.data.activeAppCnt;
                 $scope.pastAppCnt = response.data.pastAppCnt;
                 $scope.patientDetails = response.data.patientDetails;
@@ -3077,7 +3080,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-    .controller('selectPatientCtrl',function($scope, $ionicModal){
+        .controller('selectPatientCtrl', function ($scope, $ionicModal) {
 
             $ionicModal.fromTemplateUrl('selectpatient', {
                 scope: $scope
@@ -3087,7 +3090,7 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-    })
+        })
 
 
 

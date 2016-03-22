@@ -583,7 +583,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}/{patientId:int}",
+                        url: "/records-view/{id:int}/{patientId:int}/{shared:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
