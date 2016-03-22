@@ -724,6 +724,7 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $rootScope.dataitem = "";
+             $rootScope.dataitem1 = "";
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
                 $scope.interface = window.localStorage.getItem('interface_id');
@@ -1648,9 +1649,20 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AssOutgoCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('AssOutgoCtrl', function ($scope,$state, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            $http({
+                    method: 'GET',
+                    url: domain + 'inventory/inventory-outgo',
+                    params: {interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.disbursement = response.data.disbursement;
+                   }, function errorCallback(response) {
+                    console.log(response);
+                });
+            
         })
 
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
@@ -2186,9 +2198,11 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
+        .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal,$rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
+            $rootScope.dataitem = "";
+            $rootScope.dataitem1 = "";
 //            $http({
 //                            method: 'GET',
 //                            url: domain + 'inventory/get-inventary-page',
@@ -2209,9 +2223,11 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('SerachInventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
+        .controller('SerachInventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal,$ionicPopup,$rootScope) {
             $scope.getMedicine = [];
             $scope.searchkey = $stateParams.key;
+            $scope.data = {};
+            $scope.dataitem1 = [];
             console.log($scope.searchkey);
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
@@ -2247,6 +2263,87 @@ angular.module('your_app_name.controllers', [])
                 });
 
             };
+            
+             $scope.showPopup = function (mid, name) {
+                $scope.medicineId = mid;
+                $scope.medicineName = name;
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/get-item-form',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey,mid:$scope.medicineId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.itemform = response.data.itemform;
+                    $scope.data.quantity = 1;
+                     $scope.data.itemform = '';
+
+                    var htmlstring = '<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup"  name="itemform" ng-model="data.itemform">\n\
+                        <option value="" selected>Please Select</option>';
+                    angular.forEach($scope.itemform, function (value, key) {
+                        htmlstring += '<option ng-model="form_name" ng-init="-1" value="' + value.form_name + '">' + value.form_name + '</option>';
+                    });
+                    htmlstring += '</select>\n\
+                        </div>\n\
+                        </div>';
+                    // An elaborate, custom popup
+                    var myPopup = $ionicPopup.show({
+                        template: htmlstring,
+                        title: 'Quantity',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Ok</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+
+                                    if ((!$scope.data.quantity) && (!$scope.data.itemform)) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                         if($scope.data.itemform !="") {
+                                          $http({
+                                                method: 'GET',
+                                                url: domain + 'inventory/check-stock',
+                                                params: {mid:$scope.medicineId,itemform:$scope.data.itemform,qty:$scope.data.quantity}
+                                            }).then(function successCallback(response) {
+                                                console.log("check-stock"+response.data);
+                                                if(response.data == 0){
+                                                    alert('Sorry, Order quantity not in stock');
+                                                }else{
+                                                    alert(response.data+' added successfully');
+                                                    $scope.dataitem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+                                                    return 1;
+                                                }
+                                                
+                                            }, function errorCallback(e) {
+                                                console.log(e);
+                                            });
+                                        
+                                    }else{
+                                        alert('Please select item form');
+                                    }
+                                    }
+
+                                }
+                            }
+                        ]
+                    });
+
+                    myPopup.then(function (res) {
+                        if (res == '1') {
+                        $rootScope.dataitem1 = $scope.dataitem1;
+                        $state.go('app.disbursement', {'mid': $scope.medicineId}, {reload: true});
+                        }
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+                
+            };
 
         })
 
@@ -2277,7 +2374,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.medicine = response.data.medicine;
 
                 $scope.patient_type = response.data.patient_type;
-                //$scope.itemform = response.data.itemform;
+                $scope.itemform = response.data.itemform;
 
 
                 //$scope.searchkey  = searchkey
@@ -2314,10 +2411,19 @@ angular.module('your_app_name.controllers', [])
             };
             
             $scope.removeItem = function(itemId){
+             alert(itemId);
              alert('Product removed.');
-             $rootScope.dataitem.splice(itemId, 1);
+            
+             if(itemId == 0){
+                 $state.go('app.inventory',{},{reload: true});
+             }else{
+                  $rootScope.dataitem.splice(itemId, 1);
+             }
                 
             };
+            
+            
+
 
 
         })
@@ -2352,14 +2458,14 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-        .controller('AddDisbursementCtrl', function ($scope, $state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
+        .controller('AddDisbursementCtrl', function ($scope, $ionicLoading,$state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.medicineId = '';
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
             // sssconsole.log($scope.mid);
             $scope.data = {};
             $scope.dataitem = [];
-
+            $ionicLoading.show({template: 'Loading..'});
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 $scope.itemform = '';
@@ -2390,15 +2496,16 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
-                    $scope.data.quantity  =1;
+                    $scope.data.quantity  = 1;
+                    $scope.data.itemform  = "";
 
                     var htmlstring = '<div class="row"><div class="col col-33">\n\
                      <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
                         </div><div class="col col-67">\n\
-                        <select class="selectpopup"  name="itemform" ng-model="data.itemform"  >\n\
+                        <select class="selectpopup"  name="itemform" ng-model="data.itemform" ng-init="-1" required="required" >\n\
                         <option value="" selected>Please Select</option>';
                     angular.forEach($scope.itemform, function (value, key) {
-                        htmlstring += '<option ng-model="form_name" ng-init="-1" value="' + value.form_name + '">' + value.form_name + '</option>';
+                        htmlstring += '<option  value="' + value.form_name + '">' + value.form_name + '</option>';
                     });
                     htmlstring += '</select>\n\
                         </div>\n\
@@ -2419,10 +2526,29 @@ angular.module('your_app_name.controllers', [])
                                         //don't allow the user to close unless he enters wifi password
                                         e.preventDefault();
                                     } else {
-                                        $scope.dataitem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
-
-                                        //  return $scope.medicineId+'-'+$scope.medicineName+'-'+$scope.data.quantity+'-'+$scope.data.itemform;
-                                        return 1;
+                                         //alert($scope.data.itemform);
+                                         if($scope.data.itemform !="") {
+                                          $http({
+                                                method: 'GET',
+                                                url: domain + 'inventory/check-stock',
+                                                params: {mid:$scope.medicineId,itemform:$scope.data.itemform,qty:$scope.data.quantity}
+                                            }).then(function successCallback(response) {
+                                                console.log("check-stock"+response.data);
+                                                if(response.data == 0){
+                                                    alert('Sorry, Order quantity not in stock');
+                                                }else{
+                                                    alert(response.data+' added successfully');
+                                                    $scope.dataitem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+                                                    return 1;
+                                                }
+                                                
+                                            }, function errorCallback(e) {
+                                                console.log(e);
+                                            });
+                                        
+                                    }else{
+                                        alert('Please select item form');
+                                    }
                                     }
 
                                 }
@@ -2436,7 +2562,7 @@ angular.module('your_app_name.controllers', [])
                         console.log('dat-----' + $scope.dataitem)
                         if (res == '1') {
 
-
+                    
                         }
                     });
                 }, function errorCallback(response) {
@@ -2453,6 +2579,21 @@ angular.module('your_app_name.controllers', [])
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
+                $scope.showInformation = function (mid) {
+                    $scope.mid = mid;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'inventory/get-medicine-info',
+                        params: {mid: $scope.mid, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.medicinefor = response.data.medicinefor;
+                       $scope.modal.show();
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+
+                }
             });
             $scope.submitmodal = function () {
                 $scope.modal.hide();

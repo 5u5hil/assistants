@@ -12,7 +12,7 @@
         </div>
 
 
-        <div class="item item-divider ng-binding">Starting with "{{searchkey}}"</div>
+        <div class="item item-divider ng-binding">Starting with {{searchkey}}</div>
 
         <div class="scont" >
 
@@ -21,13 +21,13 @@
                     <div class="post-content item item-text-wrap p0">
                         <a class="lhref p10" ui-sref="app.medicine-details({mid:medicine.id})" >
                             <span class="fbold">{{medicine.name}}</span>
-                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}}</span>
+                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{otherm.total_unit}})</span>
                         </a>
 
                         <div class="post-actions">
                             <div class="row cardbtn p0">
                                 <div class="col"><div class="cbtn" ui-sref="#">Add </div></div>
-                                <div class="col"><a ui-sref="#" class="cbtn">Disbursement</a></div>
+                                <div class="col"><div ng-click="showPopup(medicine.id,medicine.name)" class="cbtn">Disbursement</div></div>
 
                             </div>
                         </div>
@@ -47,13 +47,13 @@
                     <div class="post-content item item-text-wrap p0">
                         <div class="p10" >
                             <span class="fbold">{{otherm.name}}</span>
-                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}}</span>
+                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ( {{otherm.total_unit}} )Qty</span>
                         </div>
 
                         <div class="post-actions">
                             <div class="row cardbtn p0">
                                 <div class="col"><div class="cbtn" ui-sref="#">Add </div></div>
-                                <div class="col"><a ui-sref="#" class="cbtn">Disbursement</a></div>
+                                 <div class="col"><div ng-click="showPopup(otherm.id,otherm.name)" class="cbtn">Disbursement</div></div>
 
                             </div>
                         </div>
@@ -66,7 +66,7 @@
     </ion-content>
 
     <div class="fixedbar">
-        <a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
-        <a class="button btn-add" ui-sref="app.disbursement">Save </a>
+        <a class="button btn-delete" ui-sref="app.inventory">Cancel</a>
+        <a class="button btn-add" ui-sref="app.medicine-details">Save </a>
     </div>
 </ion-view>

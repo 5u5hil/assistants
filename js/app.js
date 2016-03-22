@@ -200,6 +200,7 @@ angular.module('your_app_name', [
 
 
                     .state('app.disbursement', {
+                       
                         url: "/disbursement/{mid:int}",
                         views: {
                             'menuContent': {
@@ -210,6 +211,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.add-disbursement', {
+                         cache: false,
                         url: "/add-disbursement/{mid:int}",
                         views: {
                             'menuContent': {
@@ -220,6 +222,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
+                         cache: false,
                         url: "/search-medicine/{key:string}",
                         views: {
                             'menuContent': {

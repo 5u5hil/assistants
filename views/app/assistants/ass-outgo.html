@@ -10,11 +10,11 @@
 
 	
 
-	 <div  class="list card post-item">
+        <div  class="list card post-item" ng-repeat="disburse in disbursement">
         <div class="post-heading item item-text-wrap p0">
 		<div class="item item-divider">
-			Paracetamol
-		<span class="flt-right">10 Strips</span>
+			{{disburse.item_id}}
+		<span class="flt-right">{{disburse.qty_disdurse}} {{disburse.disburse_unit}}</span>
 
 		</div>
 		<div class="p10">
@@ -25,19 +25,7 @@
 		</div>
        </div>
 
-	 <div  class="list card post-item">
-        <div class="post-heading item item-text-wrap p0">
-		<div class="item item-divider">	
-		Crocin
-		<span class="flt-right">10 Strips</span>
-		</div>
-		<div class="p10">
-		<p class="post-title">Patient Name: Naresh</p>
-		<p class="post-title">Dr Name : Dr.abc</p>
-		<p class="card-date txt-center">Giving On : 09 MAR 2016, 12:10AM</p>
-		</div>
-		</div>
-       </div>
+	 
 
 
 

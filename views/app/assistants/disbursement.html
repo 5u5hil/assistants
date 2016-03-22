@@ -55,17 +55,14 @@
                 <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> Add </a>
             </div>
 
-         <div class="item newlist-item"  ng-repeat="medi in medicine">
+         <div class="item newlist-item"  ng-repeat="medi in dataitem1">
                 <div class="hreflink" ng-if="medi.id !=''" ><h2 class="ng-binding">{{medi.name}} 
                          <input type="hidden" name="itemid" value="{{medi.id}}">
                         <input type="hidden" name="itemname" value="{{medi.name}}">
-                        <span class="flt-right"><input type="number" name="quantity" value="1" min='1' max='10'>
-                          <input type="text" value="{{medi.item_form}}"  name="item_form[]" readonly="">   
+                        <span class="flt-right"><input type="number" name="quantity" value="{{medi.quantity}}" min='1' max='10'>
+                          <input type="text" value="{{medi.itemform}}"  name="item_form" readonly="">   
                            
-                           <!-- <select name="item_form">
-
-                                <option ng-repeat="itemf in itemform" ng-selected="datai.itemform == itemf.form_name" value="{{itemf.id}}" >{{itemf.item_form_name}}</option>
-                            </select> -->
+                            
                         </span></h2></div>
                 <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
             </div>
@@ -75,7 +72,7 @@
                         <input type="hidden" name="newitemid[]" value="{{datai.id}}">
                         <input type="hidden" name="newitemname[]" value="{{datai.name}}">
                         <span class="flt-right"> <input type="number" name="newquantity[]" value="{{datai.quantity}}">
-                            <input type="text" value="{{datai.itemform}}"  name="item_form[]" readonly="">  
+                            <input type="text" value="{{datai.itemform}}"  name="new_item_form[]" readonly="">  
                            
                         </span></h2></div>
                 <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
@@ -88,7 +85,7 @@
 
             <div class="fixedbar">
 
-                <a class="button btn-delete">Cancel</a>
+                <a class="button btn-delete" ui-sref="app.inventory" >Cancel</a>
                 <button type="submit" ng-click="doDisbursement();" class="button btn-add"  ng-disabled="disbursement.$invalid" >Save</button>
             </div>
         </form>

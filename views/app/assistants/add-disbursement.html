@@ -10,14 +10,14 @@
             </label>
               <a ng-click="searchMedicine(search)"  class="button button-positive mt15">Search</a>	
         </div>
-
+        <div ng-if="searchkey!=' '">
         <div class="scont" ng-if="getMedicine!=''" >
-            <div class="item item-divider ng-binding" >Starting with "Crocin"</div>
+            <div class="item item-divider ng-binding" >Starting with {{searchkey}}</div>
             <div class="item newlist-item" ng-repeat="medicine in getMedicine">
                 <div ng-click="showPopup(medicine.id,medicine.name)" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
-                        <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}}</span></h2></div>
+                        <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span></h2></div>
                         
-                <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
+                <div class="uinfo" ng-click="showInformation(medicine.id);"><i class="ion-ios-information"></i></div>
             </div>
         </div>
 
@@ -26,10 +26,11 @@
             <div class="item item-divider ng-binding" >Other Matches</div>			
             <div class="item newlist-item"  ng-repeat="otherm in otherMedicine">
                 <div ng-click="showPopup(otherm.id,otherm.name)" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
-                        <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}}</span></h2></div>
-                <div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
+                        <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ({{otherm.total_unit}})</span></h2></div>
+                <div class="uinfo" ng-click="showInformation(otherm.id);"><i class="ion-ios-information"></i></div>
             </div>			
 
+        </div>
         </div>
 
 
@@ -44,16 +45,20 @@
 <script id="infomedicine" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Crocin</h1>	 
+    <h1 class="title">{{medicinefor[0].name}}</h1>	 
     <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i></button>
     </ion-header-bar>
     <ion-content>
 
-    <div class="item item-divider ng-binding">Treatment Plan</div>
-    <p class="p15">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    <div class="item item-divider ng-binding">Used For</div>
+    <div ng-repeat="probs in medicinefor">
+    <p class="p15" >{{probs.problem}}</p>
+    </div>
 
     <div class="item item-divider ng-binding">Side Effect</div>
-    <p class="p15">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    <div ng-repeat="probs in medicinefor">
+    <p class="p15" >{{probs.problem}}</p>
+    </div>
 
 
     </ion-content>
