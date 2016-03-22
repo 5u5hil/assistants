@@ -177,6 +177,7 @@ angular.module('your_app_name', [
                     /* assistants */
 
                     .state('app.assistants', {
+                        cache: false,
                         url: "/assistants",
                         views: {
                             'menuContent': {
@@ -262,6 +263,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.doctrslist', {
+                        cache: false,
                         url: "/doctrslist/{id:int}",
                         views: {
                             'menuContent': {
@@ -283,6 +285,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.ass-patient', {
+                        cache: false,
                         url: "/ass-patient/{id:string}/{drId:string}",
                         views: {
                             'menuContent': {
@@ -366,6 +369,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.app-doctrlist', {
+                        cache: false,
                         url: "/app-doctrlist",
                         views: {
                             'menuContent': {
@@ -405,6 +409,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.thankyou', {
+                        cache: false,
                         url: "/thankyou/{data:string}",
                         views: {
                             'menuContent': {
@@ -586,7 +591,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}/{patientId:int}",
+                        url: "/records-view/{id:int}/{patientId:int}/{shared:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
@@ -594,7 +599,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.record-details', {
                         cache: false,
                         url: "/record-details/{id:int}/{patientId:int}",
@@ -607,6 +612,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.sharedwithu', {
+                        cache: false,
                         url: "/sharedwithu/{id:int}",
                         views: {
                             'menuContent': {
@@ -670,6 +676,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
+                        cache: false,
                         url: "/patient/{id:int}",
                         views: {
                             'menuContent': {

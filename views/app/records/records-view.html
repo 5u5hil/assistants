@@ -1,7 +1,7 @@
 <ion-view class="records-view">
     <ion-nav-title>
         <span>Records</span> 
-        <button class="button" ng-click="print()">Print</button>
+        <!--        <button class="button" ng-click="print()">Print</button>-->
     </ion-nav-title>
 
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
@@ -50,7 +50,7 @@
                             </div>	
                         </div>
                         <div class="post-actions row post-footer">
-                            <span>Created {{rec.created_at| datetime3 }} by You</span>
+                            <span>Created {{rec.created_at| datetime3 }} by {{userId==createdby[$index].id? 'You': createdby[$index].fname}}</span>
                         </div>
                         <div class="attachcard" ng-if="rec.attachments.length != 0">
                             <i class="ion-paperclip"></i></div>
@@ -68,8 +68,8 @@
 
 
     <div class="footerbar button-bar" id="rec1" >
-        <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
-        <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a> 
+        <a class="button btn-delete" style="width:50%;" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
+        <a class="button btn-share" style="width:50%;"  ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a> 
     </div>
 
     <div class="footerbar button-bar rec2" id="rec2">        

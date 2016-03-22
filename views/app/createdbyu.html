@@ -22,7 +22,7 @@
                     <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox>
                     <!--<input type="checkbox" class="chkcat" id="{{cat.id}}" value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" />-->
                 </div>
-                <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view({'id' : cat.id, 'patientId': patient.id, 'res' : 'json'})">
+                <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view({'id' : cat.id, 'patientId': patient.id, 'shared': shared, 'res' : 'json'})">
                     <span class="title">{{cat.category}}</span>	
                     <span class="count">{{cat.count}}</span>	
                 </a>
@@ -51,11 +51,11 @@
         <!-- <span class="icon ion-close"></span> --> Cancel</div>
         </div>
     </script>
-    <div class="footerbar">
+    <div class="footerbar button-bar">
         <a class="button btn-delete" ng-click="delete()" ><i class="icon ion-trash-b"></i> Delete</a>
         <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt" ></i> Share</a>
         <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
-        <a class="button btn-add" ><i class="icon ion-android-add-circle"></i> Add</a>
+        <!---<a class="button btn-add" ><i class="icon ion-android-add-circle"></i> Add</a>-->
     </div>
 </ion-view>
 <script id="share" type="text/ng-template">

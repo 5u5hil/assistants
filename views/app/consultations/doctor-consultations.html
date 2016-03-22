@@ -26,12 +26,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="todays_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="todays_note.length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -77,12 +77,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="week_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="week_note.length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -126,12 +126,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="all_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="all_note.length == 0">
-                                            <a ng-click="addCnote(app.id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.id, 'app')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>

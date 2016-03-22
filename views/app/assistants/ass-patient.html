@@ -3,59 +3,54 @@
         <span>{{doctor[0].user_lang[language]}} </span>
     </ion-nav-title>
     <ion-content>
-       <div class="" ng-if="services==''">
+        <div class="" ng-if="services == ''">
             <h4 class="txt-center">No Service Listed</h4>
         </div>
-        <div ng-if="services!=''">
-           
+        <div ng-if="services != ''">
+
             <my-tabs class="themetabs">
-                
                 <div ng-repeat="serv in services">
-                   
-                    <my-tab  icon="ion-calendar tabicon" title="{{scheduled_video[language]}}"  ng-if="serv == 1" ng-click="doesit();">
-                        <div class="tabc2">
-                            <div class="item-price">Price : INR {{videoProd.price}}</div>
-                            <div class="mt15"> 
-                                <ul class="clist">
-                                    <li>{{videoProd.desc}}</li>
-                                    <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
-                                        <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
-                                    </li>
-                                </ul>
-                                <div class="clr"></div>
-                                <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
-                                    <ul class="wk">
-                                        <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
-                                            <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
-                                            {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
+                    <div ng-if="serv == 1">
+                        <my-tab  icon="ion-calendar tabicon" title="{{scheduled_video[language]}}"  ng-if="serv == 1" ng-click="doesit();">
+                            <div class="tabc2">
+                                <div class="item-price">Price : INR {{videoProd.price}}</div>
+                                <div class="mt15"> 
+                                    <ul class="clist">
+                                        <li>{{videoProd.desc}}</li>
+                                        <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
+                                            <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
                                         </li>
                                     </ul>
-                                    <div class="sche-date">
-                                        <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">{{earliest_slot[language]}}</div> 
-                                        <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat4" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
-                                        <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
-                                        <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">{{next_slot[language]}}</div>
-                                    </div>
-                                    <div ng-if="schV[$index] == vs.supersaas_id">
-                                        {{vSch[$index]==''? 'No slots available':''}}
-                                        <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
-                                            <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
-                                                {{slt['start'][0]|time1}}
-                                                <!--{{slt['finish'][0]|time}}   -->                    
+                                    <div class="clr"></div>
+                                    <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
+                                        <ul class="wk">
+                                            <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
+                                                <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
+                                                {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
                                             </li>
                                         </ul>
+                                        <div class="sche-date">
+                                            <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">{{earliest_slot[language]}}</div> 
+                                            <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat4" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
+                                            <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
+                                            <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">{{next_slot[language]}}</div>
+                                        </div>
+                                        <div ng-if="schV[$index] == vs.supersaas_id">
+                                            {{vSch[$index]==''? 'No slots available':''}}
+                                            <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
+                                                <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
+                                                    {{slt['start'][0]|time1}}
+                                                    <!--{{slt['finish'][0]|time}}   -->                    
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <div class="section-footer">   
+                                        <a class="button button-full button-positive" ng-click="bookAppointment(videoProd.id, serv)">{{procced[language]}}</a>
+                                    </div>	
                                 </div>
-                                <div class="section-footer">   
-                                    <a class="button button-full button-positive" ng-click="bookAppointment(videoProd.id, serv)">{{procced[language]}}</a>
-                                </div>	
                             </div>
-                        </div>
-
-                    </my-tab>
-                   
-                </div>
-                 <div ng-if="instVideo != ''">
+                        </my-tab>
                         <my-tab title="{{instant_video[language]}}" icon="ion-ios-videocam tabicon" ng-click="doit();" ng-if="instVideo != ''">
                             <div class="tabc2">
                                 <div class="item-price">Price : INR {{instVideo.price}}</div>
@@ -68,8 +63,9 @@
                                     </p>
                                 </div>
                             </div>
-                        </my-tab>                                
+                        </my-tab>       
                     </div>
+                </div>
             </my-tabs>
         </div>
 

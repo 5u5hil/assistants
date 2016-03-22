@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{patient_list[language]}}</span>
+        <span>{{tabmenu.patient_list[language]}}</span>
     </ion-nav-title>
     <!--<ion-nav-buttons side="right">
         <div ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"></div>
@@ -44,14 +44,14 @@
            </div> -->
 
  <div class="fixedbar">
-        <div class="button btn-add" ng-click="modal.show();"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</div>
+        <div class="button btn-add" ng-click="modal.show();"> <i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
     </div>
 </ion-view>
 
 <script id="addnewpatient" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">{{add_patient[language]}}</h1>
+    <h1 class="title">{{tabmenu.add_patient[language]}}</h1>
     <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
@@ -78,22 +78,23 @@
     </label>
     <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
-    <div class="item item-divider">Aadhar Id</div>
+    <div class="item item-divider">Aadhaar Id</div>
     <label class="item item-input">
-    <input type="number" name="adhar" placeholder="Aadhar Id">
+    <input type="number" name="adhar" placeholder="Aadhaar Id" required />
+    <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is required.</div>
     </label>
 
     <div class="item item-divider">Mobile</div>  
     <label class="item item-input">
-    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
+    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     </label> 
 
     <div class="item item-divider">Gender</div> 	
     <ion-list>
     <div class="row">
-    <div class="col cradio"><ion-radio ng-model="genderM" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
-    <div class="col cradio"> <ion-radio ng-model="genderF" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
+    <div class="col cradio"><ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
+    <div class="col cradio"> <ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
     <div ng-show="addpatient.gender.$error.required" class="serror">Your Name is required.</div>
     </div>
     </ion-list>			
@@ -104,7 +105,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{submit[language]}}</button>
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{tabmenu.submit[language]}}</button>
     </div>
     </form>
     </ion-modal-view>
