@@ -134,6 +134,48 @@ angular.module('your_app_name.controllers', [])
                 $scope.selected_tab = data.title;
             });
         })
+
+        .controller('ForgotPasswordCtrl', function ($scope, $state, $ionicLoading) {
+            $scope.recoverPassword = function (email, phone) {
+                window.localStorage.setItem('email', email);
+                console.log("email:  " + email);
+                $.ajax({
+                    type: 'GET',
+                    url: domain + "recovery-password",
+                    data: {email: email, phone: phone},
+                    cache: false,
+                    success: function (response) {
+                        console.log("respone passcode" + response.passcode);
+                        window.localStorage.setItem('passcode', response.passcode);
+                        $state.go('auth.update-password', {}, {reload: true});
+                    }
+                });
+            };
+            $scope.updatePassword = function (passcode, password, cpassword) {
+                var email = window.localStorage.getItem('email');
+                $.ajax({
+                    type: 'GET',
+                    url: domain + "update-password",
+                    data: {passcode: passcode, password: password, cpassword: cpassword, email: email},
+                    cache: false,
+                    success: function (response) {
+                        if (response == 1) {
+                            if (parseInt(passcode) == parseInt(window.localStorage.getItem('passcode'))) {
+                                alert('Please login with your new password.');
+                                $state.go('auth.login', {}, {reload: true});
+                            } else {
+                                alert('Please enter valid OTP.');
+                            }
+                        } else if (response == 2) {
+                            alert('Password Mismatch.');
+                        } else {
+                            alert('Oops something went wrong.');
+                        }
+                    }
+                });
+            };
+            $scope.user = {};
+        })
         .controller('EvaluationCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
