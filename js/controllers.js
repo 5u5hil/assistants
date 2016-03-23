@@ -770,7 +770,7 @@ angular.module('your_app_name.controllers', [])
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
             $rootScope.dataitem = "";
-             $rootScope.dataitem1 = "";
+            $rootScope.dataitem1 = "";
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
                 window.localStorage.removeItem('patientId');
@@ -948,10 +948,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 //alert(appId);
                 store({'appId': appId});
-                store({'from': 'app.doctor-consultations'});
+                if (from == 'app')
+                    store({'from': 'app.doctor-consultations'});
+                else if (from == 'past')
+                    store({'from': 'app.consultation-past'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -1697,28 +1700,27 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AssOutgoCtrl', function ($scope,$state,$filter, $http, $stateParams, $ionicModal) {
+        .controller('AssOutgoCtrl', function ($scope, $state, $filter, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $http({
-                    method: 'GET',
-                    url: domain + 'inventory/inventory-outgo',
-                    params: {interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    console.log(response.data.disbursement.disburse_on);
-                    console.log($filter('date')(new Date(response.data.disbursement.disburse_on), 'Y M d hh:mm a'));
-                    $scope.disbursement = response.data.disbursement;
-                    $scope.item_name = response.data.item_name;
-                    $scope.qty_disburse = response.data.qty_disburse;
-                    $scope.disburse_unit = response.data.disburse_unit;
-                    $scope.patient_id = response.data.patient_id;
-                    $scope.doctor_id = response.data.doctor_id;
-                    
-                        
-                   }, function errorCallback(response) {
-                    console.log(response);
-                });
-            
+                method: 'GET',
+                url: domain + 'inventory/inventory-outgo',
+                params: {interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data.disbursement.disburse_on);
+                console.log($filter('date')(new Date(response.data.disbursement.disburse_on), 'Y M d hh:mm a'));
+                $scope.disbursement = response.data.disbursement;
+                $scope.item_name = response.data.item_name;
+                $scope.qty_disburse = response.data.qty_disburse;
+                $scope.disburse_unit = response.data.disburse_unit;
+                $scope.patient_id = response.data.patient_id;
+                $scope.doctor_id = response.data.doctor_id;
+
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
         })
 
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
@@ -2272,7 +2274,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal,$rootScope) {
+        .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
             $rootScope.dataitem = "";
@@ -2297,7 +2299,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('SerachInventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal,$ionicPopup,$rootScope) {
+        .controller('SerachInventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicPopup, $rootScope) {
             $scope.getMedicine = [];
             $scope.searchkey = $stateParams.key;
             $scope.data = {};
@@ -2337,20 +2339,22 @@ angular.module('your_app_name.controllers', [])
                 });
 
             };
+
             
              $scope.showPopup = function (mid, name, appid) {
+
                 $scope.medicineId = mid;
                 $scope.medicineName = name;
                 $scope.appid = appid;
                 $http({
                     method: 'GET',
                     url: domain + 'inventory/get-item-form',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey,mid:$scope.medicineId}
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, mid: $scope.medicineId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
                     $scope.data.quantity = 1;
-                     $scope.data.itemform = '';
+                    $scope.data.itemform = '';
 
                     var htmlstring = '<div class="row"><div class="col col-33">\n\
                      <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
@@ -2379,12 +2383,13 @@ angular.module('your_app_name.controllers', [])
                                         //don't allow the user to close unless he enters wifi password
                                         e.preventDefault();
                                     } else {
-                                         if($scope.data.itemform !="") {
-                                          $http({
+                                        if ($scope.data.itemform != "") {
+                                            $http({
                                                 method: 'GET',
                                                 url: domain + 'inventory/check-stock',
-                                                params: {mid:$scope.medicineId,itemform:$scope.data.itemform,qty:$scope.data.quantity}
+                                                params: {mid: $scope.medicineId, itemform: $scope.data.itemform, qty: $scope.data.quantity}
                                             }).then(function successCallback(response) {
+
                                                 console.log("check-stock  "+response.data);
                                                 if(response.data == 0){
                                                     alert('Sorry, Order quantity not in stock');
@@ -2393,15 +2398,16 @@ angular.module('your_app_name.controllers', [])
                                                     $scope.dataitem1.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
                                                     $rootScope.dataitem1 = $scope.dataitem1;
                                                     $state.go('app.disbursement', {'mid': $scope.medicineId,'appid': $scope.appid}, {reload: true});
+
                                                 }
-                                                
+
                                             }, function errorCallback(e) {
                                                 console.log(e);
                                             });
-                                        
-                                    }else{
-                                        alert('Please select item form');
-                                    }
+
+                                        } else {
+                                            alert('Please select item form');
+                                        }
                                     }
 
                                 }
@@ -2410,14 +2416,16 @@ angular.module('your_app_name.controllers', [])
                     });
 
                     myPopup.then(function (res) {
+
 //                        if (res == '1') {
 //                       
 //                        }
+
                     });
                 }, function errorCallback(response) {
                     console.log(response);
                 });
-                
+
             };
 
         })
@@ -2517,22 +2525,22 @@ angular.module('your_app_name.controllers', [])
                 });
             };
 
-            
-            $scope.removeItem = function(itemId){
-             alert(itemId);
-             alert('Product removed.');
-            
-             if(itemId == 0){
-                 $state.go('app.inventory',{},{reload: true});
-             }else{
-                  $rootScope.dataitem.splice(itemId, 1);
-             }
-                
+
+            $scope.removeItem = function (itemId) {
+                alert(itemId);
+                alert('Product removed.');
+
+                if (itemId == 0) {
+                    $state.go('app.inventory', {}, {reload: true});
+                } else {
+                    $rootScope.dataitem.splice(itemId, 1);
+                }
+
 
 
             };
-            
-            
+
+
 
 
 
@@ -2557,6 +2565,7 @@ angular.module('your_app_name.controllers', [])
             });
 
         })
+
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -2567,8 +2576,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-
-        .controller('AddDisbursementCtrl', function ($scope, $ionicLoading,$state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
+        .controller('AddDisbursementCtrl', function ($scope, $ionicLoading, $state, $rootScope, $http, $stateParams, $ionicPopup, $ionicModal) {
             $scope.medicineId = '';
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
@@ -2609,8 +2617,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
 
-                    $scope.data.quantity  = 1;
-                    $scope.data.itemform  = "";
+                    $scope.data.quantity = 1;
+                    $scope.data.itemform = "";
 
 
                     var htmlstring = '<div class="row"><div class="col col-33">\n\
@@ -2640,29 +2648,29 @@ angular.module('your_app_name.controllers', [])
                                         //don't allow the user to close unless he enters wifi password
                                         e.preventDefault();
                                     } else {
-                                         //alert($scope.data.itemform);
-                                         if($scope.data.itemform !="") {
-                                          $http({
+                                        //alert($scope.data.itemform);
+                                        if ($scope.data.itemform != "") {
+                                            $http({
                                                 method: 'GET',
                                                 url: domain + 'inventory/check-stock',
-                                                params: {mid:$scope.medicineId,itemform:$scope.data.itemform,qty:$scope.data.quantity}
+                                                params: {mid: $scope.medicineId, itemform: $scope.data.itemform, qty: $scope.data.quantity}
                                             }).then(function successCallback(response) {
-                                                console.log("check-stock"+response.data);
-                                                if(response.data == 0){
+                                                console.log("check-stock" + response.data);
+                                                if (response.data == 0) {
                                                     alert('Sorry, Order quantity not in stock');
-                                                }else{
-                                                    alert(response.data+' added successfully');
+                                                } else {
+                                                    alert(response.data + ' added successfully');
                                                     $scope.dataitem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
                                                     return 1;
                                                 }
-                                                
+
                                             }, function errorCallback(e) {
                                                 console.log(e);
                                             });
-                                        
-                                    }else{
-                                        alert('Please select item form');
-                                    }
+
+                                        } else {
+                                            alert('Please select item form');
+                                        }
                                     }
 
                                 }
@@ -2676,7 +2684,7 @@ angular.module('your_app_name.controllers', [])
                         console.log('dat-----' + $scope.dataitem)
                         if (res == '1') {
 
-                    
+
                         }
                     });
                 }, function errorCallback(response) {
@@ -2702,7 +2710,7 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.medicinefor = response.data.medicinefor;
-                       $scope.modal.show();
+                        $scope.modal.show();
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -2793,6 +2801,7 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
+
         .controller('LibraryFeedCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -2938,6 +2947,7 @@ angular.module('your_app_name.controllers', [])
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
             $scope.appId = $stateParams.appId;
+            $scope.patientName = [{'name': 'No Patient selected'}];
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
@@ -2992,8 +3002,10 @@ angular.module('your_app_name.controllers', [])
                     console.log(e);
                 });
             } else {
+                store({'from': 'app.assistants'});
                 $scope.patientId = '';
                 $scope.doctorId = '';
+                $scope.patientName = [{'name': 'No Patient selected'}];
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
@@ -3011,10 +3023,34 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    if ($scope.patients.length > 0) {
+                        var data = $scope.patients;
+                        $scope.users = _.reduce(
+                                data,
+                                function (output, fname) {
+                                    var lCase = fname.fname.toUpperCase();
+                                    if (output[lCase[0]]) //if lCase is a key
+                                        output[lCase[0]].push(fname); //Add name to its list
+                                    else
+                                        output[lCase[0]] = [fname]; // Else add a key
+                                    //console.log(output);
+                                    return output;
+                                },
+                                {}
+                        );
+                    }
                 }, function errorCallback(response) {
                     console.log(response);
                 });
             }
+            $scope.selPatient = function (pid, name) {
+                console.log(pid + "Name = " + name);
+                $scope.patientId = pid;
+                $scope.getPatientId(pid);
+                $scope.patientName = [{'name': name}];
+                console.log($scope.patientName);
+                $scope.modal.hide();
+            };
             $scope.gotopage = function (glink) {
                 $state.go(glink);
             };
@@ -3087,10 +3123,18 @@ angular.module('your_app_name.controllers', [])
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
                                 $state.go('app.appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.doctor-consultations')
-                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.past-appointment-list')
+                                $state.go('app.past-appointment-list', {}, {reload: true});
                             else if ($scope.from == 'app.patient-app-list')
                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.patient-past-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.consultation-past')
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            else
+                                $state.go('app.assistants', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -3104,10 +3148,18 @@ angular.module('your_app_name.controllers', [])
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
                                 $state.go('app.appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.doctor-consultations')
-                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.past-appointment-list')
+                                $state.go('app.past-appointment-list', {}, {reload: true});
                             else if ($scope.from == 'app.patient-app-list')
                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.patient-past-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.consultation-past')
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            else
+                                $state.go('app.assistants', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -3128,7 +3180,6 @@ angular.module('your_app_name.controllers', [])
                 } else if (type == 0) {
                     jQuery(".fields #precase").removeClass('hide');
                     jQuery(".fields #newcase").addClass('hide');
-
                 }
             };
             //Take images with camera
@@ -3332,10 +3383,6 @@ angular.module('your_app_name.controllers', [])
                 }
             };
 
-        })
-
-        .controller('selectPatientCtrl', function ($scope, $ionicModal) {
-
             $ionicModal.fromTemplateUrl('selectpatient', {
                 scope: $scope
             }).then(function (modal) {
@@ -3344,6 +3391,10 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
+        })
+
+        .controller('selectPatientCtrl', function ($scope, $ionicModal) {
+
         })
 
 

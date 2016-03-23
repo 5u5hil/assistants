@@ -428,6 +428,7 @@ angular.module('your_app_name', [
                     })
                     /* end of assistants */
                     .state('app.view-note', {
+                        cache: false,
                         url: "/view-note/{id:int}",
                         views: {
                             'menuContent': {
@@ -437,6 +438,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.view-patient-history', {
+                        cache: false,
                         url: "/consultation-note/view-patient-history/{id:int}",
                         views: {
                             'menuContent': {
@@ -447,6 +449,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.consultations-note', {
+                        cache: false,
                         url: "/consultations-note/{appId:string}",
                         views: {
                             'menuContent': {

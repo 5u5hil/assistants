@@ -27,7 +27,7 @@
                                 <!--{{$index == 0 ? '<p>': ''}} -->
                                 <p>
                                     <strong>{{detail.fields.field| capitalize}}</strong><br/>
-                                    <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
+                                    <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
                                         {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
                                     </span>
                                     <span ng-if="detail.fields.field == 'Related Problem'" >
@@ -39,7 +39,7 @@
                                     <span ng-if="detail.fields.field == 'Case Id'" >
                                         {{cases[$parent.$parent.$index].value}}
                                     </span>
-                                    <span ng-if="detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                    <span ng-if="detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">{{detail.value}}</span>

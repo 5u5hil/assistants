@@ -8,7 +8,7 @@
                 <li ng-repeat="rec in recordDetails track by $index">
                     <div ng-if="category[0].category == 3">
                         <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
                             <div>{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
@@ -25,7 +25,7 @@
                         <!--                        <div ng-if="rec.fields.field == 'Frequency'" ng-init="fdata = (rec.value).split('-')">
                                                     {{fdata[0]}} times in {{fdata[1]}}
                                                 </div>-->
-                        <div ng-if="rec.fields.field != 'Case Id' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'">
+                        <div ng-if="rec.fields.field != 'Case Id' && rec.fields.field != 'Doctor' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Frequency'">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.fields.field == 'End Date'">
                                     <div ng-if="rec.value == ''">NA</div>
@@ -69,7 +69,7 @@
                     </div>
                     <div ng-if="category[0].category == 7" >
                         <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
                             <div>{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
@@ -80,7 +80,7 @@
                             <div ng-if="rec.value == '0'">NA</div>
                             <div ng-if="rec.value != '0'">{{rec.value}}</div>
                         </div>
-                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Payment Mode'">
+                        <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Doctor' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Payment Mode'">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.fields.field == 'End Date'">
                                     <div ng-if="rec.value == ''"></div>
@@ -124,7 +124,7 @@
                     </div>
                     <div ng-if="category[0].category != 3 && category[0].category != 7">
                         <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
                             <div>{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
@@ -140,7 +140,7 @@
                         <div ng-if="rec.fields.field == 'Mode'">
                             {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}
                         </div>
-                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'">
+                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Doctor' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.fields.field == 'End Date'">
                                     <div ng-if="rec.value == ''">NA</div>
