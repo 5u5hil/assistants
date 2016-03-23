@@ -59,6 +59,21 @@ angular.module('your_app_name.filters', [])
 
             };
         })
+        
+        .filter('disbursedate', function ($filter)
+        {
+            return function (input)
+            {
+                if (input == null) {
+                    return "";
+                }
+
+                var _date = $filter('date')(new Date(input), 'yyyy MMM d, hh:mm a');
+
+                return _date.toUpperCase();
+
+            };
+        })
 
         .filter('dateFormat2', function ($filter)
         {
