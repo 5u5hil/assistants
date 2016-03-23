@@ -1700,20 +1700,27 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AssOutgoCtrl', function ($scope, $state, $http, $stateParams, $ionicModal) {
+        .controller('AssOutgoCtrl', function ($scope,$state,$filter, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $http({
-                method: 'GET',
-                url: domain + 'inventory/inventory-outgo',
-                params: {interface: $scope.interface}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.disbursement = response.data.disbursement;
-            }, function errorCallback(response) {
-                console.log(response);
-            });
-
+                    method: 'GET',
+                    url: domain + 'inventory/inventory-outgo',
+                    params: {interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    console.log(response.data.disbursement.disburse_on);
+                    console.log($filter('date')(new Date(response.data.disbursement.disburse_on), 'Y M d hh:mm a'));
+                    $scope.disbursement = response.data.disbursement;
+                    $scope.item_name = response.data.item_name;
+                    $scope.qty_disburse = response.data.qty_disburse;
+                    $scope.disburse_unit = response.data.disburse_unit;
+                    $scope.patient_id = response.data.patient_id;
+                    $scope.doctor_id = response.data.doctor_id;
+                    
+                        
+                   }, function errorCallback(response) {
+                    console.log(response);
+                });
         })
 
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {

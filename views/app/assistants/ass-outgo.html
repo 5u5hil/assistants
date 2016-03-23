@@ -3,34 +3,37 @@
         <span>Outgo List</span>
     </ion-nav-title>
     <ion-content>
-		<div class="row tabnav">
-		<div class="col"><a  ui-sref="app.ass-inward"  >Inward</a></div>
-		<div class="col"><a  ui-sref="app.ass-outgo" class="active" >Outgo</a></div>
-		</div>	
-
-	
-
-        <div  class="list card post-item" ng-repeat="disburse in disbursement">
-        <div class="post-heading item item-text-wrap p0">
-		<div class="item item-divider">
-			{{disburse.item_id}}
-		<span class="flt-right">{{disburse.qty_disdurse}} {{disburse.disburse_unit}}</span>
-
-		</div>
-		<div class="p10">
-		<p class="post-title">Patient Name: Naresh</p>
-		<p class="post-title">Dr Name : Dr.abc</p>
-		<p class="card-date txt-center">Giving On : 09 MAR 2016, 12:10AM</p>
-		</div>
-		</div>
-       </div>
-
-	 
+        <div class="row tabnav">
+            <div class="col"><a  ui-sref="app.ass-inward"  >Inward</a></div>
+            <div class="col"><a  ui-sref="app.ass-outgo" class="active" >Outgo</a></div>
+        </div>	
 
 
 
+        <div  class="list card post-item" ng-repeat="disburse in disbursement track by $index">
+            <div class="post-heading item item-text-wrap p0">
+                <div class="item item-divider txt-center">
+                    Giving On : {{disburse.disburse_on | disbursedate}}
 
-</ion-content>
-	
+
+                </div>
+                <div class="p10">
+                    <p class="post-title">Patient Name: {{patient_id[$index].fname}} {{patient_id[$index].lname}}</p>
+                    <p class="post-title">Dr Name: {{doctor_id[$index].fname}} {{doctor_id[$index].lname}}</p>
+
+                    <div class="card-date" ng-repeat="name in item_name[$index]">
+                         {{name}}<span class="flt-right">{{qty_disburse[$parent.$index][$index]}}- {{disburse_unit[$parent.$index][$index]}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </ion-content>
+
 
 </ion-view>
