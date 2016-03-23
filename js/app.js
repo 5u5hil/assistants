@@ -180,7 +180,7 @@ angular.module('your_app_name', [
                         url: "/consultations/past/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations-past.html",
+                                templateUrl: "views/app/consultations/consultations-past.html",
                                 controller: 'DoctorConsultationsCtrl'
                             }
                         }
