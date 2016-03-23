@@ -492,7 +492,7 @@
 
     <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
     <div class="item item-divider">{{header}}</div>
-    <a class="item" ng-repeat="users in data| filter:search" ng-click="selDoc({{users.id}})" >
+    <a class="item" ng-repeat="users in data| filter:search" ng-click="selPatient({{users.id}})" >
     <h2>{{users.fname}} {{users.lname}}</h2>
     <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
     </a>

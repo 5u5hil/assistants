@@ -198,7 +198,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.inventory', {
                         url: "/inventory",
                         views: {
@@ -209,10 +208,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
-                    .state('app.disbursement', {
-                       
+                    .state('app.disbursement', {                       
                         url: "/disbursement/{mid:int}",
                         views: {
                             'menuContent': {
@@ -253,6 +249,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.medicine-history', {
                         url: "/medicine-history",
                         views: {
