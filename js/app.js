@@ -209,7 +209,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.disbursement', {                       
-                        url: "/disbursement/{mid:int}",
+                        url: "/disbursement/{mid:string}/{appid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/disbursement.html",
@@ -220,7 +220,7 @@ angular.module('your_app_name', [
 
                     .state('app.add-disbursement', {
                          cache: false,
-                        url: "/add-disbursement/{mid:int}",
+                        url: "/add-disbursement/{mid:string}/{appid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/add-disbursement.html",
