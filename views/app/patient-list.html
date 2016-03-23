@@ -126,7 +126,7 @@
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
     <div class="item item-divider">Aadhaar Id</div>
     <label class="item item-input">
-    <input type="number" name="adhar" placeholder="Aadhaar Id" required />
+    <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required />
     <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is required.</div>
     </label>
 
