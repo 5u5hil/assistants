@@ -382,7 +382,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/app-doctrlist.html",
-                                controller: 'DoctrslistsCtrl'
+                                controller: 'AppDoctrslistsCtrl'
                             }
                         }
                     })

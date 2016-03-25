@@ -709,6 +709,38 @@ angular.module('your_app_name.controllers', [])
             });
 
         })
+        
+        .controller('AppDoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            console.log(get('patientId'));
+            if (get('patientId') != null) {
+                $scope.patientId = get('patientId');
+            } else {
+                $scope.patientId = '';
+            }
+            $http({
+                method: 'GET',
+                url: domain + 'assistants/get-app-doctrs-list',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response);
+                $scope.active = response.data.active;
+                $scope.book = response.data.book;
+                $scope.past = response.data.past;
+                $scope.doctorslang = response.data.doctors;
+                $scope.experience = response.data.experience;
+                $scope.focus_area = response.data.focus_area;
+                $scope.lang = response.data.languages;
+                $scope.language = response.data.lang.language;
+                $scope.langtext = response.data.data;
+                $scope.doctors = response.data.user;
+                $scope.spec = response.data.spec;
+            }, function errorCallback(e) {
+                console.log(e.responseText);
+            });
+
+        })
 
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter, $state) {
             $scope.userId = get('id');
