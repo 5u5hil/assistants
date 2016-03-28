@@ -43,7 +43,13 @@
                 </div>
 
                 <div class="row">
-                    <div class="col txt-center">
+                    
+                     <div class="col txt-center">
+                        <a class="btn crdview"  ng-if="app.medicine.length > 0">
+                            <span class="icon ion-plus-circled"></span> View Medicine
+                        </a>
+                    </div> 
+                    <div  ng-if="app.medicine.length == 0">
                         <a class="btn crdview-plus" ng-click="appointMedicine(0,app.app.id)" >
                             <span class="icon ion-plus-circled"></span> Medicine
                         </a>

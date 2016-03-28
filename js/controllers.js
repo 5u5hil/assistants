@@ -1777,6 +1777,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time = response.data.all_time;
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
+                  $scope.all_medicine = response.data.all_medicine;
+                  
                 //past section //
                 $scope.all_data_past = response.data.all_data_past;
                 $scope.all_app_past = response.data.all_appointments_past;
@@ -1786,6 +1788,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time_past = response.data.all_time_past;
                 $scope.all_end_time_past = response.data.all_end_time_past;
                 $scope.all_note_past = response.data.all_note_past;
+                $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
