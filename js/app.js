@@ -208,7 +208,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.disbursement', {                       
+                    .state('app.disbursement', {
                         url: "/disbursement/{mid:string}/{appid:string}",
                         views: {
                             'menuContent': {
@@ -219,7 +219,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.add-disbursement', {
-                         cache: false,
+                        cache: false,
                         url: "/add-disbursement/{mid:string}/{appid:string}",
                         views: {
                             'menuContent': {
@@ -230,7 +230,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-medicine', {
-                         cache: false,
+                        cache: false,
                         url: "/search-medicine/{key:string}",
                         views: {
                             'menuContent': {
@@ -249,7 +249,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.medicine-history', {
                         url: "/medicine-history",
                         views: {
@@ -437,21 +437,21 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-						.state('app.view-medicine',{
+
+                    .state('app.view-medicine', {
                         cache: false,
-                        url: "/view-medicine",
+                        url: "/view-medicine/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/view-medicine.html",
                                 controller: 'ViewMedicineCtrl'
                             }
                         }
-						} )
-				
-					
-					
-					
+                    })
+
+
+
+
                     .state('app.view-patient-history', {
                         cache: false,
                         url: "/consultation-note/view-patient-history/{id:int}",

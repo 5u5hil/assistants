@@ -42,10 +42,16 @@
                 </div>
 
                 <div class="row">
-                    <div class="col txt-center">
-                         <a class="btn crdview-plus" ng-click="appointMedicine(0,app.app.id)" >
+                    <div class="col txt-center"  ng-if="app.medicine.length > 0">
+                        <span class="btn crdview" ng-click="viewMedicine(app.medicine[0].consultation_id)" >
+                            <span class="icon ion-eye"></span> View Medicine
+                        </span>
+                    </div>
+                    <div class="col txt-center"  ng-if="app.medicine.length == 0">
+                        <span class="btn crdview-plus" ng-click="appointMedicine(0, app.app.id,'pastapp')" >
+
                             <span class="icon ion-plus-circled"></span> Medicine
-                        </a>
+                        </span>
                     </div>
                     <div class="col txt-center">
                         <div ng-if="app.note.length > 0">

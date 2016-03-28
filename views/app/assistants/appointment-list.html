@@ -45,12 +45,12 @@
                 <div class="row">
 
                     <div class="col txt-center"  ng-if="app.medicine.length > 0">
-                        <span  ui-sref="app.view-medicine" class="btn crdview" >
+                        <span class="btn crdview" ng-click="viewMedicine(app.medicine[0].consultation_id)" >
                             <span class="icon ion-eye"></span> View Medicine
                         </span>
                     </div>
                     <div class="col txt-center"  ng-if="app.medicine.length == 0">
-                        <span class="btn crdview-plus" ng-click="appointMedicine(0, app.app.id)" >
+                        <span class="btn crdview-plus" ng-click="appointMedicine(0, app.app.id,'curapp')" >
 
                             <span class="icon ion-plus-circled"></span> Medicine
                         </span>
