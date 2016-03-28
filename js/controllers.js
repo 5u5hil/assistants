@@ -3184,7 +3184,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Save FormData
             $scope.submit = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                $ionicLoading.show({template: 'Adding...'});
                 $scope.from = get('from');
                 console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
@@ -3547,9 +3547,11 @@ angular.module('your_app_name.controllers', [])
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
+                        console.log('male patient');
                         $scope.gen['Male'] = 'on';
                         $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
+                        console.log('male patient');
                         $scope.gen['Female'] = 'on';
                         $scope.gender = 'Female';
                     }
