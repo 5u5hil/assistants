@@ -7,34 +7,58 @@
             <div class="col"><a  ui-sref="app.patient-app-list({id: {{patientId}}})"  >{{tabmenu.active[language]}}</a></div>
             <div class="col"><a  ui-sref="app.patient-past-app-list({id: {{patientId}}})" class="active" >{{tabmenu.past[language]}}</a></div>
         </div>
+		
         <div class="list list-inset">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
+		
         <h4 class="txt-center"> {{all_app_past.length==0? 'No appointments': ''}}</h4>
+		
         <div  class="list card post-item" ng-repeat="app in all_data_past| filter:search track by $index" > <!-- | orderBy: 'scheduled_start_time' -->
-            <div class="post-heading item item-text-wrap p0">                
-                <div class="item item-divider" ng-repeat="user in app.user">{{user.fname}} {{user.lname}}</div> <!-- | orderBy: 'scheduled_start_time' -->
-                <div class="p15">
-                    <div ng-if="app.note.length > 0">
-                        <a class="btn drstatus" ng-click="viewNote(app.note[0].id)" >
-                            <span class="icon ion-plus-circled"></span>View Note
-                        </a>
+            <div class="post-heading item item-text-wrap p0">     
+			
+				<div class="item item-divider">
+          {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
+                    <div class="cardmode"><span class="{{app.app.mode==1? 'ion-ios-videocam': app.app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'ion-chatbubbles':''}}"></span></div>
+                </div>
+			
+				<div class="p5 brd-bottom">
+                    <div class="row" ng-repeat="doc in app.doct">
+                        <div class="col"><strong>{{doc.user_lang[language]}}</strong></div>
+                        <div class="col txt-right"><span ng-repeat="spec in doc.specializations">
+                              {{spec.specialization}}{{$last==true? '': ',&nbsp;'}}
+                            </span></div>
+                    </div> 
+                </div>
+			
+				 <div class="p5 brd-bottom">
+					<div class="row" ng-repeat="user in app.user">
+                        <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                        <div class="col txt-right">
+                            {{user.phone}}
+
+                        </div>
                     </div>
-                    <div ng-if="app.note.length == 0">
-                        <a ng-click="addCnote(app.app.id, 'past')"  class="btn drstatus">
-                            <span class="icon ion-plus-circled"></span> Note
-                        </a>
-                    </div>
-                    <p ng-repeat="doc in app.doct"><strong>{{doc.user_lang[language]}}</strong><br/> <!-- | orderBy: 'scheduled_start_time'-->
-                        <span ng-repeat="spec in doc.specializations">
-                            {{spec.specialization}}{{$last==true? '': ',&nbsp;'}} 
+                </div>
+			
+			
+			
+			
+                <div class="row">
+                    <div class="col txt-center" ng-if="app.note.length > 0">
+                        <span class="btn crdview-plus" ng-click="viewNote(app.note[0].id)" >
+                            <span class="icon ion-eye"></span>View Note
                         </span>
-                    </p>
-                    <p><strong>Mode : </strong> {{app.app.mode==1? 'Video': app.app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}</p>
-                    <p><strong>Appointment Time : </strong> {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}</p>
+                    </div>
+                    <div class="col txt-center" ng-if="app.note.length == 0">
+                        <span class="btn crdview" ng-click="addCnote(app.app.id, 'past')"  class="btn drstatus">
+                            <span class="icon ion-plus-circled"></span> Note
+                        </span>
+                    </div>
+                    
                 </div>
                 <div class="post-actions  post-footer p0">
                     <div class="row cardbtn-small p0">

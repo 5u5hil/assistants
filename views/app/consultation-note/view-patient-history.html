@@ -76,6 +76,7 @@
                             <div ng-repeat="ab in abt">
                                 <div ng-if="ab.fields.field == 'Date of Birth'">
                                     <label class="item item-input">
+									
                                         <span class="input-label">{{field.field}}</span>
                                         <input type="date" name="{{field.name}}" ng-model="dob" placeholder="{{field.field}}" value="{{dob|dateFormat1}}">
                                     </label>

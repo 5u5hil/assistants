@@ -6235,7 +6235,9 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
  * --------------------------------------------------
  */
 .item-radio {
-    padding: 0; }
+    padding: 0; 
+	
+	}
 .item-radio:hover {
     cursor: pointer; }
 
@@ -9393,6 +9395,16 @@ h1.post-title{font-size:26px;}
 
 .crdview .icon{color:#fff;}
 .p5{padding: 5px;}
+.pb50{padding-bottom:50px;}
+.item.item-radio{    border-top: 1px solid #ddd !important;}
+.calicon{padding-right:5px;}
+input[type="date"]:before{
+	font-family: "Ionicons";
+	display: inline-block;
+	padding:0 5px;
+	content: "\f117"; display:block;
+}
+
 /* endcss */
  .ion-close, .crdview .ion-closev.iocon{
 
