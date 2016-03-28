@@ -1906,12 +1906,14 @@ angular.module('your_app_name.controllers', [])
                 alert($scope.mid);
                 $scope.appointmentId = appid;
 
+
                 $scope.interface = window.localStorage.getItem('interface_id');
                   if (from == 'curapp')
                     store({'from': 'app.appointment-list'});
                 else if (from == 'pastapp')
                     store({'from': 'app.past-appointment-list'});
                 $state.go('app.disbursement', {'mid': $scope.mid, 'appid': $scope.appointmentId}, {reload: true});
+
             };
             $scope.viewMedicine = function (consultationId) {
                 $scope.consultationId = consultationId;
@@ -2498,7 +2500,48 @@ angular.module('your_app_name.controllers', [])
                 });
 
             };
-
+			
+			
+			
+			$scope.addmedicine=function(){
+					var htmldate='<div class="row"><div class="col"><input type="date" ng-model="abc"  value="" ></div></div>';
+				var htmlcontent = '<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="mqty"  value="" placeholder="Qty" name="qunatity" min="1" >\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup"  name="itemform" ng-model="pqr">\n\
+                        <option value="" selected>Crocin</option></div></div> ';
+			
+				
+			var myPopup = $ionicPopup.show({
+			template: htmldate+htmlcontent,
+			title: 'Medicine',
+			scope: $scope,
+			buttons: [
+			  { text: 'Cancel' },
+			  {
+				text: '<b>Add</b>',
+				type: 'button-positive',
+				onTap: function(e) {
+				  if (!$scope.mqty) {
+					//don't allow the user to close unless he enters wifi password
+					console.log('fad ajfad')
+					$state.go('app.medicine');
+				//	e.preventDefault();
+				  } else {
+					  $state.go('app.medicine');
+					return $scope.mqty;
+					
+				  }
+				}
+			  }
+			]
+		  });
+			 myPopup.then(function(res) {
+				  
+			console.log('Tapped!', res);
+		  });
+			}
+    /* End of add medicine */
         })
 
         .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -2506,6 +2549,11 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
+		.controller('AddmedcnCtrl',function($scope){
+			
+			
+		})
+		
         .controller('DisbursementCtrl', function ($scope, $state, $http, $rootScope, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
             $scope.appointment = '';
@@ -2625,6 +2673,9 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
+		.controller('AddMedicineCtrl',function($scope){
+			
+		})
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 
             $scope.mId = $stateParams.mid;
@@ -3052,6 +3103,8 @@ angular.module('your_app_name.controllers', [])
             $scope.image = [];
             $scope.tempImgs = [];
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.prescription = 'Yes';
+            $scope.curTime = new Date();
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
                 $http({
@@ -3105,7 +3158,6 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
-                $scope.curTime = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
@@ -3194,7 +3246,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Save FormData
             $scope.submit = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                $ionicLoading.show({template: 'Adding...'});
                 $scope.from = get('from');
                 console.log("TempImgs Save= " + $scope.tempImgs);
                 if ($scope.tempImgs.length > 0) {
@@ -3478,6 +3530,14 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#coninprec').removeClass('hide');
                 }
             };
+            $scope.includesPre = function (val) {
+                console.log(val);
+                if (val == 'Yes') {
+                    //jQuery('#convalid').removeClass('hide');
+                } else {
+                    //jQuery('#convalid').addClass('hide');
+                }
+            };
 
             $ionicModal.fromTemplateUrl('selectpatient', {
                 scope: $scope
@@ -3502,7 +3562,8 @@ angular.module('your_app_name.controllers', [])
             $scope.conId = [];
             $scope.conIds = [];
             $scope.selConditions = [];
-            $scope.gend = '';
+            $scope.gender = '';
+            $scope.gen = [];
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
@@ -3536,15 +3597,25 @@ angular.module('your_app_name.controllers', [])
                         if (field.toString() == 'Gender') {
                             console.log(field);
                             $scope.gender = val.value;
+                            console.log(val.value);
+                            if (val.value == 1) {
+                                $scope.gen['Male'] = 'on';
+                                $scope.gender = 'Male';
+                            } else if (val.value == 2) {
+                                $scope.gen['Female'] = 'on';
+                                $scope.gender = 'Female';
+                            }
                         }
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Male';
+                        console.log('male patient');
+                        $scope.gen['Male'] = 'on';
+                        $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Female';
+                        console.log('male patient');
+                        $scope.gen['Female'] = 'on';
+                        $scope.gender = 'Female';
                     }
                 }
                 console.log($scope.gender);
@@ -3698,6 +3769,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
+
         .controller('ViewMedicineCtrl', function ($scope, $http, $stateParams, $rootScope, $state) {
             $scope.consultationId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
@@ -3714,7 +3786,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
 
 
         })

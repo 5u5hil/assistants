@@ -239,6 +239,31 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+					 .state('app.medicine', {
+                         cache: false,
+                        url: "/add-medicine",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/add-medicine.html",
+                                controller: 'AddMedicineCtrl'
+                            }
+                        }
+                    })
+					
+						
+					 .state('app.medcn', {
+                         cache: false,
+                        url: "/add-medcn",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistants/add-medcn.html",
+                                controller: 'SerachInventoryCtrl'
+                            }
+                        }
+                    })
+					
+					
 
                     .state('app.medicine-details', {
                         url: "/medicine-details/{mid:int}",
