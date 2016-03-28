@@ -2560,6 +2560,7 @@ angular.module('your_app_name.controllers', [])
             console.log($rootScope.dataitem);
             $scope.mId = $stateParams.mid;
             $scope.appId = $stateParams.appid;
+            alert($scope.appId);
             $scope.curDate = new Date();
             $scope.curTime = new Date();
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -2578,6 +2579,9 @@ angular.module('your_app_name.controllers', [])
                 }, function errorCallback(response) {
                     console.log(response);
                 });
+            }else{
+                $scope.appointment = 0;
+                $scope.doctorId = 0; 
             }
 
             $http({
