@@ -2993,6 +2993,7 @@ angular.module('your_app_name.controllers', [])
             $scope.tempImgs = [];
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.prescription = 'Yes';
+            $scope.curTime = new Date();
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
                 $http({
@@ -3045,8 +3046,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.patientName = [{'name': 'No Patient selected'}];
                 window.localStorage.setItem('patientId', '');
                 window.localStorage.setItem('doctorId', $scope.doctorId);
-                $scope.conDate = new Date();
-                $scope.curTime = new Date();
+                $scope.conDate = new Date();                
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',

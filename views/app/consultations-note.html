@@ -199,9 +199,9 @@
 
                             <div class="" ng-if="field.field != 'Includes Prescription' && field.field != 'Patient Type' && field.field != 'Mode'">
                                 <div class="item item-divider"> {{field.field}}</div>
-                                <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <select class="cselect Ditemselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
                                     <option value="0"> Select {{field.field}}</option>
-                                    <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
                                 </select>
                             </div>
                         </div>
