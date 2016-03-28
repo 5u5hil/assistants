@@ -437,6 +437,21 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+						.state('app.view-medicine',{
+                        cache: false,
+                        url: "/view-medicine",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-medicine.html",
+                                controller: 'ViewMedicineCtrl'
+                            }
+                        }
+						} )
+				
+					
+					
+					
                     .state('app.view-patient-history', {
                         cache: false,
                         url: "/consultation-note/view-patient-history/{id:int}",

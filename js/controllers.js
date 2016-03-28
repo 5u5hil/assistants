@@ -3637,6 +3637,11 @@ angular.module('your_app_name.controllers', [])
 
         })
 
+		.controller('ViewMedicineCtrl',function($scope){
+			
+		})
+		
+		
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
 //            $scope.noteId = $stateParams.id;
 //            $scope.userId = window.localStorage.getItem('id');
