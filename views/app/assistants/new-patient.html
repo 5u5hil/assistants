@@ -60,7 +60,7 @@
     <input type="hidden" name="doctrid" value="{{doctrs[0].id}}" />
     </div>
     <div ng-if="doctrs.length>1">
-    <label class="item item-input item-select" >
+    <label class="item item-input item-select listreq" >
     <div class="input-label">Select Doctor</div>
     <select name="doctrid" ng-model="drId" required>
     <option value="" >Select </option>
@@ -70,29 +70,33 @@
     </label>
     </div>
     
-    <div class="item item-divider">Name</div>
-    <label class="item item-input">
+    <div class="item item-divider">Name *</div>
+    <label class="item item-input listreq">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
     <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
     </label>
     <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
-    <div class="item item-divider">Aadhaar Id</div>
-    <label class="item item-input">
-    <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required />
-    <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is required.</div>
+    <div class="item item-divider">Aadhaar Id *</div>
+    <label class="item item-input listreq">
+    <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required ng-minlength="12" ng-maxlength="12" />
+    <div ng-show="addpatient.adhar.$error.required" class="serror">Aadhaar Id is required.</div>
+    <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is too short.</div>
+    <div ng-show="addpatient.adhar.$error.maxlength" class="serror">Aadhaar Id is too long.</div>
     </label>
 
-    <div class="item item-divider">Mobile</div>  
-    <label class="item item-input">
+    <div class="item item-divider">Mobile *</div>  
+    <label class="item item-input listreq">
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
+     <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is required.</div>
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
+    <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is too long.</div>
     </label> 
 
-    <div class="item item-divider">Gender</div> 	
+    <div class="item item-divider">Gender *</div> 	
     <ion-list>
-    <div class="row">
+    <div class="row listreq">
     <div class="col cradio"><ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
     <div class="col cradio"> <ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
     <div ng-show="addpatient.gender.$error.required" class="serror">Your Name is required.</div>
