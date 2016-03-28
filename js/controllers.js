@@ -2992,6 +2992,7 @@ angular.module('your_app_name.controllers', [])
             $scope.image = [];
             $scope.tempImgs = [];
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.prescription = 'Yes';
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
                 $http({
@@ -3418,7 +3419,15 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#coninprec').removeClass('hide');
                 }
             };
-
+            $scope.includesPre = function(val){
+                console.log(val);
+                if(val=='Yes'){
+                    //jQuery('#convalid').removeClass('hide');
+                }else{
+                    //jQuery('#convalid').addClass('hide');
+                }
+            };
+            
             $ionicModal.fromTemplateUrl('selectpatient', {
                 scope: $scope
             }).then(function (modal) {
