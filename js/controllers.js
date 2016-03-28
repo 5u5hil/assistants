@@ -1886,7 +1886,7 @@ angular.module('your_app_name.controllers', [])
                  $scope.interface = window.localStorage.getItem('interface_id');
                   $state.go('app.disbursement', {'mid':$scope.mid, 'appid':$scope.appointmentId}, {reload:true});
                
-
+	
                 
             };
             
