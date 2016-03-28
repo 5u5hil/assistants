@@ -14,7 +14,7 @@
         <div class="scont" ng-if="getMedicine!=''" >
             <div class="item item-divider ng-binding" >Starting with {{searchkey}}</div>
             <div class="item newlist-item" ng-repeat="medicine in getMedicine">
-                <div ng-click="showPopup(medicine.id,medicine.name)" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
+                <div ng-click="showPopup(medicine.id,medicine.name,appid)" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
                         <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span></h2></div>
                         
                 <div class="uinfo" ng-click="showInformation(medicine.id);"><i class="ion-ios-information"></i></div>
@@ -25,7 +25,7 @@
         <div class="scont" ng-if="otherMedicine!=''" >
             <div class="item item-divider ng-binding" >Other Matches</div>			
             <div class="item newlist-item"  ng-repeat="otherm in otherMedicine">
-                <div ng-click="showPopup(otherm.id,otherm.name)" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
+                <div ng-click="showPopup(otherm.id,otherm.name,appid)" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
                         <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ({{otherm.total_unit}})</span></h2></div>
                 <div class="uinfo" ng-click="showInformation(otherm.id);"><i class="ion-ios-information"></i></div>
             </div>			
@@ -38,7 +38,7 @@
 
     <div class="fixedbar">
         <a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
-        <a class="button btn-add" ng-click="gotodisbursement(mid)">Save </a>
+        <a class="button btn-add" ng-click="gotodisbursement(mid,appid)">Save </a>
     </div>
 </ion-view>
 
