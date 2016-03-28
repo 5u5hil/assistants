@@ -2455,7 +2455,48 @@ angular.module('your_app_name.controllers', [])
                 });
 
             };
-
+			
+			
+			
+			$scope.addmedicine=function(){
+					var htmldate='<div class="row"><div class="col"><input type="date" ng-model="abc"  value="" ></div></div>';
+				var htmlcontent = '<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="mqty"  value="" placeholder="Qty" name="qunatity" min="1" >\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup"  name="itemform" ng-model="pqr">\n\
+                        <option value="" selected>Crocin</option></div></div> ';
+			
+				
+			var myPopup = $ionicPopup.show({
+			template: htmldate+htmlcontent,
+			title: 'Medicine',
+			scope: $scope,
+			buttons: [
+			  { text: 'Cancel' },
+			  {
+				text: '<b>Add</b>',
+				type: 'button-positive',
+				onTap: function(e) {
+				  if (!$scope.mqty) {
+					//don't allow the user to close unless he enters wifi password
+					console.log('fad ajfad')
+					$state.go('app.medicine');
+				//	e.preventDefault();
+				  } else {
+					  $state.go('app.medicine');
+					return $scope.mqty;
+					
+				  }
+				}
+			  }
+			]
+		  });
+			 myPopup.then(function(res) {
+				  
+			console.log('Tapped!', res);
+		  });
+			}
+    /* End of add medicine */
         })
 
         .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -2463,6 +2504,11 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
+		.controller('AddmedcnCtrl',function($scope){
+			
+			
+		})
+		
         .controller('DisbursementCtrl', function ($scope, $state, $http, $rootScope, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
             $scope.appointment = '';
@@ -2565,6 +2611,9 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
+		.controller('AddMedicineCtrl',function($scope){
+			
+		})
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 
             $scope.mId = $stateParams.mid;
