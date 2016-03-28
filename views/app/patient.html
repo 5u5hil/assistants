@@ -59,13 +59,9 @@
                                 <div class="bxtitle">
                         05<br/><span class="bxspan">Chats</span>
                         </div>
-                        </a>
-                        
+                        </a>                        
                         </div>	
-                </div>		
-                        
-                
-                
+                </div>            
         <div class="row categories-list">
                 <div class="col">
                 <a class="sbox" ui-sref="">
@@ -77,52 +73,25 @@
                         </div>
                 <h5 style="font-size:18px; margin-top:0;"><span class="bxspan">Consultations</span></h5>	
                 </a>
-                        </div>	
-                
-                </div>
-                
-                
+                        </div>
+                </div>          
         -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- 	  <div class="ctab">		
-                 <ion-tabs class="tabs-positive tabs-icon-top">  
-        
+                 <ion-tabs class="tabs-positive tabs-icon-top">        
                         <ion-tab title="About">
-                         <div class="tabcon2"> fasdf</div>
-                        
-                  </ion-tab>
-        
+                         <div class="tabcon2"> fasdf</div>                        
+                  </ion-tab>        
                   <ion-tab title="History" >
-                 <div class="tabcon2"> fasdf 123</div>
-                        
-                        </ion-tab>
-        
+                 <div class="tabcon2"> fasdf 123</div>                        
+                        </ion-tab>        
                   <ion-tab title="Family History" >
                          <div class="tabcon2"> fasdf</div>
-                  </ion-tab>
-        
+                  </ion-tab>        
                 </ion-tabs>		
                   </div> -->	
-
-
     </ion-content>
     <div class="footerbar">
-        <div  class="button bar btn-add" ng-controller="PatientAddCtrl" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
+        <div  class="button bar btn-add" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
         <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
          <a ui-sref="app.patient-consult" class="button">Consult </a>
          <a ui-sref="app.patient-chat" class="button"> Chat</a> -->
@@ -142,11 +111,11 @@
     <div class="item item-divider">Book Appointment</div>
 
     <div class="list">
-    <a class="item" ui-sref="#"><h2 class="ctitle">Video</h2></a>
-    <a class="item" ui-sref="#"><h2 class="ctitle">Clinic</h2></a>
-    <a class="item" ui-sref="#"><h2 class="ctitle">Home</h2></a>
+    <a class="item" ng-click="selDoc()" ><h2 class="ctitle">Video</h2></a>
+    <!---<a class="item" ui-sref="#"><h2 class="ctitle">Clinic</h2></a>
+    <a class="item" ui-sref="#"><h2 class="ctitle">Home</h2></a>--->
     </div>	
-    <div class="list">
+    <!---<div class="list">
     <div class="item item-divider">Start Chat</div>
     <a class="item" ui-sref="#"><h2 class="ctitle">New Chat</h2></a>
     </div>					
@@ -155,7 +124,7 @@
     <div class="item item-divider">Add Record</div>
     <a class="item" ui-sref="#"><h2 class="ctitle">Allergy</h2></a>
     <a class="item" ui-sref="#"><h2 class="ctitle">Bill</h2></a>
-    </div>						
+    </div>	--->					
 
     </ion-content>
     <div class="fixedbar">
