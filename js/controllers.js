@@ -3418,7 +3418,7 @@ angular.module('your_app_name.controllers', [])
                         //alert($scope.picData);
                         $scope.ftLoad = true;
                         imgCnt++;
-                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="removeattach remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
                         camimg_holder.append(btnhtml);
                         $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                         //createFileEntry(fileURI);
