@@ -543,7 +543,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/measurement.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'MeasurementCtrl'
                             }
                         }
                     })

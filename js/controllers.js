@@ -3200,11 +3200,19 @@ angular.module('your_app_name.controllers', [])
                 });
             } else {
                 store({'from': 'app.assistants'});
-                $scope.patientId = '';
-                $scope.doctorId = '';
-                $scope.patientName = [{'name': 'No Patient selected'}];
-                window.localStorage.setItem('patientId', '');
-                window.localStorage.setItem('doctorId', $scope.doctorId);
+
+                console.log('----' + get('patientId') + '---');
+                if (get('patientId') == 0) {
+                    $scope.patientId = '';
+                    $scope.doctorId = '';
+                    $scope.patientName = [{'name': 'No Patient selected'}];
+                    window.localStorage.setItem('patientId', '0');
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                } else {
+                    $scope.patientId = get('patientId');
+                    $scope.doctorId = get('doctorId');
+
+                }
                 $scope.conDate = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
@@ -3219,6 +3227,11 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    angular.forEach($scope.patients, function (value, key) {
+                        if (value.id == $scope.patientId) {
+                            $scope.patientName = [{'name': value.fname}];
+                        }
+                    });
                     if ($scope.patients.length > 0) {
                         var data = $scope.patients;
                         $scope.users = _.reduce(
@@ -3242,6 +3255,7 @@ angular.module('your_app_name.controllers', [])
             $scope.selPatient = function (pid, name) {
                 console.log(pid + "Name = " + name);
                 $scope.patientId = pid;
+                window.localStorage.setItem('patientId', pid);
                 $scope.getPatientId(pid);
                 $scope.patientName = [{'name': name}];
                 console.log($scope.patientName);
@@ -3597,13 +3611,11 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('selectPatientCtrl', function ($scope, $ionicModal) {
-
-        })
-
-
+        .controller('selectPatientCtrl', function ($scope, $ionicModal) { })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.catId = 'Patient History';
@@ -3612,8 +3624,7 @@ angular.module('your_app_name.controllers', [])
             $scope.selConditions = [];
             $scope.gender = '';
             $scope.gen = [];
-            $scope.userId = window.localStorage.getItem('id');
-            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
@@ -3729,6 +3740,25 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+        })
+
+        .controller('MeasurementCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('doctorId');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.catId = 'Measurements';
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-measure-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response);
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
         })
 
         .controller('DietplanCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
