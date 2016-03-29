@@ -1658,7 +1658,7 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.counter1 == 0) {
                     //console.log('fadsf af daf');
                     $timeout.cancel(stopped1);
-                    $scope.kookooID = window.localStorage.getItem('kookooid');
+                    /*$scope.kookooID = window.localStorage.getItem('kookooid');
                     $http({
                         method: 'GET',
                         url: domain + 'kookoo/payment-time-expired',
@@ -1672,7 +1672,7 @@ angular.module('your_app_name.controllers', [])
                         }, 3000);
                     }, function errorCallback(response) {
                         $state.go('app.doctrslist', {}, {reload: true});
-                    });
+                    });*/
                 }
             };
             $timeout(function () {
