@@ -832,7 +832,7 @@ angular.module('your_app_name', [
 					/* chat category */
 					
 					    .state('app.chatlist', {
-                        url: "/patient-consult",
+                        url: "/chatlist",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/chat/chatlist.html",
@@ -841,7 +841,7 @@ angular.module('your_app_name', [
                         }
                     })   
 
-					.state('app.new-doctorchat', {
+					    .state('app.new-doctorchat', {
                         url: "/new-doctorchat",
                         views: {
                             'menuContent': {
@@ -851,6 +851,17 @@ angular.module('your_app_name', [
                         }
                     })
 					
+					.state('app.drchat', {
+                        url: "/drchat",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat/drchat.html",
+                                controller: 'DrChatCtrl'
+                            }
+                        }
+                    })
+					
+					/* end of chat category */
 
                     .state('app.logout', {
                         url: "/logout",

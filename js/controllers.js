@@ -833,13 +833,41 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-        .controller('ChatListCtrl', function ($scope) {
+
+        .controller('ChatListCtrl', function ($scope, $ionicModal, $state) {
+            $ionicModal.fromTemplateUrl('doctorlist', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            $scope.tochat = function () {
+                $scope.modal.hide();
+                $state.go('app.drchat')
+            }
 
         })
         .controller('newDoctorChatCtrl', function ($scope) {})
 
+        .controller('DrChatCtrl', function ($scope) {
 
+            var sessionId = '2_MX40NTEyMTE4Mn5-MTQ1NjkwMTY3Mzc3Nn5oRVBFRjlMZ3RYeE1yRHJkOHpWTDJRZHh-UH4';
+            var tokenAlice = 'T1==cGFydG5lcl9pZD00NTEyMTE4MiZzaWc9NWE3NzFlYWNkNmQxMzUyNDZhZGUxNjFiMmQ4MjU5YzM5ODllODBkZTpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5URXlNVEU0TW41LU1UUTFOamt3TVRZM016YzNObjVvUlZCRlJqbE1aM1JZZUUxeVJISmtPSHBXVERKUlpIaC1VSDQmY3JlYXRlX3RpbWU9MTQ1NjkwMTgwMCZub25jZT0wLjI2NDE0MDczNzM5MzkxNjQmZXhwaXJlX3RpbWU9MTQ1Njk4ODA2NSZjb25uZWN0aW9uX2RhdGE9';
+            var tokenBob = 'T1==cGFydG5lcl9pZD00NTEyMTE4MiZzaWc9NDljODBiZTQ1NjQzZTVhYzQ4NTY0ZjZmMThmZmQwZWQwNWUwZjg0ODpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5URXlNVEU0TW41LU1UUTFOamt3TVRZM016YzNObjVvUlZCRlJqbE1aM1JZZUUxeVJISmtPSHBXVERKUlpIaC1VSDQmY3JlYXRlX3RpbWU9MTQ1NjkwMTgyOCZub25jZT0wLjM2MDU0MjkzODY3NjQ2NjkmZXhwaXJlX3RpbWU9MTQ1Njk4ODA2NSZjb25uZWN0aW9uX2RhdGE9';
 
+            // Add here your API key
+            var apiKey = '45121182';
+
+            // Although you need a initialized session, the ChatWidget does not need
+            // this session to be connected. It will connect the chat to the session
+            // automatically once the session connects.
+            var session = OT.initSession(apiKey, sessionId);
+            var chatWidget = new OTSolution.TextChat.ChatWidget({
+                session: session,
+                container: '#chat'
+            });
+
+        })
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.dnlink = function ($nurl) {
                 $state.go($nurl);
@@ -2650,7 +2678,7 @@ angular.module('your_app_name.controllers', [])
                             window.localStorage.removeItem('from');
                             $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                         } else
-                            $state.go('app.inventory',{}, {reload: true});
+                            $state.go('app.inventory', {}, {reload: true});
 
 //                        if (appid == 0) {
 //                            if (response == '1') {
@@ -3393,7 +3421,7 @@ angular.module('your_app_name.controllers', [])
                         //alert($scope.picData);
                         $scope.ftLoad = true;
                         imgCnt++;
-                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="removeattach remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
                         camimg_holder.append(btnhtml);
                         $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                         //createFileEntry(fileURI);
@@ -3763,10 +3791,10 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patient;
                 $scope.cases = response.data.caseData;
                 angular.forEach($scope.recordDetails, function (val, key) {
-                        if(val.fields.field == 'Attachments'){
-                            $scope.isAttachment = val.attachments.length;
-                        }
-                    });
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
                 console.log($scope.recordDetails);
             }, function errorCallback(response) {
                 console.log(response);

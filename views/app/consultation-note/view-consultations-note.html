@@ -10,7 +10,7 @@
                     <div> 
                     </div>
                     <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment!=''">
-                        <div class="item item-divider" ng-if="rec.value != ''">
+                        <div class="item item-divider" ng-if="rec.value != '' && rec.value!=0">
                             <span>{{rec.fields.field}} </span></div>
                         <div class="ditem-content">{{rec.value}}</div>
                     </div>

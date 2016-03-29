@@ -7,7 +7,7 @@
 
         <div class="list cdetail-list">
             <div class="chatlist">
-                <a class="item item-icon-left item-icon-right" ui-sref="#">
+                <a class="item item-icon-left item-icon-right" ui-sref="app.drchat">
                     <i class="icon ion-ionic"></i>
                     <span class="title">Hitakshi</span>
                     <div>
@@ -16,7 +16,7 @@
                     </div>
                 </a>
 				
-				  <a class="item item-icon-left item-icon-right" ui-sref="#">
+				  <a class="item item-icon-left item-icon-right" ui-sref="app.drchat">
                     <i class="icon ion-ionic"></i>
                     <span class="title">Prashant Shah</span>
                     <div>
@@ -28,11 +28,63 @@
             </div>
         </div>  
     </ion-content>
-	   <div class="fixedbar">
+	 <!--   <div class="fixedbar">
         <a class="button btn-add" ui-sref="app.new-doctorchat"> <i class="icon chat-bubbles"></i> New Chat</a>
+    </div> -->
+	
+	  <div class="fixedbar">
+        <div class="button btn-add" ng-click="modal.show()"> <i class="icon chatbubbles"></i> New Chat</div>
     </div>
 </ion-view>
 
+<script id="doctorlist" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">New Chat</h1>
+	<div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+    <div class="posts-list consultview">
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="card-content" >
+                                <div class="card-left">	
+                                    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
+                                </div>
+                                <div class="card-detail txt-left">
+                                    <p><strong>Dr. XYZ</strong><br/>
+                                        <span >
+                                            Orthopedic
+                                        </span></p>
+                                </div>
+                                <div class="row txt-left">
+                                    <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
+                                    <div class="col"><p><strong>Qualification</strong><br/>
+                                            <span>MBBS, MD </span></p></div>	
+                                </div>
+                                <div class="row txt-left">
+                                    <div class="col"><p><strong>Languages</strong><br/><span>
+                                                Hindi, English
+                                            </span></p></div>	
+                                    <div class="col"><p><strong>Focus Area</strong><br/>
+                                            <span>v</span></p></div>	
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+        
+                            <div class="post-actions row post-footer">
+                                <div class="row cardbtn">
+                                    <div class="col"><div class="cbtn ion-chatbubbles" ui-sref="app.drchat" ng-click="tochat();"> Chat </div></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+
+    </ion-content>
+    </ion-modal-view>
+</script>
 
 

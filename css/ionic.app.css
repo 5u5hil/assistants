@@ -9123,11 +9123,12 @@ label.listreq{border-bottom-color:#f00 !important;}
 form .item{margin-bottom: 1px;border-top: 0px;}
 
 .upattach{  display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             text-align: center;
             border: 1px #ccc solid;
             margin: 2px;
+			font-size:22px;
 }
 
 .viewattachfile{padding-top:20px; width:100%; text-align:center;}
@@ -9210,13 +9211,22 @@ form .item{margin-bottom: 1px;border-top: 0px;}
                 z-index: -1;
                 opacity: 0;
 } 
+
 .upattach{  display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             text-align: center;
             border: 1px #ccc solid;
             margin: 2px;
-}	
+			font-size:22px;
+}
+.removeattach {	padding: 0 3px;
+    background: #FDFDFD;
+    border: none;
+    /* margin-bottom: -5px; */
+    margin: 0 8px;
+    font-weight: bold;}
+	#camera-status{}
 
 .imgincard{margin-top:10px;}
 .imgincard img{max-width:100%;}
