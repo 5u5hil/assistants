@@ -746,6 +746,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $scope.users = {};
             $http({
                 method: 'GET',
@@ -1065,6 +1066,7 @@ angular.module('your_app_name.controllers', [])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.drId = $stateParams.id;
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $scope.users = {};
             $http({
                 method: 'GET',
@@ -1109,6 +1111,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
+                console.log(data);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
                     jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
@@ -2101,6 +2104,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-list',
@@ -2142,6 +2146,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
+                console.log(data);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
                     jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
