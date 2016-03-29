@@ -1942,7 +1942,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.appointMedicine = function (mid, appid, from) {
                 $scope.mid = parseInt(mid);
-               // alert($scope.mid);
+                // alert($scope.mid);
                 $scope.appointmentId = appid;
 
 
@@ -2661,20 +2661,22 @@ angular.module('your_app_name.controllers', [])
                     success: function (response) {
                         console.log(response);
                         if ($scope.from == 'app.appointment-list') {
-                            window.localStorage.removeItem('from');
-                             if (response == '1') {
-                                 $state.go('app.appointment-list', {}, {reload: true});
+
+                            if (response == '1') {
+                                window.localStorage.removeItem('from');
+                                $state.go('app.appointment-list', {}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
                             } else {
                                 alert('Something went wrong!');
-                                 $state.go('app.appointment-list', {}, {reload: true});
+                                $state.go('app.appointment-list', {}, {reload: true});
                             }
-                            
-                         
+
+
                         } else if ($scope.from == 'app.past-appointment-list') {
-                            window.localStorage.removeItem('from');
-                             if (response == '1') {
+
+                            if (response == '1') {
+                                window.localStorage.removeItem('from');
                                 $state.go('app.past-appointment-list', {}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -2682,16 +2684,17 @@ angular.module('your_app_name.controllers', [])
                                 alert('Something went wrong!');
                                 $state.go('app.past-appointment-list', {}, {reload: true});
                             }
-                            
-                           
+
+
                         }
 //                            else if ($scope.from == 'app.patient-app-list')
 //                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
 //                            else if ($scope.from == 'app.patient-past-app-list')
 //                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                         else if ($scope.from == 'app.doctor-consultations') {
-                            window.localStorage.removeItem('from');
+
                             if (response == '1') {
+                                window.localStorage.removeItem('from');
                                 $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -2699,22 +2702,23 @@ angular.module('your_app_name.controllers', [])
                                 alert('Something went wrong!');
                                 $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
                             }
-                            
-                           
+
+
                         } else if ($scope.from == 'app.consultation-past') {
-                            window.localStorage.removeItem('from');
-                             
+
+
                             if (response == '1') {
-                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                                window.localStorage.removeItem('from');
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
                             } else {
                                 alert('Something went wrong!');
-                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             }
 
                         } else {
-                           if (response == '1') {
+                            if (response == '1') {
                                 $state.go('app.inventory');
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -2754,7 +2758,7 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.removeItem = function (itemId) {
-               // alert(itemId);
+                // alert(itemId);
                 alert('Product removed.');
 
                 if (itemId == 0) {
@@ -2913,7 +2917,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
                 $scope.gotodisbursement = function (mid, appid) {
-                   // alert($scope.mid);
+                    // alert($scope.mid);
                     $rootScope.dataitem = $scope.dataitem;
                     $state.go('app.disbursement', {'mid': $scope.mid, 'appid': $scope.appid}, {reload: true});
                 };
@@ -3873,9 +3877,13 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $scope.path = "";
+                    $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
+                    $scope.path = path;
+                    $scope.name = name;
                     console.log(path + '=afd =' + name);
                     $scope.value = $rootScope.attachpath + path + name;
                     $scope.modal.show();
@@ -3893,6 +3901,16 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
+            };
+            
+            $scope.print = function () {
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+                var print_page = '<img src="'+$rootScope.attachpath + $scope.path + $scope.name+'"  height="600" width="300" />';
+                //console.log(print_page);  
+                cordova.plugins.printer.print(print_page, 'Print', function () {
+                    alert('printing finished or canceled');
+                });
             };
 
         })
