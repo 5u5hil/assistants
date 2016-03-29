@@ -800,6 +800,9 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
+		
+
+		
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
             $rootScope.dataitem = "";
@@ -829,6 +832,14 @@ angular.module('your_app_name.controllers', [])
             }
         })
 
+		
+		.controller('ChatListCtrl',function($scope){
+			
+		})
+		.controller('newDoctorChatCtrl',function($scope){})
+		
+		
+		
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
             $scope.dnlink = function ($nurl) {
                 $state.go($nurl);

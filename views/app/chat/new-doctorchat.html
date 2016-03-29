@@ -1,0 +1,44 @@
+<ion-view class="category-detail-view">
+    <ion-nav-title>
+        <span>Doctors</span>
+    </ion-nav-title>
+    <ion-content>
+
+
+        <div class="posts-list">
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="card-content" >
+                                <div class="card-left">	
+                                    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
+                                </div>
+                                <div class="card-detail txt-left">
+                                    <p><strong>Dr. XYZ</strong><br/>
+                                        <span >
+                                            Orthopedic
+                                        </span></p>
+                                </div>
+                             
+                                <div class="clr"></div>
+                            </div>
+        
+                            <div class="post-actions row post-footer">
+                                <div class="row cardbtn">
+                                    <div class="col"><div class="cbtn" ui-sref="#">Chat </div></div>
+                                   
+        
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </ion-content>
+	   <div class="fixedbar">
+        <a class="button btn-add" ui-sref="app.new-doctorchat"> <i class="icon chat-bubbles"></i> New Chat</a>
+    </div>
+</ion-view>
+
+
+
+

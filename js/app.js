@@ -207,6 +207,12 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+					
+					
+					
+					
+					
 
                     .state('app.disbursement', {
                         url: "/disbursement/{mid:string}/{appid:string}",
@@ -822,6 +828,29 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+					/* chat category */
+					
+					    .state('app.chatlist', {
+                        url: "/patient-consult",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat/chatlist.html",
+                                controller: 'ChatListCtrl'
+                            }
+                        }
+                    })   
+
+					.state('app.new-doctorchat', {
+                        url: "/new-doctorchat",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat/new-doctorchat.html",
+                                controller: 'newDoctorChatCtrl'
+                            }
+                        }
+                    })
+					
 
                     .state('app.logout', {
                         url: "/logout",
