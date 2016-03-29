@@ -1942,7 +1942,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.appointMedicine = function (mid, appid, from) {
                 $scope.mid = parseInt(mid);
-                alert($scope.mid);
+               // alert($scope.mid);
                 $scope.appointmentId = appid;
 
 
@@ -2599,7 +2599,7 @@ angular.module('your_app_name.controllers', [])
             console.log($rootScope.dataitem);
             $scope.mId = $stateParams.mid;
             $scope.appId = $stateParams.appid;
-            alert($scope.appId);
+            //alert($scope.appId);
             $scope.curDate = new Date();
             $scope.curTime = new Date();
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -2662,10 +2662,28 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                         if ($scope.from == 'app.appointment-list') {
                             window.localStorage.removeItem('from');
-                            $state.go('app.appointment-list', {}, {reload: true});
+                             if (response == '1') {
+                                 $state.go('app.appointment-list', {}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                 $state.go('app.appointment-list', {}, {reload: true});
+                            }
+                            
+                         
                         } else if ($scope.from == 'app.past-appointment-list') {
                             window.localStorage.removeItem('from');
-                            $state.go('app.past-appointment-list', {}, {reload: true});
+                             if (response == '1') {
+                                $state.go('app.past-appointment-list', {}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                $state.go('app.past-appointment-list', {}, {reload: true});
+                            }
+                            
+                           
                         }
 //                            else if ($scope.from == 'app.patient-app-list')
 //                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
@@ -2673,12 +2691,38 @@ angular.module('your_app_name.controllers', [])
 //                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                         else if ($scope.from == 'app.doctor-consultations') {
                             window.localStorage.removeItem('from');
-                            $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            if (response == '1') {
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            }
+                            
+                           
                         } else if ($scope.from == 'app.consultation-past') {
                             window.localStorage.removeItem('from');
-                            $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
-                        } else
-                            $state.go('app.inventory', {}, {reload: true});
+                             
+                            if (response == '1') {
+                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            }
+
+                        } else {
+                           if (response == '1') {
+                                $state.go('app.inventory');
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                $state.go('app.inventory');
+                            }
+                        }
 
 //                        if (appid == 0) {
 //                            if (response == '1') {
@@ -2710,7 +2754,7 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.removeItem = function (itemId) {
-                alert(itemId);
+               // alert(itemId);
                 alert('Product removed.');
 
                 if (itemId == 0) {
@@ -2869,7 +2913,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
                 $scope.gotodisbursement = function (mid, appid) {
-                    alert($scope.mid);
+                   // alert($scope.mid);
                     $rootScope.dataitem = $scope.dataitem;
                     $state.go('app.disbursement', {'mid': $scope.mid, 'appid': $scope.appid}, {reload: true});
                 };
