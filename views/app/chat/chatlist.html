@@ -80,7 +80,46 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
+				<div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="card-content" >
+                                <div class="card-left">	
+                                    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
+                                </div>
+                                <div class="card-detail txt-left">
+                                    <p><strong>Dr. PQR</strong><br/>
+                                        <span >
+                                            Orthopedic
+                                        </span></p>
+                                </div>
+                                <div class="row txt-left">
+                                    <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
+                                    <div class="col"><p><strong>Qualification</strong><br/>
+                                            <span>MBBS, MD </span></p></div>	
+                                </div>
+                                <div class="row txt-left">
+                                    <div class="col"><p><strong>Languages</strong><br/><span>
+                                                Hindi, English
+                                            </span></p></div>	
+                                    <div class="col"><p><strong>Focus Area</strong><br/>
+                                            <span>v</span></p></div>	
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+        
+                            <div class="post-actions row post-footer">
+                                <div class="row cardbtn">
+                                    <div class="col"><div class="cbtn ion-chatbubbles" ui-sref="app.drchat" ng-click="tochat();"> Chat </div></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+				
+				
+				</div>
 
 
     </ion-content>
