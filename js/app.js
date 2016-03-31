@@ -556,6 +556,15 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.diagnosis', {
+                        url: "/consultation-note/diagnosis",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/diagnosis.html",
+                                controller: 'DiagnosisTextCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.testresult', {
                         url: "/consultation-note/testresult",
@@ -616,15 +625,15 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.diagnosis', {
-                        url: "/diagnosis",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/diagnosis.html",
-                                controller: 'DiagnosisCtrl'
-                            }
-                        }
-                    })
+//                    .state('app.diagnosis', {
+//                        url: "/diagnosis",
+//                        views: {
+//                            'menuContent': {
+//                                templateUrl: "views/app/diagnosis.html",
+//                                controller: 'DiagnosisCtrl'
+//                            }
+//                        }
+//                    })
 
                     .state('app.treatment-plan', {
                         url: "/treatmentplan",
