@@ -746,6 +746,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $scope.users = {};
             $http({
                 method: 'GET',
@@ -807,6 +808,8 @@ angular.module('your_app_name.controllers', [])
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
+            $rootScope.measurement = "";
+            $rootScope.objText = {};
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
                 window.localStorage.removeItem('patientId');
@@ -1065,6 +1068,7 @@ angular.module('your_app_name.controllers', [])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.drId = $stateParams.id;
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $scope.users = {};
             $http({
                 method: 'GET',
@@ -1109,6 +1113,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
+                console.log(data);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
                     jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
@@ -1658,21 +1663,21 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.counter1 == 0) {
                     //console.log('fadsf af daf');
                     $timeout.cancel(stopped1);
-                    $scope.kookooID = window.localStorage.getItem('kookooid');
-                    $http({
-                        method: 'GET',
-                        url: domain + 'kookoo/payment-time-expired',
-                        params: {kookooid: $scope.kookooID}
-
-                    }).then(function successCallback(responseData) {
-                        alert('Sorry, Your payment time expired');
-                        window.localStorage.removeItem('kookooid');
-                        $timeout(function () {
-                            $state.go('app.doctrslist', {}, {reload: true});
-                        }, 3000);
-                    }, function errorCallback(response) {
-                        $state.go('app.doctrslist', {}, {reload: true});
-                    });
+                    /*$scope.kookooID = window.localStorage.getItem('kookooid');
+                     $http({
+                     method: 'GET',
+                     url: domain + 'kookoo/payment-time-expired',
+                     params: {kookooid: $scope.kookooID}
+                     
+                     }).then(function successCallback(responseData) {
+                     alert('Sorry, Your payment time expired');
+                     window.localStorage.removeItem('kookooid');
+                     $timeout(function () {
+                     $state.go('app.doctrslist', {}, {reload: true});
+                     }, 3000);
+                     }, function errorCallback(response) {
+                     $state.go('app.doctrslist', {}, {reload: true});
+                     });*/
                 }
             };
             $timeout(function () {
@@ -1807,8 +1812,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.disburse_unit = response.data.disburse_unit;
                 $scope.patient_id = response.data.patient_id;
                 $scope.doctor_id = response.data.doctor_id;
-
-
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -2121,6 +2124,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.gender = '';
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-list',
@@ -2162,6 +2166,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('submit');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addPatientForm")[0]);
+                console.log(data);
                 callAjax("POST", domain + "assistants/save-patient", data, function (response) {
                     jQuery("#addPatientForm")[0].reset();
                     $scope.patientadded = response.patientadded;
@@ -2584,6 +2589,46 @@ angular.module('your_app_name.controllers', [])
                                 if (!$scope.mqty) {
                                     //don't allow the user to close unless he enters wifi password
                                     console.log('fad ajfad')
+                                  //	e.preventDefault();
+                                } else {
+                                    $state.go('app.medicine');
+                                    return $scope.mqty;
+
+                                }
+                            }
+                        }
+                    ]
+                });
+                myPopup.then(function (res) {
+
+                    console.log('Tapped!', res);
+                });
+            }
+			
+			
+			
+			 $scope.addmultiplemedicine = function () {
+               
+                var htmlcontent = '<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="mqty"  value="" placeholder="Qty" name="qunatity" min="1" >\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup"  name="itemform" ng-model="pqr">\n\
+                        <option value="" selected>Crocin</option></div></div> ';
+
+
+                var myPopup = $ionicPopup.show({
+                    template: htmlcontent,
+                    title: 'Medicine',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Add</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                if (!$scope.mqty) {
+                                    //don't allow the user to close unless he enters wifi password
+                                    console.log('fad ajfad')
                                     $state.go('app.medicine');
                                     //	e.preventDefault();
                                 } else {
@@ -2600,6 +2645,19 @@ angular.module('your_app_name.controllers', [])
                     console.log('Tapped!', res);
                 });
             }
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
             /* End of add medicine */
         })
 
@@ -2608,10 +2666,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AddmedcnCtrl', function ($scope) {
-
-
-        })
+        .controller('AddmedcnCtrl', function ($scope) { })
 
         .controller('DisbursementCtrl', function ($scope, $state, $http, $rootScope, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
@@ -2812,11 +2867,9 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('AddMedicineCtrl', function ($scope) {
+        .controller('AddMedicineCtrl', function ($scope) { })
 
-        })
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-
             $scope.mId = $stateParams.mid;
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
@@ -2827,12 +2880,9 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.medicineforprob = response.data.medicineforprob;
-
-
             }, function errorCallback(response) {
                 console.log(response);
             });
-
         })
 
         .controller('MedicineHistoryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -3093,17 +3143,6 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('PlaintestCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('addeval', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
         .controller('SnowmedtCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('snomed', {
                 scope: $scope
@@ -3128,17 +3167,6 @@ angular.module('your_app_name.controllers', [])
 
         .controller('LoincCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('loinc', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
-
-        .controller('IcdCtrl', function ($scope, $ionicModal) {
-            $ionicModal.fromTemplateUrl('icd', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -3205,7 +3233,7 @@ angular.module('your_app_name.controllers', [])
             $scope.modalclose = function (ulink) {
                 $state.go(ulink);
                 $scope.modal.hide();
-            }
+            };
         })
 
         .controller('knowConditionCtrl', function ($scope, $ionicModal, $state) {
@@ -3244,6 +3272,7 @@ angular.module('your_app_name.controllers', [])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.prescription = 'Yes';
             $scope.curTime = new Date();
+            $rootScope.measurement;
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
                 $http({
@@ -3846,10 +3875,79 @@ angular.module('your_app_name.controllers', [])
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response);
-
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $scope.saveMeasurements = function () {
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                callAjax("POST", domain + "assistrecords/save-measurements", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        alert("Measurements saved successfully!");
+                        $rootScope.measurement = response.records.id;
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+        })
+
+        .controller('ObservationCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('doctorId');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.objText = [];
+            $scope.selConditions = [];
+            $scope.observation = '';
+
+            $ionicModal.fromTemplateUrl('addeval', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showM = function () {
+                    $scope.observation = '';
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                alert(observation);
+                $scope.objText.push({'objtext': observation});
+                $scope.observation = '';
+                $scope.modal.hide();
+            };
+
+            $scope.saveObj = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistrecords/save-observations',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText)}
+                }).then(function successCallback(response) {
+                    
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
+
+        .controller('IcdCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('icd', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showEM = function (ind) {
+                    $scope.observation = $scope.objText[ind].objtext;
+                };
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
         })
 
         .controller('DietplanCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
@@ -3877,7 +3975,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DietplanListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-
             $ionicModal.fromTemplateUrl('add-diet', {
                 scope: $scope
             }).then(function (modal) {
@@ -3949,8 +4046,9 @@ angular.module('your_app_name.controllers', [])
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
+
                 var print_page = '<img src="' + $rootScope.attachpath + $scope.path + $scope.name + '"  height="auto" maxwidth="100%" />';
-                //console.log(print_page);  
+
                 cordova.plugins.printer.print(print_page, 'Print', function () {
                     alert('printing finished or canceled');
                 });
