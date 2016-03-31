@@ -1995,6 +1995,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time = response.data.all_time;
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
+                $scope.all_medicine = response.data.all_medicine;
                 //past section //
                 $scope.all_data_past = response.data.all_data_past;
                 $scope.all_app_past = response.data.all_appointments_past;
@@ -2004,6 +2005,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time_past = response.data.all_time_past;
                 $scope.all_end_time_past = response.data.all_end_time_past;
                 $scope.all_note_past = response.data.all_note_past;
+                $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
@@ -2094,6 +2096,24 @@ angular.module('your_app_name.controllers', [])
                 //alert(appId);
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
+            };
+
+
+            $scope.viewMedicine = function (consultationId) {
+                //alert(noteId);
+                // store({'noteId': noteId});
+                $state.go("app.view-medicine", {'id': consultationId}, {reload: true});
+            };
+
+            $scope.appointMedicine = function (mid, appid, from) {
+                $scope.mid = parseInt(mid);
+                $scope.appointmentId = appid;
+                $scope.interface = window.localStorage.getItem('interface_id');
+                if (from == 'patientCurApp')
+                    store({'from': 'app.patient-app-list'});
+                else if (from == 'patientPastApp')
+                    store({'from': 'app.patient-past-app-list'});
+                $state.go('app.disbursement', {'mid': $scope.mid, 'appid': $scope.appointmentId}, {reload: true});
             };
         })
 
@@ -2614,6 +2634,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response.data);
                     $scope.appointment = response.data.appointment;
                     $scope.doctorId = response.data.appointment.doctor_id;
+                    $scope.patientId = response.data.appointment.user_id;
+
 
                 }, function errorCallback(response) {
                     console.log(response);
@@ -2621,6 +2643,7 @@ angular.module('your_app_name.controllers', [])
             } else {
                 $scope.appointment = 0;
                 $scope.doctorId = 0;
+                $scope.patientId = 0;
             }
 
             $http({
@@ -2686,12 +2709,32 @@ angular.module('your_app_name.controllers', [])
                             }
 
 
-                        }
-//                            else if ($scope.from == 'app.patient-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-//                            else if ($scope.from == 'app.patient-past-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-                        else if ($scope.from == 'app.doctor-consultations') {
+                        } else if ($scope.from == 'app.patient-app-list') {
+
+                            if (response == '1') {
+                                window.localStorage.removeItem('from');
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            }
+
+
+                        } else if ($scope.from == 'app.patient-past-app-list') {
+                            alert("dasdasd");
+                             if (response == '1') {
+                                window.localStorage.removeItem('from');
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            } else if (response == '0') {
+                                alert('Please add medicines');
+                            } else {
+                                alert('Something went wrong!');
+                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            }
+                           
+                        } else if ($scope.from == 'app.doctor-consultations') {
 
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
@@ -3878,7 +3921,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
             });
             $scope.path = "";
-                    $scope.name = "";
+            $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
@@ -3902,11 +3945,11 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
-            
+
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
-                var print_page = '<img src="'+$rootScope.attachpath + $scope.path + $scope.name+'"  height="600" width="300" />';
+                var print_page = '<img src="' + $rootScope.attachpath + $scope.path + $scope.name + '"  height="auto" maxwidth="100%" />';
                 //console.log(print_page);  
                 cordova.plugins.printer.print(print_page, 'Print', function () {
                     alert('printing finished or canceled');
