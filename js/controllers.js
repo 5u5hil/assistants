@@ -2420,16 +2420,17 @@ angular.module('your_app_name.controllers', [])
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
             $http({
-                            method: 'GET',
-                            url: domain + 'inventory/get-inventary-pagelang',
-                            params: {id: $scope.id, interface: $scope.interface}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            
-                            //$state.go('app.consultations-list', {}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });    
+                method: 'GET',
+                url: domain + 'inventory/get-inventary-pagelang',
+                params: {id: $scope.id, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+
+                $scope.inventory = response.data.inventory;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
@@ -2455,7 +2456,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
-                
+
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
@@ -3099,7 +3100,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.records = response.data.records;
                 $scope.action = response.data.action;
                 $scope.cancel = response.data.cancel;
-                 $scope.video = response.data.video;
+                $scope.video = response.data.video;
 
 
             }, function errorCallback(e) {
@@ -4191,7 +4192,8 @@ angular.module('your_app_name.controllers', [])
                                 $scope.gender = 'Male';
                             } else if (val.value == 2) {
                                 $scope.gender = 'Female';
-                            } else $scope.gender = 'Na';
+                            } else
+                                $scope.gender = 'Na';
                         }
                     });
                 } else {
@@ -4199,7 +4201,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
                         $scope.gender = 'Female';
-                    } else $scope.gender = 'Na';
+                    } else
+                        $scope.gender = 'Na';
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;

@@ -1,28 +1,28 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>Inventory</span>
+        <span>{{inventory.inventory[language]}}</span>
     </ion-nav-title>
     <ion-content>
 	
 	 	 <div class="list list-inset txt-center">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search" ng-model="search">
+                <input type="text" placeholder="{{inventory.search[language]}}" ng-model="search">
             </label>
-                     <a ng-click="searchMedicine(search)"  class="button button-positive mt15">Search</a>	<!--ui-sref="app.search-medicine"-->
+                     <a ng-click="searchMedicine(search)"  class="button button-positive mt15">{{inventory.search[language]}}</a>	<!--ui-sref="app.search-medicine"-->
         </div>
 	
         <div class="item item-divider">History</div>
 		<div class="row">
-		<div class="col"><a ui-sref="app.ass-inward" class="Cstmbutn button-small">Inward</a></div>
-		<div class="col"><a ui-sref="app.ass-inward" class="Cstmbutn button-small">Outgo</a></div>
+		<div class="col"><a ui-sref="app.ass-inward" class="Cstmbutn button-small">{{inventory.inward[language]}}</a></div>
+		<div class="col"><a ui-sref="app.ass-inward" class="Cstmbutn button-small">{{inventory.outgo[language]}}</a></div>
 		</div>
 		
         
     </ion-content>
 	
 	<div class="fixedbar">
-	<a class="button btn-add" ui-sref="app.medicine">Add</a>
-	<a class="button btn-share" ui-sref="app.disbursement({mid:0,appid:0})">Disbursement </a>
+	<a class="button btn-add" ui-sref="app.medicine"> {{inventory.add[language]}}</a>
+	<a class="button btn-share" ui-sref="app.disbursement({mid:0,appid:0})"> {{inventory.disbursement[language]}}</a>
 	</div>
 </ion-view>
