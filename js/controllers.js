@@ -2419,17 +2419,17 @@ angular.module('your_app_name.controllers', [])
             $scope.id = window.localStorage.getItem('id');
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
-//            $http({
-//                            method: 'GET',
-//                            url: domain + 'inventory/get-inventary-page',
-//                            params: {id: $scope.id, interface: $scope.interface}
-//                        }).then(function successCallback(response) {
-//                            console.log(response.data);
-//                            
-//                            //$state.go('app.consultations-list', {}, {reload: true});
-//                        }, function errorCallback(response) {
-//                            console.log(response);
-//                        });    
+            $http({
+                            method: 'GET',
+                            url: domain + 'inventory/get-inventary-pagelang',
+                            params: {id: $scope.id, interface: $scope.interface}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            
+                            //$state.go('app.consultations-list', {}, {reload: true});
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });    
             $scope.searchMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
@@ -2455,6 +2455,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
+                
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
@@ -2769,16 +2770,16 @@ angular.module('your_app_name.controllers', [])
 
                         } else if ($scope.from == 'app.patient-past-app-list') {
                             alert("dasdasd");
-                             if (response == '1') {
+                            if (response == '1') {
                                 window.localStorage.removeItem('from');
                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
                             } else {
                                 alert('Something went wrong!');
-                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                             }
-                           
+
                         } else if ($scope.from == 'app.doctor-consultations') {
 
                             if (response == '1') {
@@ -3081,7 +3082,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-details',
-                params: {userId: $scope.userId, patientId: $scope.patientId}
+                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.dob = response.data.dob;
@@ -3090,6 +3091,17 @@ angular.module('your_app_name.controllers', [])
                 $scope.activeAppCnt = response.data.activeAppCnt;
                 $scope.pastAppCnt = response.data.pastAppCnt;
                 $scope.patientDetails = response.data.patientDetails;
+                $scope.language = response.data.lang.language;
+                $scope.background = response.data.background;
+                $scope.chat = response.data.chat;
+                $scope.add = response.data.add;
+                $scope.consultations = response.data.consultations;
+                $scope.records = response.data.records;
+                $scope.action = response.data.action;
+                $scope.cancel = response.data.cancel;
+                 $scope.video = response.data.video;
+
+
             }, function errorCallback(e) {
                 console.log(e);
             });

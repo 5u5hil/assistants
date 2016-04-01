@@ -24,23 +24,23 @@
                 </div>
             </div>
         </div>	
-        <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
+        <div class="item item-divider"><i class="icon ion-person"></i> {{background[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.view-patient-history({id: patientDetails.id})"><h2 class="ctitle">Patient</h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
         </div>	
-        <div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
+        <div class="item item-divider"><i class="icon ion-folder"></i> {{records[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.createdbyu({id: patientDetails.id})"><h2 class="ctitle">Created by you<span class="count2">{{recordsCreatedCnt}}</span></h2></a>
             <a class="item" ui-sref="app.sharedwithu({id: patientDetails.id})"><h2 class="ctitle">Shared with you <span class="count2">{{recordsSharedCnt}}</span></h2></a>
         </div>
-        <div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
+        <div class="item item-divider"><i class="icon ion-android-contacts"></i>  {{consultations[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.patient-app-list({id: patientDetails.id })"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
             <a class="item" ui-sref="app.patient-past-app-list({id: patientDetails.id })"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
         </div>
 
-        <div class="item item-divider"><i class="icon ion-chatbubbles"></i> Chats</div>
+        <div class="item item-divider"><i class="icon ion-chatbubbles"></i> {{chats[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
@@ -91,7 +91,7 @@
                   </div> -->	
     </ion-content>
     <div class="footerbar">
-        <div  class="button bar btn-add" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
+        <div  class="button bar btn-add" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> {{add[language]}}</div>
         <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
          <a ui-sref="app.patient-consult" class="button">Consult </a>
          <a ui-sref="app.patient-chat" class="button"> Chat</a> -->
@@ -104,15 +104,15 @@
 <script id="patient-add" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Actions</h1>	 
+    <h1 class="title">{{action[language]}}</h1>	 
     </ion-header-bar>
     <ion-content>
 
     <div class="item item-divider">Book Appointment</div>
 
     <div class="list">
-    <a class="item" ng-click="selDoc()" ><h2 class="ctitle">Video</h2></a>
-    <!---<a class="item" ui-sref="#"><h2 class="ctitle">Clinic</h2></a>
+    <a class="item" ng-click="selDoc()" ><h2 class="ctitle">{{video[language]}}</h2></a>
+    <!---<a class="item" ui-sref="#"><h2 class="ctitle">{{clinic[language]}}</h2></a>
     <a class="item" ui-sref="#"><h2 class="ctitle">Home</h2></a>--->
     </div>	
     <!---<div class="list">
@@ -128,7 +128,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
 
     </div>
     </ion-modal-view>
