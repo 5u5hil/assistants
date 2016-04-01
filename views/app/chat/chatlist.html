@@ -4,35 +4,28 @@
     </ion-nav-title>
     <ion-content>
 
-
         <div class="list cdetail-list">
             <div class="chatlist">
-                <a class="item item-icon-left item-icon-right" ui-sref="app.drchat">
+                <h4 ng-if="chatParticipants.length==0"><p class="text-center">No Previous Chats</p></h4>
+                <a class="item item-icon-left item-icon-right" ui-sref="app.drchat({'id': cp.chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
                     <i class="icon ion-ionic"></i>
-                    <span class="title">Hitakshi</span>
-                    <div>
-                        <p class="description">Hello</p>
-                        <span class="listright">10:45 AM</span>
+                    <span class="title">{{participant[$index][0].fname}}</span>
+                    <div ng-if="msg[$index] != ''" >
+                        <p class="description">{{msg[$index].message}}</p>
+                        <span class="listright">{{msg[$index].tstamp|time}}</span>
+                    </div>
+                    <div ng-if="msg[$index] == null" >
+                        <p class="description">Start chat now</p>
                     </div>
                 </a>
-				
-				  <a class="item item-icon-left item-icon-right" ui-sref="app.drchat">
-                    <i class="icon ion-ionic"></i>
-                    <span class="title">Prashant Shah</span>
-                    <div>
-                        <p class="description">Where are you sir</p>
-                        <span class="listright">10:45 AM</span>
-                    </div>
-                </a>
-				
             </div>
-        </div>  
+        </div>
     </ion-content>
-	 <!--   <div class="fixedbar">
-        <a class="button btn-add" ui-sref="app.new-doctorchat"> <i class="icon chat-bubbles"></i> New Chat</a>
-    </div> -->
-	
-	  <div class="fixedbar">
+    <!--   <div class="fixedbar">
+   <a class="button btn-add" ui-sref="app.new-doctorchat"> <i class="icon chat-bubbles"></i> New Chat</a>
+</div> -->
+
+    <div class="fixedbar">
         <div class="button btn-add" ng-click="modal.show()"> <i class="icon chatbubbles"></i> New Chat</div>
     </div>
 </ion-view>
@@ -41,86 +34,51 @@
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">New Chat</h1>
-	<div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
-    <div class="posts-list consultview">
-                    <div  class="list card post-item">
-                        <div class="post-content item item-text-wrap p0">
-                            <div class="card-content" >
-                                <div class="card-left">	
-                                    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
-                                </div>
-                                <div class="card-detail txt-left">
-                                    <p><strong>Dr. XYZ</strong><br/>
-                                        <span >
-                                            Orthopedic
-                                        </span></p>
-                                </div>
-                                <div class="row txt-left">
-                                    <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
-                                    <div class="col"><p><strong>Qualification</strong><br/>
-                                            <span>MBBS, MD </span></p></div>	
-                                </div>
-                                <div class="row txt-left">
-                                    <div class="col"><p><strong>Languages</strong><br/><span>
-                                                Hindi, English
-                                            </span></p></div>	
-                                    <div class="col"><p><strong>Focus Area</strong><br/>
-                                            <span>v</span></p></div>	
-                                </div>
-                                <div class="clr"></div>
-                            </div>
-        
-                            <div class="post-actions row post-footer">
-                                <div class="row cardbtn">
-                                    <div class="col"><div class="cbtn ion-chatbubbles" ui-sref="app.drchat" ng-click="tochat();"> Chat </div></div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-				<div  class="list card post-item">
-                        <div class="post-content item item-text-wrap p0">
-                            <div class="card-content" >
-                                <div class="card-left">	
-                                    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
-                                </div>
-                                <div class="card-detail txt-left">
-                                    <p><strong>Dr. PQR</strong><br/>
-                                        <span >
-                                            Orthopedic
-                                        </span></p>
-                                </div>
-                                <div class="row txt-left">
-                                    <div class="col"><p><strong>Experience</strong><br/>6 yrs</p></div>	
-                                    <div class="col"><p><strong>Qualification</strong><br/>
-                                            <span>MBBS, MD </span></p></div>	
-                                </div>
-                                <div class="row txt-left">
-                                    <div class="col"><p><strong>Languages</strong><br/><span>
-                                                Hindi, English
-                                            </span></p></div>	
-                                    <div class="col"><p><strong>Focus Area</strong><br/>
-                                            <span>v</span></p></div>	
-                                </div>
-                                <div class="clr"></div>
-                            </div>
-        
-                            <div class="post-actions row post-footer">
-                                <div class="row cardbtn">
-                                    <div class="col"><div class="cbtn ion-chatbubbles" ui-sref="app.drchat" ng-click="tochat();"> Chat </div></div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-				
-				
-				</div>
+    <div class="posts-list consultview" ng-repeat="doc in doctors| filter:search | orderBy:['-doctorpresense.presence', 'fname', 'lname']">
+    <div  class="list card post-item">
+    <div class="post-content item item-text-wrap p0">
+    <div class="card-content" >
+    <div class="card-left">	
+    <img class="user-image-circle" ng-if="doc.image != ''" ng-src="{{imgpath}}{{doc.image}}"><img class="user-image-circle" ng-if="doc.image == ''" ng-src="img/default-user.jpg">
+    </div>
+    <div class="card-detail txt-left">
+    <p><strong>{{doc.user_lang[language]}}</strong><br/>
+    <span ng-repeat="spec in doc.specializations">
+    {{spec[language]}}{{$last==true? '': ',&nbsp;'}} 
+    </span>
+    </p>
+    </div>
+    <div class="row txt-left">
+    <div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
+    <div class="col"><p><strong>Qualification</strong><br/>
+    <span ng-repeat="qual in doc.qualifications">{{qual.qualification}}{{$last==true? '': ',&nbsp;'}}</span></p></div>	
+    </div>
+    <div class="row txt-left">
+    <div class="col"><p><strong>Languages</strong><br/>
+    <span ng-repeat="lang in doc.languages">
+    {{lang[language]}}{{$last==true? '': ',&nbsp;'}}
+    </span>
+    </p></div>	
+    <div class="col"><p><strong>Focus Area</strong><br/>
+    <span ng-repeat="focus in doc.focuses">
+    {{focus[language]}}{{$last==true? '': ',&nbsp;'}}
+    </span></p></div>	
+    </div>
+    <div class="clr"></div>
+    </div>
 
+    <div class="post-actions row post-footer">
+    <div class="row cardbtn">
+    <div class="col"><div class="cbtn ion-chatbubbles" ng-click="tochat(doc.id);"> Chat </div></div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 
     </ion-content>
     </ion-modal-view>

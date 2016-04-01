@@ -207,12 +207,12 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
 
                     .state('app.disbursement', {
                         url: "/disbursement/{mid:string}/{appid:string}",
@@ -245,9 +245,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					 .state('app.medicine', {
-                         cache: false,
+
+                    .state('app.medicine', {
+                        cache: false,
                         url: "/add-medicine",
                         views: {
                             'menuContent': {
@@ -256,10 +256,10 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-						
-					 .state('app.medcn', {
-                         cache: false,
+
+
+                    .state('app.medcn', {
+                        cache: false,
                         url: "/add-medcn",
                         views: {
                             'menuContent': {
@@ -268,8 +268,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
+
+
 
                     .state('app.medicine-details', {
                         url: "/medicine-details/{mid:int}",
@@ -837,10 +837,10 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					/* chat category */
-					
-					    .state('app.chatlist', {
+
+                    /* chat category */
+
+                    .state('app.chatlist', {
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -848,9 +848,9 @@ angular.module('your_app_name', [
                                 controller: 'ChatListCtrl'
                             }
                         }
-                    })   
+                    })
 
-					    .state('app.new-doctorchat', {
+                    .state('app.new-doctorchat', {
                         url: "/new-doctorchat",
                         views: {
                             'menuContent': {
@@ -859,9 +859,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					.state('app.drchat', {
-                        url: "/drchat",
+
+                    .state('app.drchat', {
+                        url: "/drchat/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/chat/drchat.html",
@@ -869,9 +869,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					/* end of chat category */
 
+                    /* end of chat category */
                     .state('app.logout', {
                         url: "/logout",
                         views: {
