@@ -1,6 +1,6 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>Search Results</span>
+        <span>{{inventory.search_result[language]}}</span>
     </ion-nav-title>
     <ion-content>
         <div class="list list-inset txt-center">
@@ -8,7 +8,7 @@
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text"  value="{{searchkey}}" ng-model="search">
             </label>
-              <a ng-click="searchMedicine(search)"  class="button button-positive mt15">Search</a>	
+              <a ng-click="searchMedicine(search)"  class="button button-positive mt15">{{inventory.search[language]}}</a>	
         </div>
 
 
@@ -26,8 +26,8 @@
 
                         <div class="post-actions">
                             <div class="row cardbtn p0">
-                                <div class="col"><div class="cbtn" ng-click="addmedicine();">Add </div></div>
-                                <div class="col"><div ng-click="showPopup(medicine.id,medicine.name,0)" class="cbtn">Disbursement</div></div>
+                                <div class="col"><div class="cbtn" ng-click="addmedicine();"> {{inventory.add[language]}} </div></div>
+                                <div class="col"><div ng-click="showPopup(medicine.id,medicine.name,0)" class="cbtn"> {{inventory.disbursement[language]}}</div></div>
 
                             </div>
                         </div>
@@ -52,8 +52,8 @@
 
                         <div class="post-actions">
                             <div class="row cardbtn p0">
-                                <div class="col"><div class="cbtn" ui-sref="#">Add </div></div>
-                                 <div class="col"><div ng-click="showPopup(otherm.id,otherm.name,0)" class="cbtn">Disbursement</div></div>
+                                <div class="col"><div class="cbtn" ui-sref="#"> {{inventory.add[language]}}  </div></div>
+                                 <div class="col"><div ng-click="showPopup(otherm.id,otherm.name,0)" class="cbtn"> {{inventory.disbursement[language]}}</div></div>
 
                             </div>
                         </div>
@@ -66,7 +66,7 @@
     </ion-content>
 
     <div class="fixedbar">
-        <a class="button btn-delete" ui-sref="app.inventory">Cancel</a>
-        <a class="button btn-add" ui-sref="app.medicine-details">Save </a>
+        <a class="button btn-delete" ui-sref="app.inventory"> {{inventory.cancel[language]}}</a>
+        <a class="button btn-add" ui-sref="app.medicine-details"> {{inventory.save[language]}}</a>
     </div>
 </ion-view>

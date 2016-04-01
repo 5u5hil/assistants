@@ -2456,7 +2456,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
-
+                $scope.inventory = response.data.inventory;
+                $scope.language = response.data.lang.language;
                 //$scope.searchkey  = searchkey
 
             }, function errorCallback(response) {
@@ -2474,7 +2475,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response.data);
                     $scope.getMedicine = response.data.getMedicine;
                     $scope.otherMedicine = response.data.otherMedicine;
-                    //$scope.searchkey  = searchkey
+                    $scope.inventory = response.data.inventory;
+                    $scope.language = response.data.lang.language;
 
                 }, function errorCallback(response) {
                     console.log(response);
@@ -2495,6 +2497,8 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
+                    $scope.qtylang = response.data.qtylang;
+                    $scope.language = response.data.lang.language;
                     $scope.data.quantity = 1;
                     $scope.data.itemform = '';
 
@@ -2512,12 +2516,12 @@ angular.module('your_app_name.controllers', [])
                     // An elaborate, custom popup
                     var myPopup = $ionicPopup.show({
                         template: htmlstring,
-                        title: 'Quantity',
+                        title: $scope.qtylang.quantity[$scope.language],
                         scope: $scope,
                         buttons: [
-                            {text: 'Cancel'},
+                            {text: $scope.qtylang.cancel[$scope.language]},
                             {
-                                text: '<b>Ok</b>',
+                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 
@@ -2676,12 +2680,14 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/appoint-medicine',
-                    params: {mid: $scope.mid, appointId: $scope.appId, interface: $scope.interface}
+                    params: {mid: $scope.mid,id: $scope.id, appointId: $scope.appId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.appointment = response.data.appointment;
                     $scope.doctorId = response.data.appointment.doctor_id;
                     $scope.patientId = response.data.appointment.user_id;
+                    //$scope.inventory = response.data.inventory;
+                    //$scope.language = response.data.lang.language;
 
 
                 }, function errorCallback(response) {
@@ -2709,7 +2715,9 @@ angular.module('your_app_name.controllers', [])
 
                 $scope.patient_type = response.data.patient_type;
                 $scope.itemform = response.data.itemform;
-
+                
+                $scope.disbursement = response.data.disbursement;
+                $scope.language = response.data.lang.language;
 
                 //$scope.searchkey  = searchkey
             }, function errorCallback(response) {
@@ -2892,6 +2900,22 @@ angular.module('your_app_name.controllers', [])
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
             $scope.appid = $stateParams.appid;
+            
+             $http({
+                    method: 'GET',
+                    url: domain + 'inventory/get-inventary-pagelang',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    
+                    $scope.inventory = response.data.inventory;
+                    $scope.language = response.data.lang.language;
+                    //$scope.searchkey  = searchkey
+
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            
             // sssconsole.log($scope.mid);
             $scope.data = {};
             $scope.dataitem = [];
@@ -2908,6 +2932,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response.data);
                     $scope.getMedicine = response.data.getMedicine;
                     $scope.otherMedicine = response.data.otherMedicine;
+                    $scope.inventory = response.data.inventory;
+                    $scope.language = response.data.lang.language;
                     //$scope.searchkey  = searchkey
 
                 }, function errorCallback(response) {
@@ -2927,6 +2953,8 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.itemform = response.data.itemform;
+                    $scope.qtylang = response.data.qtylang;
+                    $scope.language = response.data.lang.language;
 
                     $scope.data.quantity = 1;
                     $scope.data.itemform = "";
@@ -2946,12 +2974,12 @@ angular.module('your_app_name.controllers', [])
                     // An elaborate, custom popup
                     var myPopup = $ionicPopup.show({
                         template: htmlstring,
-                        title: 'Quantity',
+                        title: $scope.qtylang.quantity[$scope.language],
                         scope: $scope,
                         buttons: [
-                            {text: 'Cancel'},
+                            {text: $scope.qtylang.cancel[$scope.language],},
                             {
-                                text: '<b>Ok</b>',
+                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 
