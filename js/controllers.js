@@ -3324,7 +3324,6 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     $scope.patientId = get('patientId');
                     $scope.doctorId = get('doctorId');
-
                 }
                 $scope.conDate = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -3987,7 +3986,6 @@ angular.module('your_app_name.controllers', [])
 //                //$scope.modal.hide();
 //            };
         })
-
 
         .controller('DietplanCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
             $scope.patientId = window.localStorage.getItem('patientId');

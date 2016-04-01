@@ -1,210 +1,293 @@
-<ion-view class="category-list-view">
+<ion-view class="records-view">
     <ion-nav-title>
-        <span>Patient History</span>
+        <span>View Consultation Note</span>
     </ion-nav-title>
-    <form name="addPatientForm" id="addPatientForm" enctype="multipart/form-data" novalidate >
-        <ion-content>
-            <div class="" >
-                <div ng-if="abt.length != 0">
-                    <input type="hidden" value="{{abt[0].record_id}}" name="patRecId" />
-                </div>
-                <div class="item item-divider">Contact Information</div>
-                <div ng-repeat="field in fields">
-                    <label class="item item-input hide" ng-if="field.field == 'Doctor'">
-                        <input type="hidden" ng-model="doctorId" name="{{field.name}}"  value="{{doctorId}}">
-                    </label>
-                    <label class="item item-input hide" ng-if="field.field == 'Patient'">
-                        <input type="hidden" ng-model="patientId" value="{{patientId}}" name="{{field.name}}" />
-                    </label>
-                    <div ng-if="field.field == 'Mobile Number'">
-                        <div ng-if="abt.length != 0">
-                            <div ng-repeat="ab in abt">
-                                <div ng-if="ab.fields.field == 'Mobile Number'">
-                                    <label class="item item-input" ng-if="ab.value != ''">
-                                        <span class="input-label">{{field.field}}</span>
-                                        <input type="tel" name="{{field.name}}"  value="{{ab.value}}">
-                                    </label>
-                                    <label class="item item-input" ng-if="ab.value == ''">
-                                        <span class="input-label">{{field.field}}</span>
-                                        <input type="tel" name="{{field.name}}" value="{{patients[0].phone}}">
-                                    </label>
-                                </div>
-                            </div>
+    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+        <ion-content>        
+            <div class="tabcon2">
+
+                <div ng-repeat="rec in recordDetails track by $index" class="p0">
+                    <div> 
+                    </div>
+                    <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment!=''">
+                        <div class="item item-divider" ng-if="rec.value != '' && rec.value!=0">
+                            <span>{{rec.fields.field}} </span></div>
+                        <div class="ditem-content" ng-if="rec.value!=0">{{rec.value}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Valid till' && isAttachment!=''">
+                        <div class="item item-divider" ng-if="rec.value != ''">
+                            <span>{{rec.fields.field}} </span>
                         </div>
-                        <div ng-if="abt.length == 0">
-                            <label class="item item-input" ng-if="patients[0].phone != ''">
-                                <span class="input-label">{{field.field}}</span>
-                                <input type="tel" name="{{field.name}}"  value="{{patients[0].phone}}">
-                            </label>
-                            <label class="item item-input" ng-if="patients[0].phone == ''">
-                                <span class="input-label">{{field.field}}</span>
-                                <input type="tel" name="{{field.name}}" >
-                            </label>
+                        <div class="ditem-content">
+                            <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                            <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                         </div>
                     </div>
-                    <div ng-if="field.field == 'Email'">
-                        <div ng-if="abt.length != 0">
-                            <div ng-repeat="ab in abt">
-                                <div ng-if="ab.fields.field == 'Email'">
-                                    <label class="item item-input" ng-if="ab.value != ''">
-                                        <span class="input-label">{{field.field}}</span>
-                                        <span>{{ab.value}} </span>
-                                    </label>
-                                    <label class="item item-input" ng-if="ab.value == ''">
-                                        <span class="input-label">{{field.field}}</span>
-                                        <span> {{patients[0].email}} </span>
-                                    </label>
-                                </div>
+                    <div ng-if="rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till'">
+                        <div class="item item-divider">
+                            <span>{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span></div>
+                        <div ng-if="rec.fields.field == 'Case Id'">
+                            <div class="ditem-content">{{cases[$index].value}}</div>
+                        </div>
+
+                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                            <!--- ng-show="angular.isNumber(rec.value)"  -->
+                            <div class="ditem-content">{{doctrs[$index].fname}} {{doctrs[$index].lname}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field == 'Patient'" >
+                            <!--- ng-show="angular.isNumber(rec.value)"  -->
+                            <div class="ditem-content">{{patients[$index].fname}} {{patients[$index].lname}}</div>
+                        </div>
+                        <div class="ditem-content" ng-if="rec.fields.field == 'Mode'">
+                            {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}
+                        </div>
+
+                        <div class="ditem-content" ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode'">
+                            <div ng-if="rec.fields.field_type == 8">
+                                <div ng-if="rec.value == ''">NA</div>
+                                <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                             </div>
-                        </div>
-                        <div ng-if="abt.length == 0">
-                            <label class="item item-input" ng-if="patients[0].email != ''">
-                                <span class="input-label">{{field.field}}</span>
-                                <span> {{patients[0].email}} </span>
-                            </label>
-                            <label class="item item-input" ng-if="patients[0].email == ''">
-                                <span class="input-label">{{field.field}}</span>
-                                <span>NA</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="item item-divider" >Basic Information</div>
-                <div ng-repeat="field in fields">
-                    <div ng-if="field.field_types.value == 'date'">
-                        <div ng-if="abt.length != 0">
-                            <div ng-repeat="ab in abt">
-                                <div ng-if="ab.fields.field == 'Date of Birth'">
-                                    <label class="item item-input">
-									
-                                        <span class="input-label">{{field.field}}</span>
-                                        <input type="date" name="{{field.name}}" ng-model="dob" placeholder="{{field.field}}" value="{{dob|dateFormat1}}">
-                                    </label>
-                                </div>
+                            <div ng-if="rec.fields.field_type == 12">                                
+                                <div ng-if="rec.value == ''"> NA </div>
+                                <div ng-if="rec.value == '00:00:00'"> NA </div>
+                                <div ng-if="rec.value != '00:00:00' && rec.value != '' && rec.value != '0000-00-00'">{{rec.value|time1}}</div>
                             </div>
+                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
                         </div>
-                        <div ng-if="abt.length == 0">
-                            <label class="item item-input">
-                                <span class="input-label">{{field.field}}</span>
-                                <input type="date" name="{{field.name}}" ng-model="dob" placeholder="{{field.field}}" value="{{dob|dateFormat1}}">
-                            </label>
-                        </div>
-                    </div>
-                    <div ng-if="field.field_types.value == 'radio'">
-                        <div ng-if="abt.length != 0">
-                            <div ng-repeat="ab in abt">
-                                <div ng-if="ab.fields.field == 'Gender'">
-                                    <ion-list>
-                                        <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
-                                            <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                            <div class="col cradio" ng-repeat="rad in radioData">
-                                                <ion-radio ng-model="gen[rad]"  name="{{field.name}}" value="{{rad}}" ng-checked="rad == ab.value" ng-value="{{rad}}" >{{rad}} </ion-radio>
-                                            </div>
-                                        </div>
-                                    </ion-list>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-if="abt.length == 0">
-                            <ion-list>
-                                <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
-                                    <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                    <div class="col cradio" ng-repeat="rad in radioData">
-                                        <ion-radio ng-model="gen[rad]" name="{{field.name}}" ng-checked="rad == gend" ng-value="{{rad}}" value="{{rad}}" >{{rad}}</ion-radio>
+                        <div class="clist-data-icon ditem-content" ng-if="rec.fields.field == 'Attachments'" >
+
+                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                            <div ng-repeat="attach in rec.attachments" ng-if="rec.attachments != ''" >
+                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
+                                    </div>
+                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
                                     </div>
                                 </div>
-                            </ion-list>
-                        </div>
-                    </div>
-                    <div ng-if="field.field_types.value == 'select'">
-                        <div ng-if="abt.length != 0">
-                            <div ng-repeat="ab in abt">
-                                <div ng-if="ab.fields.field == 'Blood Group'">
-                                    <label class="item item-input item-select">
-                                        <div class="input-label">{{field.field}}</div>
-                                        <span> {{ab.value}} </span>
-                                    </label>
-                                </div>
+
                             </div>
-                        </div>
-                        <div ng-if="abt.length == 0">
-                            <label class="item item-input item-select">
-                                <div class="input-label">{{field.field}}</div>
-                                NA
-                            </label>
-                        </div>
-                    </div>
-                    <div ng-if="field.field_types.value == 'text'">
-                        <label class="item item-input" ng-if="field.field != 'Patient' && field.field != 'Doctor' && field.field != 'Email' && field.field != 'Mobile Number'"> <div class="input-label">{{field.field}}</div>
-                            <input type="text" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}" />                                
-                        </label>
-                    </div>
-                    <div ng-if="field.field_types.value == 'number'">
-                        <label class="item item-input" ng-if="field.field != 'Patient' && field.field != 'Doctor' && field.field != 'Email' && field.field != 'Mobile Number'"> <div class="input-label">{{field.field}}</div>
-                            <input type="number" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}" />                                
-                        </label>
-                    </div>
-                    <div ng-if="field.field_types.value == 'textarea'">
-                        <label class="item item-input"> <div class="input-label">{{field.field}}</div>
-                            <textarea type="text" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}" ></textarea>                                
-                        </label>
-                    </div>
-                </div>
-                <div class="item item-divider">Known Conditions
-                    <button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>
-                </div>
-                <div class="knowcondition">
-                    <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
-                    <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
-                </div>
-                <div class="flexcont">
-                    <div class="innerdiv col-50 brdright">
-                        <div class="item item-divider">Allergies</div>
-                        <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
-                            <!--<div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
-                        </div>
-                    </div>
-                    <div class="innerdiv col-50">
-                        <div class="item item-divider">Vaccinations</div>
-                        <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                            <div class="clr"></div>		
                         </div>
                     </div>
                 </div>
+
+                <!--                    <div class="flexcont">
+                                        <div class="innerdiv col-50 brdright">
+                                            <div class="item item-divider">Notes</div>
+                                            <div class="p10">
+                                                <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
+                                                 <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"
+                                            </div>
+                                        </div>
+                                        <div class="innerdiv col-50">
+                                            <div class="item item-divider">Treatment Plan</div>
+                                            <div class="p10">
+                                                <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                                            </div>
+                                        </div>
+                                    </div>-->
             </div>
         </ion-content>
+
     </form>
 </ion-view>
+<script id="filesview.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{value}}">
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
 
+</script>
 
-
-
-
-
-<script id="knowcondition" type="text/ng-template">
+<script id="addeval" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Known Conditions</h1>	 
-    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    <h1 class="title">Plain Text</h1>
     </ion-header-bar>
-    <ion-content>
-
-    <ion-list>
-    <ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
-    </ion-list>
-
-
+    <ion-content class="padding">
+    <div class="list">
+    <label class="item item-input">
+    <textarea type="text" col="" rows="10" placeholder="Enter"></textarea>
+    </label>
+    <div class="mtb20">
+    <ion-checkbox ng-model="filter.makesummary">Mark as Summary</ion-checkbox>
+    </div>
+    </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> Submit</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    </div>
+    </ion-modal-view>
+</script>
 
+<script id="snomed" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">SNOMED</h1>
+    </ion-header-bar>
+    <ion-content>
+    <!-- <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+    <input type="text" placeholder="Email">
+    </label>
+    <button class="button button-small">
+    Submit
+    </button>
+    </div>-->
+    <div class="list list-inset">
+    <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search">
+    </label>
+    </div>
+    <div class="list">
+    <ion-list>
+    <ion-checkbox ng-model="filter.snomed1">Snomed1</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed2">Snomed2</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed3">Snomed3</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed4">Snomed4</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed5">Snomed5</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed6">Snomed6</ion-checkbox>
+    </ion-list>
+    <p class="mtb20">
+    <ion-checkbox ng-model="filter.makesummary">Make as Summary </ion-checkbox>
+    </p>
+    </div>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    </div>
+    </ion-modal-view>
+</script>
+
+<script id="icd" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">ICD</h1> 
+
+    </ion-header-bar>
+    <ion-content>
+    <div class="list list-inset">
+    <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search">
+    </label>
+    </div>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+    </div>
+    </ion-modal-view>
+</script>
+
+
+<script id="notetype" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Select Category</h1>
+    </ion-header-bar>
+    <ion-content>
+    <div class="item item-divider">Background</div>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.view-patient-history', noteId)"><span class="icon ion-plus-circled"></span>  Patient</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.family-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
+    </div>
+    </div>
+    <div class="item item-divider">Evaluation</div>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.measurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.testresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
+    </div>
+    </div>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.observation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+    </div>
+    </div>
+    <div class="item item-divider">Diagnosis</div>  
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-controller="SnowmedtCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> SNOMED</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-controller="IcdCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> ICD</div> 
+    </div>
+    </div>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-controller="PlaintestCtrl" ng-click="modal.show()"> <span class="icon ion-plus-circled"></span> Text</div> 
+    </div>
+    </div>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
     </div>
     </ion-modal-view>
 </script>
 
 
 
-
-
-
+<script id="treatmentp" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Select Category</h1>
+    </ion-header-bar>
+    <ion-content>
+    <div class="item item-divider">Treatment Plan</div>  
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.investigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Medication</div> 
+    </div>
+    </div>
+    <div class="row cbtn3 ">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.dietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+    </div>
+    </div>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Referral</div> 
+    </div>
+    </div>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    </div>
+    </ion-modal-view>
+</script>
