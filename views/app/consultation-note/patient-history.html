@@ -1,6 +1,6 @@
 <ion-view class="category-list-view">
     <ion-nav-title>
-        <span>Patient History</span>
+        <span> {{pateinthistory.patient_history[language]}}</span>
     </ion-nav-title>
     <form name="addPatientForm" id="addPatientForm" enctype="multipart/form-data" novalidate >
         <ion-content>
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="item item-divider">Known Conditions
-                    <button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>
+                    <button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{pateinthistory.add[language]}} </button>
                 </div>
                 <div class="knowcondition">
                     <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
@@ -172,22 +172,22 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Allergies</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
+                            <button  class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{pateinthistory.add[language]}}</button>
                             <!--<div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
                         </div>
                     </div>
                     <div class="innerdiv col-50">
                         <div class="item item-divider">Vaccinations</div>
                         <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                            <button class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{pateinthistory.add[language]}} </button>	
                         </div>
                     </div>
                 </div>
             </div>
         </ion-content>
         <div class="fixedbar">
-            <a class="button btn-delete" ui-sref="app.consultations-note({appId: appId})"><i class="ion-close"></i> Cancel</a>
-            <button class="button btn-add" ng-click="savePatientHistory()" ><i class="ion-checkmark"></i> Save</button>
+            <a class="button btn-delete" ui-sref="app.consultations-note({appId: appId})"><i class="ion-close"></i> {{pateinthistory.cancel[language]}}</a>
+            <button class="button btn-add" ng-click="savePatientHistory()" ><i class="ion-checkmark"></i> {{pateinthistory.save[language]}}</button>
         </div>
     </form>
 </ion-view>

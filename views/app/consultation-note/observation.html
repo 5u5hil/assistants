@@ -1,13 +1,13 @@
 <ion-view class="category-list-view">
     <ion-nav-title>
-        <span>Observations</span>
+        <span> {{observations.observations[language]}}</span>
     </ion-nav-title>
 
     <ion-content>
         <div class="tabcon2">
             <div class="row cbtn3">
                 <button class="col button" ng-click="showM()">
-                    <span class="icon ion-plus-circled"></span> Plain Text
+                    <span class="icon ion-plus-circled"></span> {{observations.plain_text[language]}}
                 </button>
                 <!--                <button class="col button" ng-controller="SnowmedtCtrl" ng-click="modal.show()">
                                     <span class="icon ion-plus-circled"></span> Snomed
@@ -58,16 +58,16 @@
         </div>
     </ion-content>
     <div class="fixedbar">
-        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
-        <div class="button btn-add"  ng-click="saveObj()"><i class="ion-checkmark"></i> Save</div>
+        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> {{observations.cancel[language]}}</a>
+        <div class="button btn-add"  ng-click="saveObj()"><i class="ion-checkmark"></i> {{observations.save[language]}}</div>
     </div>
 </ion-view>
 
 <script id="addeval" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Plain Text</h1>
-    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    <h1 class="title">{{observations.plain_text[language]}}</h1>
+    <button class="button button-clear" ng-click="modal.hide()"> {{observations.cancel[language]}}</button>
     </ion-header-bar>
     <ion-content class="padding">
     <div class="list">
@@ -77,7 +77,7 @@
     <div class="mtb20">
     <ion-checkbox ng-model="filter.makesummary">Mark as Summary </ion-checkbox>
     </div>
-    <button class="button button-full button-positive" ng-click="submitmodal(observation)">Submit</button>
+    <button class="button button-full button-positive" ng-click="submitmodal(observation)"> {{observations.submit[language]}}</button>
     </div>
     </ion-content>
     </ion-modal-view>
@@ -86,8 +86,8 @@
 <script id="editVal" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Plain Text</h1>
-    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    <h1 class="title">{{observations.plain_text[language]}}</h1>
+    <button class="button button-clear" ng-click="modal.hide()">{{observations.cancel[language]}}</button>
     </ion-header-bar>
     <ion-content class="padding">
     <div class="list">
@@ -97,7 +97,7 @@
     <div class="mtb20">
     <ion-checkbox ng-model="filter.makesummary">Mark as Summary {{observation}}</ion-checkbox>
     </div>
-    <button class="button button-full button-positive" ng-click="submitmodal(observation)">Submit</button>
+    <button class="button button-full button-positive" ng-click="submitmodal(observation)">{{observations.submit[language]}}</button>
     </div>
     </ion-content>
     </ion-modal-view>

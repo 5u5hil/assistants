@@ -1,0 +1,43 @@
+<ion-view class="category-list-view">
+    <ion-nav-title>
+    <h1 class="title">{{cnote.select_category[language]}}</h1>	
+    </ion-nav-title>
+
+     <ion-content>
+    <div class="item item-divider">Treatment Plan</div>  
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.investigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Medication</div> 
+    </div>
+    </div>
+
+    <div class="row cbtn3 ">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.dietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+    </div>
+    </div>
+
+
+
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
+    </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Referral</div> 
+    </div>
+    </div>
+
+
+    </ion-content>
+<div class="fixedbar">
+    <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> {{cnote.cancel[language]}}</a>
+    </div>
+</ion-view>

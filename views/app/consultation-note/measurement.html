@@ -1,6 +1,6 @@
 <ion-view class="category-list-view">
     <ion-nav-title>
-        <span>Measurement</span>
+        <span>{{measurement.measurement[language]}}</span>
     </ion-nav-title>
     <form name="addMeasureForm" id="addMeasureForm" enctype="multipart/form-data" novalidate >
         <ion-content>
@@ -42,8 +42,8 @@
             </div>
         </ion-content>
         <div class="fixedbar">
-            <a class="button btn-delete" ui-sref="app.consultations-note({appId: appId})" ><i class="ion-close"></i> Cancel</a>
-            <a class="button btn-add" ng-click="saveMeasurements()" ><i class="ion-checkmark"></i> Save</a>
+            <a class="button btn-delete" ui-sref="app.consultations-note({appId: appId})" ><i class="ion-close"></i> {{measurement.cancel[language]}}</a>
+            <a class="button btn-add" ng-click="saveMeasurements()" ><i class="ion-checkmark"></i> {{measurement.save[language]}}</a>
         </div>
     </form>
 </ion-view>

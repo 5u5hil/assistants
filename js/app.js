@@ -164,6 +164,18 @@ angular.module('your_app_name', [
                         }
                     })
 
+					
+					
+					
+                  
+					
+					
+					
+					
+					
+					
+					
+					
                     .state('app.doctor-consultations', {
                         cache: false,
                         url: "/doctor-consultations/{id:int}",
@@ -505,6 +517,35 @@ angular.module('your_app_name', [
                         }
                     })
 
+					
+					
+					.state('app.notetype', {
+                        //cache: false,
+                        url: "/notetype",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/notetype.html",
+                                controller: 'NotetypeCtrl'
+                            }
+                        }
+                    })
+					
+						
+					.state('app.treatment-plan-type', {
+                        //cache: false,
+                        url: "/treatment-plan-type",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/treatment-plan-type.html",
+                                controller: 'treaTmentpCtrl'
+                            }
+                        }
+                    })
+					
+					
+					
+					
+					
 
                     .state('app.about', {
                         url: "/consultation-note/about",
@@ -827,6 +868,11 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+					
+					
+					
+					
 
                     .state('app.patient-consult', {
                         url: "/patient-consult",

@@ -1,6 +1,6 @@
 <ion-view class="category-list-view">
     <ion-nav-title>
-        <span>Diagnosis</span>
+        <span> {{diagnosis.diagnosis[language]}}</span>
     </ion-nav-title>
 
     <ion-content>
@@ -14,8 +14,8 @@
         </div>
     </ion-content>
     <div class="fixedbar">
-        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
-        <div class="button btn-add"  ng-click="saveDiagnosis(diaText)"><i class="ion-checkmark"></i> Save</div>
+        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> {{diagnosis.cancel[language]}}</a>
+        <div class="button btn-add"  ng-click="saveDiagnosis(diaText)"><i class="ion-checkmark"></i> {{diagnosis.save[language]}}</div>
     </div>
 </ion-view>
 

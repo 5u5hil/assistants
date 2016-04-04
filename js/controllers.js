@@ -866,12 +866,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctorslang = response.data.doctors;
                 $scope.experience = response.data.experience;
                 $scope.focus_area = response.data.focus_area;
-                $scope.lang = response.data.languages;
+                //$scope.lang = response.data.languages;
                 $scope.language = response.data.lang.language;
                 $scope.langtext = response.data.data;
                 $scope.doctors = response.data.user;
                 $scope.spec = response.data.spec;
                 $scope.chatParticipants = response.data.participants;
+                $scope.dataservice = response.data.dataservice;
                 angular.forEach($scope.chatParticipants, function (value, key) {
                     console.log(value.chat_id);
                     $http({
@@ -941,6 +942,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+                $scope.chat = response.data.chat;
+                 $scope.language = response.data.lang.language;
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -3329,7 +3332,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('noteType', function ($scope, $ionicModal, $state) {
+        .controller('NotetypeCtrl', function ($scope, $ionicModal, $state) {
             $scope.check = function (pid, did) {
                 console.log("Patient = " + pid + " dr Id = " + did);
                 if (pid == '' && did == '') {
@@ -3355,13 +3358,20 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             }
         })
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 
         .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
-            $ionicModal.fromTemplateUrl('treatmentp', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
+        
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
@@ -3424,12 +3434,16 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: "GET",
                     url: domain + "assistrecords/get-app-details",
-                    params: {appId: $scope.appId}
+                    params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
-                    console.log(response.data.patient.id);
-                    $scope.patientId = response.data.patient.id;
-                    $scope.doctorId = response.data.doctr.id
+
+                    console.log(response.data);
+                    // leena this two line commented by me. bcox was getting error--- bhavana
+                    // $scope.patientId = response.data.patient.id;
+                    // $scope.doctorId = response.data.doctr.id
                     $scope.app = response.data.app;
+                    $scope.fhistory = response.data.fhistory;
+                    $scope.language = response.data.lang.language;
                     if (response.data.app.mode == 1) {
                         $scope.mode = 'Video';
                     } else if (response.data.app.mode == 2) {
@@ -3458,6 +3472,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.doctrs = response.data.doctrs;
                         $scope.patients = response.data.patients;
                         $scope.cases = response.data.cases;
+                        $scope.cnote = response.data.cnote;
+                        $scope.language = response.data.lang.language;
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -3491,6 +3507,8 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    $scope.cnote = response.data.cnote;
+                    $scope.language = response.data.lang.language;
                     angular.forEach($scope.patients, function (value, key) {
                         if (value.id == $scope.patientId) {
                             $scope.patientName = [{'name': value.fname}];
@@ -3894,7 +3912,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.abt);
                 $scope.record = response.data.record;
@@ -3904,6 +3922,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patients;
                 $scope.cases = response.data.cases;
                 $scope.abt = response.data.abt;
+                $scope.pateinthistory = response.data.pateinthistory;
+                $scope.language = response.data.lang.language;
                 console.log(response.data.patients[0].dob);
                 if (response.data.dob) {
                     $scope.dob = new Date(response.data.dob);
@@ -4021,6 +4041,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
                 $scope.records = response.data.record;
                 $scope.fields = response.data.fields;
+                $scope.measurement = response.data.measurement;
+                $scope.language = response.data.lang.language;
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -4049,7 +4071,16 @@ angular.module('your_app_name.controllers', [])
             $scope.objText = [];
             $scope.selConditions = [];
             $scope.observation = '';
-
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-observations-lang',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.observations = response.data.observations;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
             }).then(function (modal) {
@@ -4111,6 +4142,18 @@ angular.module('your_app_name.controllers', [])
             $scope.appId = window.localStorage.getItem('appId');
             $scope.diaText = {};
             $scope.diaText.diagnosis = '';
+
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-diagnosis-lang',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.diagnosis = response.data.diagnosis;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
             $scope.saveDiagnosis = function (data) {
                 $http({
                     method: 'GET',
