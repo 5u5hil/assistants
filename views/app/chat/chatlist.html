@@ -1,6 +1,6 @@
 <ion-view class="category-detail-view">
     <ion-nav-title>
-        <span>Chat List</span>
+        <span>{{dataservice.chat[language]}} {{dataservice.list[language]}}</span>
     </ion-nav-title>
     <ion-content>
 
@@ -9,7 +9,7 @@
                 <h4 ng-if="chatParticipants.length==0"><p class="text-center">No Previous Chats</p></h4>
                 <a class="item item-icon-left item-icon-right" ui-sref="app.drchat({'id': cp.chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
                     <i class="icon ion-ionic"></i>
-                    <span class="title">{{participant[$index][0].fname}}</span>
+                    <span class="title">{{participant[$index][0].user_lang[language]}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>
                         <span class="listright">{{msg[$index].tstamp|time}}</span>
@@ -26,14 +26,14 @@
 </div> -->
 
     <div class="fixedbar">
-        <div class="button btn-add" ng-click="modal.show()"> <i class="icon chatbubbles"></i> New Chat</div>
+        <div class="button btn-add" ng-click="modal.show()"> <i class="icon chatbubbles"></i>{{dataservice.new[language]}} {{dataservice.chat[language]}} </div>
     </div>
 </ion-view>
 
 <script id="doctorlist" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">New Chat</h1>
+    <h1 class="title">{{dataservice.new[language]}} {{dataservice.chat[language]}}</h1>
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
@@ -52,17 +52,17 @@
     </p>
     </div>
     <div class="row txt-left">
-    <div class="col"><p><strong>Experience</strong><br/>{{doc.exp}}</p></div>	
-    <div class="col"><p><strong>Qualification</strong><br/>
+    <div class="col"><p><strong> {{dataservice.experience[language]}}</strong><br/>{{doc.exp}}</p></div>	
+    <div class="col"><p><strong>{{dataservice.qualification[language]}}</strong><br/>
     <span ng-repeat="qual in doc.qualifications">{{qual.qualification}}{{$last==true? '': ',&nbsp;'}}</span></p></div>	
     </div>
     <div class="row txt-left">
-    <div class="col"><p><strong>Languages</strong><br/>
+    <div class="col"><p><strong>{{dataservice.languages[language]}}</strong><br/>
     <span ng-repeat="lang in doc.languages">
     {{lang[language]}}{{$last==true? '': ',&nbsp;'}}
     </span>
     </p></div>	
-    <div class="col"><p><strong>Focus Area</strong><br/>
+    <div class="col"><p><strong>{{dataservice.focus_area[language]}}</strong><br/>
     <span ng-repeat="focus in doc.focuses">
     {{focus[language]}}{{$last==true? '': ',&nbsp;'}}
     </span></p></div>	
@@ -72,7 +72,7 @@
 
     <div class="post-actions row post-footer">
     <div class="row cardbtn">
-    <div class="col"><div class="cbtn ion-chatbubbles" ng-click="tochat(doc.id);"> Chat </div></div>
+    <div class="col"><div class="cbtn ion-chatbubbles" ng-click="tochat(doc.id);"> {{dataservice.chat[language]}} </div></div>
 
     </div>
     </div>

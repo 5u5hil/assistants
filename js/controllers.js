@@ -855,12 +855,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctorslang = response.data.doctors;
                 $scope.experience = response.data.experience;
                 $scope.focus_area = response.data.focus_area;
-                $scope.lang = response.data.languages;
+                //$scope.lang = response.data.languages;
                 $scope.language = response.data.lang.language;
                 $scope.langtext = response.data.data;
                 $scope.doctors = response.data.user;
                 $scope.spec = response.data.spec;
                 $scope.chatParticipants = response.data.participants;
+                $scope.dataservice = response.data.dataservice;
                 angular.forEach($scope.chatParticipants, function (value, key) {
                     console.log(value.chat_id);
                     $http({
@@ -915,7 +916,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-chat-token',
-                params: {chatId: $scope.chatId, userId: $scope.partId}
+                params: {chatId: $scope.chatId, userId: $scope.partId,interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.user = response.data.user;
@@ -925,6 +926,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+                $scope.chat = response.data.chat;
+                 $scope.language = response.data.lang.language;
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -4065,14 +4068,15 @@ angular.module('your_app_name.controllers', [])
             $scope.selConditions = [];
             $scope.observation = '';
             $http({
-                    method: 'GET',
-                    url: domain + 'assistrecords/get-observations-lang',
-                    params: {userId: $scope.userId, interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
+                method: 'GET',
+                url: domain + 'assistrecords/get-observations-lang',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.observations = response.data.observations;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
             }).then(function (modal) {
@@ -4134,6 +4138,18 @@ angular.module('your_app_name.controllers', [])
             $scope.appId = window.localStorage.getItem('appId');
             $scope.diaText = {};
             $scope.diaText.diagnosis = '';
+
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-diagnosis-lang',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.diagnosis = response.data.diagnosis;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
             $scope.saveDiagnosis = function (data) {
                 $http({
                     method: 'GET',
