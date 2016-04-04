@@ -830,6 +830,16 @@ angular.module('your_app_name.controllers', [])
                         $scope.language = response.data.lang.language;
                     } else {
                     }
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistants/get-chat-unread-cnt',
+                        params: {userId: $scope.userId}
+                    }).then(function sucessCallback(response) {
+                        console.log(response);
+                        $scope.unreadCnt = response.data;
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
                 }, function errorCallback(response) {
                     // console.log(response);
                 });
@@ -843,6 +853,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
+            $scope.unreadCnt = [];
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-all-chats',
@@ -871,6 +882,7 @@ angular.module('your_app_name.controllers', [])
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
+                        $scope.unreadCnt[key] = responseData.data.unreadCnt;
                         $rootScope.$digest;
                     }, function errorCallback(response) {
                         console.log(response.responseText);
@@ -903,6 +915,10 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DrChatCtrl', function ($scope, $http, $rootScope, $filter, $stateParams, $timeout) {
+            if (session) {
+                session.unsubscribe();
+                session.disconnect();
+            }
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $scope.drId = $stateParams.id;
@@ -915,7 +931,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-chat-token',
-                params: {chatId: $scope.chatId, userId: $scope.partId}
+                params: {chatId: $scope.chatId, userId: $scope.partId, interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.user = response.data.user;
@@ -928,7 +944,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
-                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
                 console.log(chatWidget);
@@ -949,7 +965,6 @@ angular.module('your_app_name.controllers', [])
                     var wh = jQuery('window').height();
                     jQuery('#chat').css('height', wh);
                     //	console.log(wh);
-
                 })
             };
             $scope.returnjs();
@@ -972,23 +987,6 @@ angular.module('your_app_name.controllers', [])
             $timeout(function () {
                 $scope.appendprevious();
             }, 1000);
-
-            var sessionId = '2_MX40NTEyMTE4Mn5-MTQ1NjkwMTY3Mzc3Nn5oRVBFRjlMZ3RYeE1yRHJkOHpWTDJRZHh-UH4';
-            var tokenAlice = 'T1==cGFydG5lcl9pZD00NTEyMTE4MiZzaWc9NWE3NzFlYWNkNmQxMzUyNDZhZGUxNjFiMmQ4MjU5YzM5ODllODBkZTpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5URXlNVEU0TW41LU1UUTFOamt3TVRZM016YzNObjVvUlZCRlJqbE1aM1JZZUUxeVJISmtPSHBXVERKUlpIaC1VSDQmY3JlYXRlX3RpbWU9MTQ1NjkwMTgwMCZub25jZT0wLjI2NDE0MDczNzM5MzkxNjQmZXhwaXJlX3RpbWU9MTQ1Njk4ODA2NSZjb25uZWN0aW9uX2RhdGE9';
-            var tokenBob = 'T1==cGFydG5lcl9pZD00NTEyMTE4MiZzaWc9NDljODBiZTQ1NjQzZTVhYzQ4NTY0ZjZmMThmZmQwZWQwNWUwZjg0ODpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5URXlNVEU0TW41LU1UUTFOamt3TVRZM016YzNObjVvUlZCRlJqbE1aM1JZZUUxeVJISmtPSHBXVERKUlpIaC1VSDQmY3JlYXRlX3RpbWU9MTQ1NjkwMTgyOCZub25jZT0wLjM2MDU0MjkzODY3NjQ2NjkmZXhwaXJlX3RpbWU9MTQ1Njk4ODA2NSZjb25uZWN0aW9uX2RhdGE9';
-
-            // Add here your API key
-            var apiKey = '45121182';
-
-            // Although you need a initialized session, the ChatWidget does not need
-            // this session to be connected. It will connect the chat to the session
-            // automatically once the session connects.
-            var session = OT.initSession(apiKey, sessionId);
-            var chatWidget = new OTSolution.TextChat.ChatWidget({
-                session: session,
-                container: '#chat'
-            });
-
         })
         .controller('newDoctorChatCtrl', function ($scope) {})
 
@@ -2311,7 +2309,6 @@ angular.module('your_app_name.controllers', [])
                 store({'loadedOnce': 'true'});
                 $window.location.reload(true);
                 // don't reload page, but clear localStorage value so it'll get reloaded next time
-
             } else {
                 // set the flag and reload the page
                 window.localStorage.removeItem('loadedOnce');
@@ -2396,7 +2393,7 @@ angular.module('your_app_name.controllers', [])
                     window.localStorage.removeItem('drId');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
-                    })
+                    });
                     $state.go('app.appointment-list', {}, {reload: true});
                 } catch (err) {
                     $ionicHistory.nextViewOptions({
@@ -2639,7 +2636,7 @@ angular.module('your_app_name.controllers', [])
                         buttons: [
                             {text: $scope.qtylang.cancel[$scope.language]},
                             {
-                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 
@@ -2797,7 +2794,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/appoint-medicine',
-                    params: {mid: $scope.mid,id: $scope.id, appointId: $scope.appId, interface: $scope.interface}
+                    params: {mid: $scope.mid, id: $scope.id, appointId: $scope.appId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.appointment = response.data.appointment;
@@ -2832,7 +2829,7 @@ angular.module('your_app_name.controllers', [])
 
                 $scope.patient_type = response.data.patient_type;
                 $scope.itemform = response.data.itemform;
-                
+
                 $scope.disbursement = response.data.disbursement;
                 $scope.language = response.data.lang.language;
 
@@ -3017,22 +3014,22 @@ angular.module('your_app_name.controllers', [])
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
             $scope.appid = $stateParams.appid;
-            
-             $http({
-                    method: 'GET',
-                    url: domain + 'inventory/get-inventary-pagelang',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
-                }).then(function successCallback(response) {
-                    console.log(response.data);
-                    
-                    $scope.inventory = response.data.inventory;
-                    $scope.language = response.data.lang.language;
-                    //$scope.searchkey  = searchkey
 
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/get-inventary-pagelang',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+
+                $scope.inventory = response.data.inventory;
+                $scope.language = response.data.lang.language;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
             // sssconsole.log($scope.mid);
             $scope.data = {};
             $scope.dataitem = [];
@@ -3094,9 +3091,9 @@ angular.module('your_app_name.controllers', [])
                         title: $scope.qtylang.quantity[$scope.language],
                         scope: $scope,
                         buttons: [
-                            {text: $scope.qtylang.cancel[$scope.language],},
+                            {text: $scope.qtylang.cancel[$scope.language], },
                             {
-                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 

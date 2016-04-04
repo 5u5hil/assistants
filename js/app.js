@@ -851,6 +851,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.new-doctorchat', {
+                        cache: false,
                         url: "/new-doctorchat",
                         views: {
                             'menuContent': {
@@ -861,6 +862,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.drchat', {
+                        cache: false,
                         url: "/drchat/{id:string}",
                         views: {
                             'menuContent': {
