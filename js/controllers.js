@@ -3335,7 +3335,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('noteType', function ($scope, $ionicModal, $state) {
+        .controller('NotetypeCtrl', function ($scope, $ionicModal, $state) {
             $scope.check = function (pid, did) {
                 console.log("Patient = " + pid + " dr Id = " + did);
                 if (pid == '' && did == '') {
@@ -3361,6 +3361,17 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             }
         })
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 
         .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
             $ionicModal.fromTemplateUrl('treatmentp', {

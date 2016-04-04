@@ -259,14 +259,22 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">{{cnote.note[language]}}</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button>
-                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"-->
+                            <!--<button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button>-->
+                           
+						   <a  class="Cstmbutn button-small mb15" ui-sref="app.notetype" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</a> 
+						   
+						   
+						   
                         </div>
                     </div>
                     <div class="innerdiv col-50">
                         <div class="item item-divider">{{cnote.treatment_plan[language]}}</div>
                         <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </button>	
+                            <!-- <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </button>	 -->
+							
+							
+							<a class="Cstmbutn button-small mb15" ui-sref="app.treatment-plan" ><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </a>
+							
                         </div>
                     </div>
                 </div>
