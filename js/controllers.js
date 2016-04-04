@@ -3374,11 +3374,7 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
-            $ionicModal.fromTemplateUrl('treatmentp', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
+        
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
