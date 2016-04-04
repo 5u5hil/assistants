@@ -1,6 +1,6 @@
 <ion-view class="category-list-view">
   <ion-nav-title>
-    <span>Family History</span>
+    <span> {{fhistory.family_history[language]}}</span>
 </ion-nav-title>
 
   <ion-content>
@@ -66,8 +66,8 @@
  
   </ion-content>
     <div class="fixedbar">
-  <a class="button btn-delete" ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
-	  <a class="button btn-add" ui-sref="app.consultations-note" ><i class="ion-checkmark"></i> Save</a>
+  <a class="button btn-delete" ui-sref="app.consultations-note" ><i class="ion-close"></i> {{fhistory.cancel[language]}}</a>
+	  <a class="button btn-add" ui-sref="app.consultations-note" ><i class="ion-checkmark"></i> {{fhistory.save[language]}}</a>
 	</div>
 </ion-view>
 

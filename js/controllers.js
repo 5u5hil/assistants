@@ -2639,7 +2639,7 @@ angular.module('your_app_name.controllers', [])
                         buttons: [
                             {text: $scope.qtylang.cancel[$scope.language]},
                             {
-                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 
@@ -2797,7 +2797,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/appoint-medicine',
-                    params: {mid: $scope.mid,id: $scope.id, appointId: $scope.appId, interface: $scope.interface}
+                    params: {mid: $scope.mid, id: $scope.id, appointId: $scope.appId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.appointment = response.data.appointment;
@@ -2832,7 +2832,7 @@ angular.module('your_app_name.controllers', [])
 
                 $scope.patient_type = response.data.patient_type;
                 $scope.itemform = response.data.itemform;
-                
+
                 $scope.disbursement = response.data.disbursement;
                 $scope.language = response.data.lang.language;
 
@@ -3017,22 +3017,22 @@ angular.module('your_app_name.controllers', [])
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
             $scope.appid = $stateParams.appid;
-            
-             $http({
-                    method: 'GET',
-                    url: domain + 'inventory/get-inventary-pagelang',
-                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
-                }).then(function successCallback(response) {
-                    console.log(response.data);
-                    
-                    $scope.inventory = response.data.inventory;
-                    $scope.language = response.data.lang.language;
-                    //$scope.searchkey  = searchkey
 
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/get-inventary-pagelang',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+
+                $scope.inventory = response.data.inventory;
+                $scope.language = response.data.lang.language;
+                //$scope.searchkey  = searchkey
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
             // sssconsole.log($scope.mid);
             $scope.data = {};
             $scope.dataitem = [];
@@ -3094,9 +3094,9 @@ angular.module('your_app_name.controllers', [])
                         title: $scope.qtylang.quantity[$scope.language],
                         scope: $scope,
                         buttons: [
-                            {text: $scope.qtylang.cancel[$scope.language],},
+                            {text: $scope.qtylang.cancel[$scope.language], },
                             {
-                                text: '<b>'+$scope.qtylang.ok[$scope.language]+'</b>',
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
                                 type: 'button-positive',
                                 onTap: function (e) {
 
@@ -3427,12 +3427,16 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: "GET",
                     url: domain + "assistrecords/get-app-details",
-                    params: {appId: $scope.appId}
+                    params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
-                    console.log(response.data.patient.id);
-                    $scope.patientId = response.data.patient.id;
-                    $scope.doctorId = response.data.doctr.id
+
+                    console.log(response.data);
+                    // leena this two line commented by me. bcox was getting error--- bhavana
+                    // $scope.patientId = response.data.patient.id;
+                    // $scope.doctorId = response.data.doctr.id
                     $scope.app = response.data.app;
+                    $scope.fhistory = response.data.fhistory;
+                    $scope.language = response.data.lang.language;
                     if (response.data.app.mode == 1) {
                         $scope.mode = 'Video';
                     } else if (response.data.app.mode == 2) {
@@ -3461,6 +3465,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.doctrs = response.data.doctrs;
                         $scope.patients = response.data.patients;
                         $scope.cases = response.data.cases;
+                        $scope.cnote = response.data.cnote;
+                        $scope.language = response.data.lang.language;
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -3494,6 +3500,8 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    $scope.cnote = response.data.cnote;
+                    $scope.language = response.data.lang.language;
                     angular.forEach($scope.patients, function (value, key) {
                         if (value.id == $scope.patientId) {
                             $scope.patientName = [{'name': value.fname}];
@@ -3897,7 +3905,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data.abt);
                 $scope.record = response.data.record;
@@ -3907,6 +3915,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patients;
                 $scope.cases = response.data.cases;
                 $scope.abt = response.data.abt;
+                $scope.pateinthistory = response.data.pateinthistory;
+                $scope.language = response.data.lang.language;
                 console.log(response.data.patients[0].dob);
                 if (response.data.dob) {
                     $scope.dob = new Date(response.data.dob);
@@ -4024,6 +4034,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
                 $scope.records = response.data.record;
                 $scope.fields = response.data.fields;
+                $scope.measurement = response.data.measurement;
+                $scope.language = response.data.lang.language;
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -4052,7 +4064,15 @@ angular.module('your_app_name.controllers', [])
             $scope.objText = [];
             $scope.selConditions = [];
             $scope.observation = '';
-
+            $http({
+                    method: 'GET',
+                    url: domain + 'assistrecords/get-observations-lang',
+                    params: {userId: $scope.userId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
             }).then(function (modal) {
