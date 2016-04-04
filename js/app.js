@@ -867,11 +867,7 @@ angular.module('your_app_name', [
                                 controller: 'PatientRecordCtrl'
                             }
                         }
-                    })
-					
-					
-					
-					
+                    })					
 					
 
                     .state('app.patient-consult', {
@@ -887,6 +883,7 @@ angular.module('your_app_name', [
                     /* chat category */
 
                     .state('app.chatlist', {
+                        cache: false,
                         url: "/chatlist",
                         views: {
                             'menuContent': {

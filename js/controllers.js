@@ -917,7 +917,6 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DrChatCtrl', function ($scope, $http, $rootScope, $filter, $stateParams, $timeout) {
             if (session) {
-                session.unsubscribe();
                 session.disconnect();
             }
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -943,7 +942,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
                 $scope.chat = response.data.chat;
-                 $scope.language = response.data.lang.language;
+                $scope.language = response.data.lang.language;
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -3358,20 +3357,20 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             }
         })
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
 
 
         .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
-        
+
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
