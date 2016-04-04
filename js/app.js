@@ -867,11 +867,8 @@ angular.module('your_app_name', [
                                 controller: 'PatientRecordCtrl'
                             }
                         }
+
                     })
-
-
-
-
 
 
                     .state('app.patient-consult', {
@@ -887,6 +884,7 @@ angular.module('your_app_name', [
                     /* chat category */
 
                     .state('app.chatlist', {
+                        cache: false,
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -897,6 +895,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.new-doctorchat', {
+                        cache: false,
                         url: "/new-doctorchat",
                         views: {
                             'menuContent': {
@@ -907,6 +906,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.drchat', {
+                        cache: false,
                         url: "/drchat/{id:string}",
                         views: {
                             'menuContent': {
