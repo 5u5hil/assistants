@@ -2484,6 +2484,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                       
                         session.publish(publisher);
+                        console.log(JSON.stringify(session));
                         alert(JSON.stringify(session))
                         var mic = 1;
                         var mute = 1;
