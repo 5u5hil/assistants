@@ -55,7 +55,7 @@
      Retina iPad 
     <splash src="splash/ios/Defaultipr.png" platform="ios" width="1536" height="2048" />
     -->
-    <preference name="phonegap-version" value="cli-5.2.0" />
+    <preference name="phonegap-version" value="cli-6.0.0" />
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="UIWebViewBounce" value="false" />
