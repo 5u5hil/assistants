@@ -2329,6 +2329,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
+               
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
@@ -2434,6 +2435,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
+                //alert(sessionId);
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
@@ -2471,11 +2473,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 });
                 session.connect(token, function (error) {
+                
                     if (error) {
+                        
                         $ionicLoading.hide();
                         alert("Error connecting: ", error.code, error.message);
                     } else {
+                         
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                      
                         session.publish(publisher);
                         var mic = 1;
                         var mute = 1;
