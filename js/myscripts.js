@@ -6,9 +6,8 @@ $(document).ready(function () {
         $rootScope.$apply(function () {
             $rootScope.userLogged = 1;
             $rootScope.username = window.localStorage.getItem('fname');
-            $rootScope.userimage = window.localStorage.getItem('image');
             if (document.location.hash == "#/auth/login" || document.location.hash == "#/auth/walkthrough")
-                window.location.href = "#/app//assistants";
+                window.location.href = "#/app/assistants";
         });
     } else {
         $rootScope.$apply(function () {

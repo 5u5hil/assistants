@@ -1,25 +1,31 @@
 var publisher;
 var session;
 var subscriber;
-angular.module('your_app_name.controllers', [])
-
+angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
             $scope.interface = window.localStorage.setItem('interface_id', '3');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
+            } else {
+                if ($rootScope.userLogged == 0)
+                    $state.go('auth.walkthrough');
             }
-            // else {
-            // if ($rootScope.userLogged == 0)
-            // $state.go('auth.login');
-            // }
         })
 
 // APP
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
+            if (window.localStorage.getItem('id') != null) {
+                $rootScope.userLogged = 1;
+                $rootScope.username = window.localStorage.getItem('fname');
+                $rootScope.userimage = window.localStorage.getItem('image');
+            } else {
+                if ($rootScope.userLogged == 0)
+                    $state.go('auth.walkthrough');
+            }
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $scope.CurrentDate = new Date();
@@ -37,14 +43,7 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 // console.log(response);
             });
-            if (window.localStorage.getItem('id') != null) {
-                $rootScope.userLogged = 1;
-                $rootScope.username = window.localStorage.getItem('fname');
-                $rootScope.userimage = window.localStorage.getItem('image');
-            } else {
-                if ($rootScope.userLogged == 0)
-                    $state.go('auth.walkthrough');
-            }
+
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 $http({

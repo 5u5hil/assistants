@@ -26,7 +26,9 @@ angular.module('your_app_name', [
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
-
+            $ionicPlatform.onHardwareBackButton(function (event) {
+                event.preventDefault();
+            });
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -164,18 +166,18 @@ angular.module('your_app_name', [
                         }
                     })
 
-					
-					
-					
-                  
-					
-					
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
+
+
+
+
+
+
                     .state('app.doctor-consultations', {
                         cache: false,
                         url: "/doctor-consultations/{id:int}",
@@ -517,9 +519,9 @@ angular.module('your_app_name', [
                         }
                     })
 
-					
-					
-					.state('app.notetype', {
+
+
+                    .state('app.notetype', {
                         //cache: false,
                         url: "/notetype",
                         views: {
@@ -529,9 +531,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-						
-					.state('app.treatment-plan-type', {
+
+
+                    .state('app.treatment-plan-type', {
                         //cache: false,
                         url: "/treatment-plan-type",
                         views: {
@@ -541,11 +543,11 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					
-					
-					
+
+
+
+
+
 
                     .state('app.about', {
                         url: "/consultation-note/about",
@@ -867,8 +869,8 @@ angular.module('your_app_name', [
                                 controller: 'PatientRecordCtrl'
                             }
                         }
-                    })					
-					
+                    })
+
 
                     .state('app.patient-consult', {
                         url: "/patient-consult",
