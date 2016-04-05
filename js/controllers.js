@@ -3330,7 +3330,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('NotetypeCtrl', function ($scope, $ionicModal, $state) {
+        .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-notetype',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.notetype = response.data.notetype;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+
+
             $scope.check = function (pid, did) {
                 console.log("Patient = " + pid + " dr Id = " + did);
                 if (pid == '' && did == '') {
@@ -3343,11 +3359,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.modal.show();
                 }
             };
-            $ionicModal.fromTemplateUrl('notetype', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
+//            $ionicModal.fromTemplateUrl('notetype', {
+//                scope: $scope
+//            }).then(function (modal) {
+//                $scope.modal = modal;
+//            });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
@@ -3357,18 +3373,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
         })
 
+        .controller('treaTmentpCtrl', function ($scope,$http, $ionicModal, $state) {
+            
+             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-treatment-plan',
+                params: {userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.tplan = response.data.tplan;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
 
-
-
-
-
-
-
-
-
-
-
-        .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
 
             $scope.submitmodal = function () {
                 $scope.modal.hide();
@@ -3898,6 +3918,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -4184,13 +4205,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.catId = 'Diet Plan';
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;
@@ -4334,6 +4356,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.patientId = $stateParams.id; //window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+               $scope.interface = window.localStorage.getItem('interface_id');
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -4347,7 +4370,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId,interface:$scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.record = response.data.record;

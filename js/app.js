@@ -871,7 +871,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
                     .state('app.patient-consult', {
                         url: "/patient-consult",
                         views: {

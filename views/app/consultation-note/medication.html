@@ -1,13 +1,13 @@
 <ion-view class="category-list-view">
   <ion-nav-title>
-    <span>Medication</span>
+    <span> {{fhistory.medication[language]}}</span>
 </ion-nav-title>
 
   <ion-content>
   <div class="mtop20"> 
 			 <div class="row cbtn3">
 				<button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
-					 <span class="icon ion-plus-circled"></span> Add 
+					 <span class="icon ion-plus-circled"></span>  {{fhistory.add[language]}} 
 					</button>
 				
 				</div>
@@ -16,7 +16,7 @@
 					<div  class="list card post-item">
 						<div class="post-content item item-text-wrap p0">
 							<div  class="card-content paraspacing">
-								<div class="cardheading mb5">Medication 1</div>
+								<div class="cardheading mb5">{{fhistory.medication[language]}} 1</div>
 								<div class="row txt-left">
 									<div class="col">
 										<p><strong>Name</strong>:  Leena</p>
@@ -38,7 +38,7 @@
 					<div  class="list card post-item">
 						<div class="post-content item item-text-wrap p0">
 							<div  class="card-content paraspacing">
-								<div class="cardheading mb5">Medication 2</div>
+								<div class="cardheading mb5">{{fhistory.medication[language]}} 2</div>
 								<div class="row txt-left">
 									<div class="col">
 										<p><strong>Name</strong>:  Leena</p>
@@ -60,7 +60,7 @@
 					<div  class="list card post-item">
 						<div class="post-content item item-text-wrap p0">
 							<div  class="card-content paraspacing">
-								<div class="cardheading mb5">Medication 3</div>
+								<div class="cardheading mb5">{{fhistory.medication[language]}} 3</div>
 								<div class="row txt-left">
 									<div class="col">
 										<p><strong>Name</strong>:  Leena</p>
@@ -85,8 +85,8 @@
 <script id="add-treatmentplan" type="text/ng-template">
       <ion-modal-view>
 	  <ion-header-bar class="bar app-top-bar">
-           <h1 class="title">Add New Investigations</h1>
-        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+           <h1 class="title"> {{fhistory.medication[language]}}</h1>
+        <button class="button button-clear" ng-click="modal.hide()">{{fhistory.cancel[language]}}</button>
         </ion-header-bar>
         <ion-content class="padding">
           <div class="list">
@@ -133,8 +133,8 @@
 		   
 			       <br/>
 				 <div class="button-bar ">
-				  <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
-				  <a class="button button-positive">Submit</a>
+				  <a class="button button-assertive"  ng-click="submitmodal()">{{fhistory.cancel[language]}}</a>
+				  <a class="button button-positive">{{fhistory.submit[language]}}</a>
 				</div>  
 			 </div>
 		
