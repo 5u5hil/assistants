@@ -2406,7 +2406,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
+       /* .controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             if (!get('loadedOnce')) {
                 store({'loadedOnce': 'true'});
                 $window.location.reload(true);
@@ -2536,7 +2536,129 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             };
         })
+*/
+.controller('PatientJoinCtrl', function ($window, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
+            if (!get('loadedOnce')) {
+                store({'loadedOnce': 'true'});
+                $window.location.reload(true);
+                // don't reload page, but clear localStorage value so it'll get reloaded next time
+                $ionicLoading.hide();
+            } else {
+                // set the flag and reload the page
+                window.localStorage.removeItem('loadedOnce');
+                $ionicLoading.hide();
+            }
+            // $ionicHistory.clearCache();
+            $scope.appId = $stateParams.id;
+            $scope.mode = $stateParams.mode;
+            $scope.userId = get('id');
+            $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $http({
+                method: 'GET',
+                url: domain + 'appointment/join-doctor',
+                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $ionicLoading.hide();
+                $scope.user = response.data.user;
+                $scope.app = response.data.app;
+                //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
+                var apiKey = '45121182';
+                var sessionId = response.data.app[0].appointments.opentok_session_id;
+                var token = response.data.oToken;
+                if (OT.checkSystemRequirements() == 1) {
+                    session = OT.initSession(apiKey, sessionId);
+                    $ionicLoading.hide();
+                } else {
+                    $ionicLoading.hide();
+                    alert("Your device is not compatible");
+                }
 
+                session.on({
+                    streamDestroyed: function (event) {
+                        event.preventDefault();
+                        jQuery("#subscribersDiv").html("Doctor Left the Consultation");
+                    },
+                    streamCreated: function (event) {
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true});
+                        $http({
+                            method: 'GET',
+                            url: domain + 'appointment/update-join',
+                            params: {id: $scope.appId, userId: $scope.userId}
+                        }).then(function sucessCallback(response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                        }, function errorCallback(e) {
+                            $ionicLoading.hide();
+                            console.log(e);
+                        });
+                    },
+                    sessionDisconnected: function (event) {
+                        if (event.reason === 'networkDisconnected') {
+                            $ionicLoading.hide();
+                            alert('You lost your internet connection.'
+                                    + 'Please check your connection and try connecting again.');
+                        }
+                    }
+                });
+                session.connect(token, function (error) {
+                    if (error) {
+                        $ionicLoading.hide();
+                        alert("Error connecting: ", error.code, error.message);
+                    } else {
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        session.publish(publisher);
+                        var mic = 1;
+                        var mute = 1;
+                        jQuery(".muteMic").click(function () {
+                            if (mic == 1) {
+                                publisher.publishAudio(false);
+                                mic = 0;
+                                $ionicLoading.hide();
+                            } else {
+                                publisher.publishAudio(true);
+                                mic = 1;
+                                $ionicLoading.hide();
+                            }
+                        });
+                        jQuery(".muteSub").click(function () {
+                            if (mute == 1) {
+                                subscriber.subscribeToAudio(false);
+                                mute = 0;
+                                $ionicLoading.hide();
+                            } else {
+                                subscriber.subscribeToAudio(true);
+                                mute = 1;
+                                $ionicLoading.hide();
+                            }
+                        });
+                    }
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+                $ionicLoading.hide();
+            });
+            $scope.exitVideo = function () {
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    $state.go('app.consultations-current', {}, {reload: true});
+                    //window.location.href = "#/app/category-listing";
+                } catch (err) {
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    $state.go('app.consultations-current', {}, {reload: true});
+                }
+
+
+            };
+        })
         .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
