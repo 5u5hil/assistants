@@ -2330,7 +2330,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
-               
+
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
@@ -2932,8 +2932,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // alert(itemId);
 
                 alert('Product removed.');
-               
-                    $rootScope.dataitem.splice(itemId, 1);
+
+                $rootScope.dataitem.splice(itemId, 1);
 
             };
         })
@@ -3836,6 +3836,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('selectPatientCtrl', function ($scope, $ionicModal) { })
+
+        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('doctorId');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.catId = 'Family History';
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-family-history',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+        })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');

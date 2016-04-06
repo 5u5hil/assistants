@@ -566,7 +566,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/family-history.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'FamilyHistoryCtrl'
                             }
                         }
                     })
