@@ -808,6 +808,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
             $rootScope.measurement = "";
+            $rootScope.measure = "";
             $rootScope.objText = "";
             $rootScope.diaText = "";
             $rootScope.objId = "";
@@ -2421,11 +2422,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
+            $scope.patientId = get('patientId');
+            alert($scope.patientId);
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
-                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
+                params: {id: $scope.appId, userId: $scope.patientId, mode: $scope.mode}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $ionicLoading.hide();
@@ -2434,6 +2437,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
+                //alert(sessionId);
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
@@ -2453,7 +2457,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
-                            params: {id: $scope.appId, userId: $scope.userId}
+                            params: {id: $scope.appId, userId: $scope.patientId}
                         }).then(function sucessCallback(response) {
                             console.log(response);
                             $ionicLoading.hide();
@@ -2477,6 +2481,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     } else {
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
+                        console.log(JSON.stringify(session));
+                        alert(JSON.stringify(session))
                         var mic = 1;
                         var mute = 1;
                         jQuery(".muteMic").click(function () {
@@ -2513,6 +2519,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     subscriber.destroy();
                     session.unsubscribe();
                     session.disconnect();
+                    window.localStorage.removeItem('patientId');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -3996,6 +4003,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicLoading.hide();
                     if (response.err == '') {
                         alert("Measurements saved successfully!");
+                        $rootScope.measure = 'yes';
                         $rootScope.measurement = response.records;
                         $state.go('app.notetype');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});

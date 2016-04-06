@@ -10,6 +10,7 @@
             <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
             <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
             <input type="hidden" ng-model="record.mid" value="{{mid}}" name="mid" />
+            <input type="hidden" value="{{measure}}" name="measurement" />
             <div class="tabcon2">
                 <div ng-repeat="record in records">
                     <div class="item item-divider">{{record.category}}</div>
