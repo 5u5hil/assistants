@@ -2981,13 +2981,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.removeItem = function (itemId) {
                 // alert(itemId);
-                alert('Product removed.');
-
-                if (itemId == 0) {
-                    $state.go('app.inventory', {}, {reload: true});
-                } else {
+//                alert('Product removed.');
+//
+//                if (itemId == 0) {
+//                    $state.go('app.inventory', {}, {reload: true});
+//                } else {
                     $rootScope.dataitem.splice(itemId, 1);
-                }
+//                }
             };
         })
 
