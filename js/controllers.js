@@ -3270,6 +3270,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
+
+
+        .controller('AddknownCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('AddknownCtrl', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+
+
+
+
         .controller('treaTmentpCtrl', function ($scope, $http, $ionicModal, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -3838,21 +3854,87 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('selectPatientCtrl', function ($scope, $ionicModal) { })
 
-        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal) {
+        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal,$ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.interface = window.localStorage.getItem('interface_id');
-             $scope.catId = 'Family History';
+            $scope.catId = 'Family History';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-family-history',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
             }).then(function successCallback(response) {
-
+                $scope.record = response.data.record;
+                $scope.recorddata = response.data.recorddata;
+               // $scope.knConditions = response.data.knConditions;
+                $scope.fields = response.data.fields;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patients;
+                $scope.cases = response.data.cases;
+                $scope.abt = response.data.abt;
+                $scope.conditions = response.data.conditions;
+                $scope.selCondition = response.data.knConditions;
+                if ($scope.selCondition.length > 0) {
+                    angular.forEach($scope.selCondition, function (val, key) {
+                        $scope.conIds.push(val.id);
+                        $scope.selConditions.push({'condition': val.condition});
+                    });
+                }
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $scope.getCondition = function (id, con) {
+                console.log(id + "==" + con);
+                var con = con.toString();
+                if ($scope.conId[id]) {
+                    $scope.conIds.push(id);
+                    $scope.selConditions.push({'condition': con});
+                } else {
+                    var index = $scope.conIds.indexOf(id);
+                    $scope.conIds.splice(index, 1);
+                    for (var i = $scope.selConditions.length - 1; i >= 0; i--) {
+                        if ($scope.selConditions[i].condition == con) {
+                            $scope.selConditions.splice(i, 1);
+                        }
+                    }
+                }
+                
+                jQuery("#selcon").val($scope.conIds);
+                console.log($scope.selConditions);
+            };
+             $scope.saveFamilyHistory = function () {
+                 alert('dsfsdf');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addFamilyForm")[0]);
+                alert(data);
+                console.log(data);
+                callAjax("POST", domain + "assistrecords/save-family-history", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        alert("Family History saved successfully!");
+                        Query("#addFamilyForm")[0].reset();
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+              $ionicModal.fromTemplateUrl('addrelation', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+       
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
