@@ -582,7 +582,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.measurement', {
-                        url: "/consultation-note/measurement",
+                        url: "/consultation-note/measurement/{mid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/measurement.html",
@@ -591,7 +591,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.observation', {
-                        url: "/consultation-note/observation",
+                        url: "/consultation-note/observation/{objid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/observation.html",
@@ -600,7 +600,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.diagnosis', {
-                        url: "/consultation-note/diagnosis",
+                        url: "/consultation-note/diagnosis/{diaid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/diagnosis.html",

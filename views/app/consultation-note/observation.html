@@ -44,12 +44,13 @@
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div  class="card-content paraspacing">
-                            <div class="cardheading">{{$index+1}}
+                            <div class="cardheading">{{$index + 1}}
                                 <div class="edit-btn">
                                     <div  ng-controller="PlaintestCtrl" ng-click="showEM({{$index}})"><i class="ion-edit"></i></div>
                                 </div>
                             </div>
-                            <p>{{obj.objtext}}</p>
+                            <p ng-if="objId != ''">{{obj.value}}</p>
+                            <p ng-if="objId == ''">{{obj.value}}</p>
                             <div class="clr"></div>
                         </div>
                     </div>
@@ -58,7 +59,7 @@
         </div>
     </ion-content>
     <div class="fixedbar">
-        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> {{observations.cancel[language]}}</a>
+        <a class="button btn-delete" nav-clear ui-sref="app.notetype" ><i class="ion-close"></i> {{observations.cancel[language]}}</a>
         <div class="button btn-add"  ng-click="saveObj()"><i class="ion-checkmark"></i> {{observations.save[language]}}</div>
     </div>
 </ion-view>
