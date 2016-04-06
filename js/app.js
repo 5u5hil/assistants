@@ -519,8 +519,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
                     .state('app.notetype', {
                         //cache: false,
                         url: "/notetype",
@@ -531,8 +529,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
+                    
                     .state('app.treatment-plan-type', {
                         //cache: false,
                         url: "/treatment-plan-type",
@@ -543,11 +540,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
-
-
-
 
                     .state('app.about', {
                         url: "/consultation-note/about",
@@ -569,8 +561,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
                     .state('app.family-history', {
                         url: "/consultation-note/family-history",
                         views: {
@@ -590,6 +580,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.observation', {
                         url: "/consultation-note/observation/{objid:string}",
                         views: {
@@ -599,6 +590,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.diagnosis', {
                         url: "/consultation-note/diagnosis/{diaid:string}",
                         views: {
@@ -618,6 +610,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.investigations', {
                         url: "/consultation-note/investigations",
                         views: {
