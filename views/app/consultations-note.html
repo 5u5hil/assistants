@@ -4,7 +4,7 @@
     </ion-nav-title>
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>   
-           
+
             <div class="tabcon2">
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                 <input type="hidden" value="{{patientId}}" name="patientId" />
@@ -260,21 +260,17 @@
                         <div class="item item-divider">{{cnote.note[language]}}</div>
                         <div class="p10">
                             <!--<button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button>-->
-                           
-						   <a  class="Cstmbutn button-small mb15" ui-sref="app.notetype" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</a> 
-						   
-						   
-						   
+                            <button  class="Cstmbutn button-small mb15"  ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button> 
                         </div>
                     </div>
                     <div class="innerdiv col-50">
                         <div class="item item-divider">{{cnote.treatment_plan[language]}}</div>
                         <div class="p10">
                             <!-- <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </button>	 -->
-							
-							
-							<a class="Cstmbutn button-small mb15" ui-sref="app.treatment-plan-type" ><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </a>
-							
+
+
+                            <a class="Cstmbutn button-small mb15" ui-sref="app.treatment-plan-type" ><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </a>
+
                         </div>
                     </div>
                 </div>
