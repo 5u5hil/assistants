@@ -602,11 +602,11 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.testresult', {
-                        url: "/consultation-note/testresult",
+                        url: "/consultation-note/testresult/{testid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/testresult.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'TestResultCtrl'
                             }
                         }
                     })

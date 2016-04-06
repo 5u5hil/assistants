@@ -20,7 +20,7 @@
             </div>
 
             <div class="col">
-                <div class="Cstmbutn button-small" ng-click="modalclose('app.testresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
+                <div class="Cstmbutn button-small" ui-sref="app.testresult({'testid': testId})"> <span class="icon {{testId!=''? 'ion-edit':'ion-plus-circled'}}"></span> Test Results </div> 
             </div>
         </div>	
 

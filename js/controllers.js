@@ -813,6 +813,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $rootScope.diaText = "";
             $rootScope.objId = "";
             $rootScope.diaId = "";
+            $rootScope.testId = "";
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
                 window.localStorage.removeItem('patientId');
@@ -4036,6 +4037,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.objText = [];
             $scope.selConditions = [];
             $scope.observation = '';
@@ -4090,6 +4092,84 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('PlaintestCtrl', function ($scope, $ionicModal, $rootScope) {
+            $ionicModal.fromTemplateUrl('editVal', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showEM = function (ind) {
+                    console.log("khkh" + ind);
+                    $scope.ind = ind;
+                    $scope.observation = $rootScope.objText[ind].value;
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                $rootScope.objText[$scope.ind].value = observation;
+                console.log($rootScope.objText);
+                $scope.modal.hide();
+            };
+        })
+
+        .controller('TestResultCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.testid = $stateParams.testid;
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.objText = [];
+            $scope.observation = {};
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-testresult-lang',
+                params: {userId: $scope.userId, interface: $scope.interface, objId: $stateParams.testid}
+            }).then(function successCallback(response) {
+                if (response.data.recdata != '') {
+                    $scope.objText = response.data.recdata.metadata_values;
+                    $rootScope.objText = $scope.objText;
+                }
+                $scope.observations = response.data.observations;
+                $scope.language = response.data.lang.language;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $ionicModal.fromTemplateUrl('addeval', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showM = function () {
+                    $scope.observation = {value: ''};
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                alert(observation);
+                $scope.objText.push({'value': observation});
+                $rootScope.objText = $scope.objText;
+                $scope.observation = {value: ''};
+                $scope.modal.hide();
+            };
+            $scope.saveTestresult = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistrecords/save-testresults',
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $stateParams.testid}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        $rootScope.testId = response.data.records.id;
+                        alert("Test Results added succesesfully!");
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+
+        })
+
+        .controller('PlaintestResultCtrl', function ($scope, $ionicModal, $rootScope) {
             $ionicModal.fromTemplateUrl('editVal', {
                 scope: $scope
             }).then(function (modal) {
