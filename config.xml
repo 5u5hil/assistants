@@ -84,7 +84,7 @@
     <preference name="StatusBarOverlaysWebView" value="true" />
    <feature name="Camera">
     <param name="android-package" value="org.apache.cordova.CameraLauncher" />
-   </feature>
+</feature>
 
 
     

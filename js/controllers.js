@@ -3367,8 +3367,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     console.log(response.data);
                     // leena this two line commented by me. bcox was getting error--- bhavana
-                    // $scope.patientId = response.data.patient.id;
-                    // $scope.doctorId = response.data.doctr.id
+                    $scope.patientId = response.data.patient.id;
+                     $scope.doctorId = response.data.doctr.id
                     $scope.app = response.data.app;
                     $scope.fhistory = response.data.fhistory;
                     $scope.language = response.data.lang.language;
