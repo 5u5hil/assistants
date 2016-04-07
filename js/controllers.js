@@ -3879,6 +3879,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.abt = response.data.abt;
                 $scope.conditions = response.data.conditions;
                 $scope.selCondition = response.data.knConditions;
+                $scope.familyhistory = response.data.familyhistory;
                 if ($scope.selCondition.length > 0) {
                     angular.forEach($scope.selCondition, function (val, key) {
                         $scope.conIds.push(val.id);
