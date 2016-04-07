@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                             <p class="txt-left"><strong>Age: </strong><span>{{rdata.record_metadata[2].value}}</span><br/>
-                                <strong>Known Conditions:</strong> <li ng-repeat="sel in selConditions">{{sel.condition}}</li>
+                                <strong>Known Conditions:</strong> <li ng-repeat="sel in knConditions[$index]">{{sel.condition}}</li>
                                 <br/>
                                 <strong>Other Information:</strong> {{rdata.record_metadata[4].value}}
                                 <br/>

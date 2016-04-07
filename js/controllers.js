@@ -3854,7 +3854,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('selectPatientCtrl', function ($scope, $ionicModal) { })
 
-        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal,$ionicLoading) {
+        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -3870,7 +3870,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function successCallback(response) {
                 $scope.record = response.data.record;
                 $scope.recorddata = response.data.recorddata;
-               // $scope.knConditions = response.data.knConditions;
+                $scope.knConditions = response.data.recConditions;
                 $scope.fields = response.data.fields;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
@@ -3903,30 +3903,32 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         }
                     }
                 }
-                
+
                 jQuery("#selcon").val($scope.conIds);
                 console.log($scope.selConditions);
             };
-             $scope.saveFamilyHistory = function () {
-                 alert('dsfsdf');
+            $scope.saveFamilyHistory = function () {
+                //alert('dsfsdf');
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addFamilyForm")[0]);
-                alert(data);
+                // alert(data);
                 console.log(data);
                 callAjax("POST", domain + "assistrecords/save-family-history", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
                         alert("Family History saved successfully!");
-                        Query("#addFamilyForm")[0].reset();
-                        $state.go('app.notetype');
+                        jQuery("#addFamilyForm")[0].reset();
+                        // $state.go('app.notetype',{reload: true});
+                        $scope.modal.hide();
+                        window.location.reload();
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
                 });
             };
-              $ionicModal.fromTemplateUrl('addrelation', {
+            $ionicModal.fromTemplateUrl('addrelation', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -3934,7 +3936,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-       
+
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
