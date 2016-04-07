@@ -2424,7 +2424,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.patientId = get('patientId');
-            alert($scope.patientId);
+            //alert($scope.patientId);
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
@@ -2438,8 +2438,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
-                //alert(sessionId);
+                // console.log('sessionId --- '+sessionId);
                 var token = response.data.oToken;
+               // console.log('token -- '+token);
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
                     $ionicLoading.hide();
@@ -2483,7 +2484,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         console.log(JSON.stringify(session));
-                        alert(JSON.stringify(session))
+                      //  alert(JSON.stringify(session))
                         var mic = 1;
                         var mute = 1;
                         jQuery(".muteMic").click(function () {
