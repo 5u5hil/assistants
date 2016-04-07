@@ -3364,11 +3364,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + "assistrecords/get-app-details",
                     params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
-
                     console.log(response.data);
                     // leena this two line commented by me. bcox was getting error--- bhavana
-                    // $scope.patientId = response.data.patient.id;
-                    // $scope.doctorId = response.data.doctr.id
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
                     $scope.app = response.data.app;
                     $scope.fhistory = response.data.fhistory;
                     $scope.language = response.data.lang.language;
