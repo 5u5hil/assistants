@@ -3353,6 +3353,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.catId = '';
             $scope.recId = $rootScope.recCId;
             $scope.userId = window.localStorage.getItem('id');
+            $scope.caseId = '';
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -3401,6 +3402,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.doctrs = response.data.doctrs;
                         $scope.patients = response.data.patients;
                         $scope.cases = response.data.cases;
+                        $scope.preRec = response.data.recordData;
+                        $scope.preRecData = response.data.recordDetails;
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            if (val.fields.field == 'case-id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.attachments.length > 0) {
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                        });
                         $scope.cnote = response.data.cnote;
                         $scope.language = response.data.lang.language;
                     }, function errorCallback(response) {
@@ -3422,8 +3440,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.patientId = get('patientId');
                     $scope.doctorId = get('doctorId');
                 }
-                $scope.conDate = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
@@ -3435,6 +3451,49 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.problems = response.data.problems;
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
+                    $scope.preRec = response.data.recordData;
+                    $scope.preRecData = response.data.recordDetails;
+                    if ($scope.preRecData.length > 0) {
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            console.log(val.value);
+                            if (val.fields.field == 'Case Id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                console.log("Attach length " + val.attachments.length);
+                                if (val.attachments.length > 0) {
+                                    jQuery('#coninprec').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Valid till') {
+                                $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Date') {
+                                $scope.conDate = $filter('date')(new Date(val.value), 'MM-dd-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Time') {
+                                $scope.curTimeo = $filter('date')(new Date(val.value), 'hh:mm a');
+                            }
+                            if (val.fields.field == 'Patient Type') {
+                                $scope.pType = val.value;
+                            }
+                            if (val.fields.field == 'Mode') {
+                                $scope.mode = val.value;
+                            }
+                        });
+                    } else {
+                        $scope.conDate = new Date();
+                        $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                    }
+                    console.log("Con date " + $scope.conDate);
+                    console.log("Con Time " + $scope.curTimeo);
                     $scope.cases = response.data.cases;
                     $scope.cnote = response.data.cnote;
                     $scope.language = response.data.lang.language;
