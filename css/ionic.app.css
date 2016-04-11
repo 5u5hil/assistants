@@ -9416,6 +9416,10 @@ input[type="date"]:before{
     content: "\f117"; display:block;
 }
 
+.sche-date input[type="date"]:before{
+	content:''; display:none; padding:0;
+}
+
 .countright{
     padding: 1px 3px;
     border: 1px #387EF5 solid;

@@ -807,6 +807,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
+            $rootScope.recCId = "";
             $rootScope.measurement = "";
             $rootScope.measure = "";
             $rootScope.objText = "";
@@ -2440,7 +2441,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
                 // console.log('sessionId --- '+sessionId);
                 var token = response.data.oToken;
-               // console.log('token -- '+token);
+                // console.log('token -- '+token);
                 if (OT.checkSystemRequirements() == 1) {
                     session = OT.initSession(apiKey, sessionId);
                     $ionicLoading.hide();
@@ -2484,7 +2485,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         console.log(JSON.stringify(session));
-                      //  alert(JSON.stringify(session))
+                        //  alert(JSON.stringify(session))
                         var mic = 1;
                         var mute = 1;
                         jQuery(".muteMic").click(function () {
@@ -3339,7 +3340,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
             console.log("Measure = " + $rootScope.measurement + "Obj = " + $rootScope.objId + "Dia = " + $rootScope.diaId);
             if ($rootScope.diaId) {
@@ -3350,7 +3351,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
+            $scope.recId = $rootScope.recCId;
             $scope.userId = window.localStorage.getItem('id');
+            $scope.caseId = '';
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -3392,7 +3395,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $http({
                         method: 'GET',
                         url: domain + 'assistrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
+                        params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface, recId: $scope.recId}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -3401,6 +3404,23 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.doctrs = response.data.doctrs;
                         $scope.patients = response.data.patients;
                         $scope.cases = response.data.cases;
+                        $scope.preRec = response.data.recordData;
+                        $scope.preRecData = response.data.recordDetails;
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            if (val.fields.field == 'case-id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.attachments.length > 0) {
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                        });
                         $scope.cnote = response.data.cnote;
                         $scope.language = response.data.lang.language;
                     }, function errorCallback(response) {
@@ -3422,12 +3442,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.patientId = get('patientId');
                     $scope.doctorId = get('doctorId');
                 }
-                $scope.conDate = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'assistrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctr_Id: $scope.doctorId, catId: $scope.catId, interface: $scope.interface, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -3435,6 +3453,49 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.problems = response.data.problems;
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
+                    $scope.preRec = response.data.recordData;
+                    $scope.preRecData = response.data.recordDetails;
+                    if ($scope.preRecData.length > 0) {
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            console.log(val.value);
+                            if (val.fields.field == 'Case Id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                console.log("Attach length " + val.attachments.length);
+                                if (val.attachments.length > 0) {
+                                    jQuery('#coninprec').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Valid till') {
+                                $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Date') {
+                                $scope.conDate = $filter('date')(new Date(val.value), 'MM-dd-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Time') {
+                                $scope.curTimeo = $filter('date')(new Date(val.value), 'hh:mm a');
+                            }
+                            if (val.fields.field == 'Patient Type') {
+                                $scope.pType = val.value;
+                            }
+                            if (val.fields.field == 'Mode') {
+                                $scope.mode = val.value;
+                            }
+                        });
+                    } else {
+                        $scope.conDate = new Date();
+                        $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                    }
+                    console.log("Con date " + $scope.conDate);
+                    console.log("Con Time " + $scope.curTimeo);
                     $scope.cases = response.data.cases;
                     $scope.cnote = response.data.cnote;
                     $scope.language = response.data.lang.language;
@@ -3526,7 +3587,45 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 } else if (did == '' || did == null) {
                     alert("Please select doctor.");
                 } else {
-                    $state.go('app.notetype');
+                    if ($scope.tempImgs.length > 0) {
+                        angular.forEach($scope.tempImgs, function (value, key) {
+                            $scope.picData = getImgUrl(value);
+                            var imgName = value.substr(value.lastIndexOf('/') + 1);
+                            $scope.ftLoad = true;
+                            var imup = $scope.uploadPicture();
+                            alert("Image upload var " + imup);
+                            $scope.image.push(imgName);
+                            console.log($scope.image);
+                        });
+                        jQuery('#camfilee').val($scope.image);
+                        console.log($scope.images);
+                        var data = new FormData(jQuery("#addRecordForm")[0]);
+                        callAjax("POST", domain + "assistrecords/save-consultation", data, function (response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                            if (angular.isObject(response.records)) {
+                                $scope.image = [];
+                                $scope.recId = response.records.id;
+                                $rootScope.recCId = $scope.recId;
+                                $state.go('app.notetype');
+                            } else if (response.err != '') {
+                                alert('Please fill mandatory fields');
+                            }
+                        });
+                    } else {
+                        var data = new FormData(jQuery("#addRecordForm")[0]);
+                        callAjax("POST", domain + "assistrecords/save-consultation", data, function (response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                            if (angular.isObject(response.records)) {
+                                $scope.recId = response.records.id;
+                                $rootScope.recCId = $scope.recId;
+                                $state.go('app.notetype');
+                            } else if (response.err != '') {
+                                alert('Please fill mandatory fields');
+                            }
+                        });
+                    }
                 }
             };
             //Save FormData
@@ -3552,6 +3651,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             $scope.image = [];
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
@@ -3578,6 +3680,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
                                 $state.go('app.appointment-list', {}, {reload: true});
@@ -3815,12 +3920,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     jQuery('#coninprec').removeClass('hide');
                 }
             };
-            $scope.includesPre = function (val) {
-                console.log(val);
-                if (val == 'Yes') {
-                    //jQuery('#convalid').removeClass('hide');
-                } else {
-                    //jQuery('#convalid').addClass('hide');
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
                 }
             };
 
@@ -3924,7 +4031,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         jQuery("#addFamilyForm")[0].reset();
                         // $state.go('app.notetype',{reload: true});
                         $scope.modal.hide();
-                        window.location.reload();
+                        $state.go('app.family-history', {}, {reload: true});
+                        //window.location.reload();
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
