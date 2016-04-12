@@ -1917,6 +1917,22 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AssInwardCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/inventory-inward',
+                params: {interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data.item_name);
+                //console.log($filter('date')(new Date(response.data.disbursement.disburse_on), 'Y M d hh:mm a'));
+                $scope.inward = response.data.inward;
+                $scope.item_name = response.data.item_name;
+                $scope.qty_disburse = response.data.qty_disburse;
+                $scope.disburse_unit = response.data.disburse_unit;
+               
+            }, function errorCallback(response) {
+                console.log(response);
+            });
         })
 
         .controller('AssOutgoCtrl', function ($scope, $state, $filter, $http, $stateParams, $ionicModal) {
@@ -2565,6 +2581,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.searchkey = $stateParams.key;
             $scope.data = {};
             $scope.dataitem1 = [];
+            $scope.additem1 = [];
             console.log($scope.searchkey);
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
@@ -2679,38 +2696,85 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(response);
                 });
             };
-            $scope.addmedicine = function () {
-                var htmldate = '<div class="row"><div class="col"><input type="date" ng-model="abc"  value="" ></div></div>';
-                var htmlcontent = '<div class="row"><div class="col col-33">\n\
-                     <input type="number" ng-model="mqty"  value="" placeholder="Qty" name="qunatity" min="1" >\n\
+            $scope.addMedicinePopup = function (mid, name, appid) {
+                $scope.medicineId = mid;
+                $scope.medicineName = name;
+                $scope.appid = appid;
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/get-item-form',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, mid: $scope.medicineId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.itemform = response.data.itemform;
+                    $scope.qtylang = response.data.qtylang;
+                    $scope.language = response.data.lang.language;
+                    $scope.data.quantity = 1;
+                    $scope.data.inwarddate = new Date();
+                    $scope.data.itemform = '';
+                    var htmlstring = '<div class="row">\n\
+                                <div class="col">\n\
+                        <input type="date" ng-model="data.inwarddate"  value="data.inwarddate" name="inwarddate"  >\n\
+                        </div>\n\
+                        </div>\n\
+                            <div class="row">\n\
+                      <div class="col col-33">\n\
+                     <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
                         </div><div class="col col-67">\n\
-                        <select class="selectpopup"  name="itemform" ng-model="pqr">\n\
-                        <option value="" selected>Crocin</option></div></div> ';
-                var myPopup = $ionicPopup.show({
-                    template: htmldate + htmlcontent,
-                    title: 'Medicine',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancel'},
-                        {
-                            text: '<b>Add</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                if (!$scope.mqty) {
-                                    //don't allow the user to close unless he enters wifi password
-                                    console.log('fad ajfad')
-                                    //	e.preventDefault();
-                                } else {
-                                    $state.go('app.medicine');
-                                    return $scope.mqty;
+                        <select class="selectpopup"  name="itemform" ng-model="data.itemform">\n\
+                        <option value="" selected>Please Select</option>';
+                    angular.forEach($scope.itemform, function (value, key) {
+                        htmlstring += '<option ng-model="form_name" ng-init="-1" value="' + value.form_name + '">' + value.form_name + '</option>';
+                    });
+                    htmlstring += '</select>\n\
+                        </div>\n\
+                        </div>';
+                    // An elaborate, custom popup
+                    var myPopup = $ionicPopup.show({
+                        template: htmlstring,
+                        title: $scope.qtylang.quantity[$scope.language],
+                        scope: $scope,
+                        buttons: [
+                            {text: $scope.qtylang.cancel[$scope.language]},
+                            {
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    if ((!$scope.data.quantity) && (!$scope.data.itemform)) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                        if ($scope.data.itemform != "") {
+                                            $scope.additem1.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+                                            $rootScope.additem1 = $scope.additem1;
+                                            // $state.go('app.medicine', {'mid': $scope.medicineId, 'appid': $scope.appid}, {reload: true});
+                                            $http({
+                                                method: 'GET',
+                                                url: domain + 'inventory/add-stock',
+                                                params: {mid: $scope.medicineId, interface: $scope.interface, itemform: $scope.data.itemform,  qty: $scope.data.quantity}
+                                            }).then(function successCallback(response) {
+                                                console.log("add-stock  " + response.data);
+                                                if (response.data == '1') {
+                                                    alert('medicine added sucessfully');
+                                                    window.location.reload();
+                                                }
+
+                                            }, function errorCallback(e) {
+                                                console.log(e);
+                                            });
+                                        } else {
+                                            alert('Please select item form');
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    ]
-                });
-                myPopup.then(function (res) {
+                        ]
+                    });
+                    myPopup.then(function (res) {
 
-                    console.log('Tapped!', res);
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
                 });
             }
 
@@ -2754,12 +2818,147 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             /* End of add medicine */
         })
 
+        .controller('AddNewMedicineCtrl', function ($scope, $http, $stateParams, $ionicPopup, $ionicModal, $rootScope, $state, $ionicLoading) {
+
+            $scope.data = {};
+            $scope.additem = [];
+            $scope.mid = $stateParams.mid;
+            $scope.appid = $stateParams.appid;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+            $ionicLoading.show({template: 'Loading..'});
+            $scope.searchMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                $scope.itemform = '';
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, 'appid': $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
+                    $scope.inventory = response.data.inventory;
+                    $scope.language = response.data.lang.language;
+
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+            $scope.addMedicinePopup = function (mid, name, appid) {
+                $scope.medicineId = mid;
+                $scope.medicineName = name;
+                $scope.appid = appid;
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/get-item-form',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey, mid: $scope.medicineId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.itemform = response.data.itemform;
+                    $scope.qtylang = response.data.qtylang;
+                    $scope.language = response.data.lang.language;
+                    $scope.data.quantity = 1;
+                    $scope.data.itemform = '';
+                    var htmlstring = '<div class="row"><div class="col col-33">\n\
+                     <input type="number" ng-model="data.quantity"  value="data.quantity" name="qunatity" min="1" >\n\
+                        </div><div class="col col-67">\n\
+                        <select class="selectpopup"  name="itemform" ng-model="data.itemform">\n\
+                        <option value="" selected>Please Select</option>';
+                    angular.forEach($scope.itemform, function (value, key) {
+                        htmlstring += '<option ng-model="form_name" ng-init="-1" value="' + value.form_name + '">' + value.form_name + '</option>';
+                    });
+                    htmlstring += '</select>\n\
+                        </div>\n\
+                        </div>';
+                    // An elaborate, custom popup
+                    var myPopup = $ionicPopup.show({
+                        template: htmlstring,
+                        title: $scope.qtylang.quantity[$scope.language],
+                        scope: $scope,
+                        buttons: [
+                            {text: $scope.qtylang.cancel[$scope.language]},
+                            {
+                                text: '<b>' + $scope.qtylang.ok[$scope.language] + '</b>',
+                                type: 'button-positive',
+                                onTap: function (e) {
+                                    if ((!$scope.data.quantity) && (!$scope.data.itemform)) {
+                                        //don't allow the user to close unless he enters wifi password
+                                        e.preventDefault();
+                                    } else {
+                                        $scope.additem.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+                                        $rootScope.additem = $scope.additem;
+                                        // $state.go('app.medicine', {'mid': $scope.medicineId, 'appid': $scope.appid}, {reload: true});
+//                                        $http({
+//                                                method: 'GET',
+//                                                url: domain + 'inventory/add-stock',
+//                                                params: {mid: $scope.medicineId, itemform: $scope.data.itemform, qty: $scope.data.quantity}
+//                                            }).then(function successCallback(response) {
+//                                                console.log("add-stock  " + response.data);
+//                                                if (response.data == 0) {
+//                                                    alert('Sorry, Order quantity not in stock');
+//                                                } else {
+//                                                    alert(response.data + ' added successfully');
+//                                                    $scope.additem1.push({'id': $scope.medicineId, 'name': $scope.medicineName, 'quantity': $scope.data.quantity, 'itemform': $scope.data.itemform});
+//                                                    $rootScope.additem1 = $scope.additem1;
+//                                                    $state.go('app.add-medicine', {'mid': $scope.medicineId, 'appid': $scope.appid}, {reload: true});
+//                                                }
+//                                            }, function errorCallback(e) {
+//                                                console.log(e);
+//                                            });
+                                    }
+                                }
+                            }
+                        ]
+                    });
+                    myPopup.then(function (res) {
+
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+            $scope.goToAddMedicine = function (mid, appid) {
+                // alert($scope.mid);
+                $rootScope.additem = $scope.additem;
+                $state.go('app.medicine', {'mid': $scope.mid, 'appid': $scope.appid}, {reload: true});
+            };
+
+
+
+            $ionicModal.fromTemplateUrl('infomedicine', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showInformation = function (mid) {
+                    $scope.mid = mid;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'inventory/get-medicine-info',
+                        params: {mid: $scope.mid, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.medicinefor = response.data.medicinefor;
+                        $scope.modal.show();
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+
+                }
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+
+
+        })
+
         .controller('AppDoctrlistCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('AddmedcnCtrl', function ($scope) { })
+
 
         .controller('DisbursementCtrl', function ($scope, $state, $http, $rootScope, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
@@ -2941,7 +3140,47 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
         })
 
-        .controller('AddMedicineCtrl', function ($scope) { })
+        .controller('AddMedicineCtrl', function ($scope, $rootScope,$state) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.id = window.localStorage.getItem('id');
+            $scope.date = new Date();
+            $scope.doInward = function () {
+                // alert(appid);
+                $scope.from = get('from');
+                var data = new FormData(jQuery("#inward")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + 'inventory/disbursement-inward',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response);
+                        if(response == '1'){
+                            alert('medicine added sucessfully');
+                             $state.go('app.inventory', {reload: true});
+                            
+                        }else{
+                             alert('Oops, Something went wrong');
+                        }
+                        // $rootScope.$digest;
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                });
+            };
+            $scope.removeItem = function (itemId) {
+                alert('Product removed.');
+                $rootScope.additem.splice(itemId, 1);
+                if (itemId == '0') {
+                    window.location.reload();
+                }
+            };
+
+
+        })
 
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.mId = $stateParams.mid;
@@ -3371,7 +3610,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     // leena this two line commented by me. bcox was getting error--- bhavana
                     $scope.patientId = response.data.patient.id;
 
-                     $scope.doctorId = response.data.doctr.id
+                    $scope.doctorId = response.data.doctr.id
 
                     $scope.app = response.data.app;
                     $scope.fhistory = response.data.fhistory;

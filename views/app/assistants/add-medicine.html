@@ -2,50 +2,48 @@
     <ion-nav-title>
         <span>Add Medicine</span>
     </ion-nav-title>
-
+    <form method="post" id="inward" name="inward" novalidate>
+        <input type="hidden" ng-model="interface" name='interface' value="{{interface}}">
+        <input type="hidden" ng-model="id" name='id' value="{{id}}">
         <ion-content>
-		
-		     <div class="item item-divider mt15">Date</div>
-			 <label class="item item-input">
-			<input type="date" placeholder="Date" value=""  name="" class="">
-			</label>
-			 
-			 
-            <div class="item item-divider">Medicine
-			<a class="Cstmbutn button-small col-25" ui-sref="app.medcn" style="float:right; padding:0;" ><span class="icon ion-plus-circled"></span> Add </a>
-			</div>
 
-			<div class="item newlist-item" >
-              <div class="hreflink" ng-if="medi.id !=''">
-			  <h2>Crocin 
-                         <input type="hidden" name="itemid" value="1">
-                        <input type="hidden" name="itemname" value="Crocin">
-                        <span class="flt-right"><input type="number" name="quantity" value="1" min="1" max="10">
-                          <input type="text" value="Strip" name="item_form" readonly="">   
-                           
-                            
-                        </span></h2></div>
-						
-                <div class="uinfo" ng-click=""><i class="ion-ios-close-empty"></i></div>
+            <div class="item item-divider mt15">Date</div>
+            <label class="item item-input">
+            </label>
+
+
+            <div class="item item-divider">Medicine
+                <a class="Cstmbutn button-small col-25" ui-sref="app.medcn({mid:0,appid:0})"  style="float:right; padding:0;" ><span class="icon ion-plus-circled"></span> Add </a>
             </div>
-			
-			<div class="item newlist-item" >
-              <div class="hreflink" ng-if="medi.id !=''">
-			  <h2>Gelusil 
-                         <input type="hidden" name="itemid" value="1">
-                        <input type="hidden" name="itemname" value="Crocin">
-                        <span class="flt-right"><input type="number" name="quantity" value="1" min="1" max="10">
-                          <input type="text" value="Bottle" name="item_form" readonly="">   
+
+            <div class="item newlist-item"  ng-repeat="medi in additem1">
+                <div class="hreflink" ng-if="medi.id != ''" ><h2 class="ng-binding">{{medi.name}} 
+                        <input type="hidden" name="itemid" value="{{medi.id}}">
+                        <input type="hidden" name="itemname" value="{{medi.name}}">
+                        <span class="flt-right"><input type="number" name="quantity" value="{{medi.quantity}}" min='1' max='10'>
+                            <input type="text" value="{{medi.itemform}}"  name="item_form" readonly="">   
+
+
                         </span></h2></div>
-					
-                <div class="uinfo" ng-click=""><i class="ion-ios-close-empty"></i></div>
+                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
+            </div>
+
+            <div class="item newlist-item" ng-repeat="datai in additem">
+                <div class="hreflink"><h2 class="ng-binding">{{datai.name}}
+                        <input type="hidden" name="newitemid[]" value="{{datai.id}}">
+                        <input type="hidden" name="newitemname[]" value="{{datai.name}}">
+                        <span class="flt-right"> <input type="number" name="newquantity[]" value="{{datai.quantity}}">
+                            <input type="text" value="{{datai.itemform}}"  name="new_item_form[]" readonly="">  
+
+                        </span></h2></div>
+                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
             </div>
         </ion-content>
 
         <div class="fixedbar">
-            <a class="button btn-delete" ui-sref="#" >Cancel</a>
-            <button type="submit" ng-click="" class="button btn-add"  ng-disabled="disbursement.$invalid" >Save</button>
+            <a class="button btn-delete" ui-sref="app.inventory" >Cancel</a>
+            <button type="submit" ng-click="doInward();" class="button btn-add"  ng-disabled="inward.$invalid" >Save</button>
         </div>
-
+    </form>
 
 </ion-view>

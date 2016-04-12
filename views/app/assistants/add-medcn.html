@@ -8,40 +8,58 @@
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text"  value="{{searchkey}}" ng-model="search">
             </label>
-              <a ng-click=""  class="button button-positive mt15">Search</a>	
+            <a ng-click="searchMedicine(search)"   class="button button-positive mt15">Search</a>	
         </div>
-		
-		
-       
-        <div class="scont" ng-if="getMedicine!=''" >
-            <div class="item item-divider" >Starting with 'C'</div>
-            <div class="item newlist-item">
-                <div ng-click="addmultiplemedicine();"  class="hreflink"><h2 class="ng-binding">Crocin
-                        <!-- <span class="flt-right">3 Strips (15)</span> --></h2></div>
-                        
-               <!--  <div class="uinfo" ng-click=""><i class="ion-ios-information"></i></div> -->
+        <div ng-if="searchkey != ' '">
+            <div class="scont" ng-if="getMedicine != ''" >
+                <div class="item item-divider ng-binding" >Starting with {{searchkey}}</div>
+                <div class="item newlist-item" ng-repeat="medicine in getMedicine">
+                    <div ng-click="addMedicinePopup(medicine.id, medicine.name, appid)" class="hreflink"><h2 class="ng-binding">{{medicine.name}}
+                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span></h2></div>
+
+                    <div class="uinfo" ng-click="showInformation(medicine.id);"><i class="ion-ios-information"></i></div>
+                </div>
+            </div>	
+
+
+            <div class="scont" ng-if="otherMedicine != ''" >
+                <div class="item item-divider ng-binding" >Other Matches</div>			
+                <div class="item newlist-item"  ng-repeat="otherm in otherMedicine">
+                    <div ng-click="addMedicinePopup(otherm.id, otherm.name, appid)" class="hreflink"><h2 class="ng-binding">{{otherm.name}}
+                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ({{otherm.total_unit}})</span></h2></div>
+                    <div class="uinfo" ng-click="showInformation(otherm.id);"><i class="ion-ios-information"></i></div>
+                </div>
             </div>
         </div>
 
+    </ion-content>
 
-        <div class="scont"  >
-            <div class="item item-divider" >Other Matches</div>			
-            <div class="item newlist-item">
-                <div ng-click="addmultiplemedicine();" class="hreflink">
-				<h2 >Ranex
-                        <!-- <span class="flt-right">3 Strips (5)</span> --></h2></div>
-        <!--         <div class="uinfo" ng-click="#"><i class="ion-ios-information"></i></div> -->
-            </div>			
+    <div class="fixedbar">
+        <a class="button btn-delete" ui-sref="#">{{inventory.cancel[language]}}</a>
+        <a class="button btn-add" ng-click="goToAddMedicine(mid, appid)">{{inventory.save[language]}} </a>
+    </div>
+</ion-view>
 
-        </div>
-     
+<script id="infomedicine" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">{{medicinefor[0].name}}</h1>	 
+    <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i></button>
+    </ion-header-bar>
+    <ion-content>
+
+    <div class="item item-divider ng-binding">Used For</div>
+    <div ng-repeat="probs in medicinefor">
+    <p class="p15" >{{probs.problem}}</p>
+    </div>
+
+    <div class="item item-divider ng-binding">Side Effect</div>
+    <div ng-repeat="probs in medicinefor">
+    <p class="p15" >{{probs.problem}}</p>
+    </div>
 
 
     </ion-content>
-
-<!--     <div class="fixedbar">
-        <a class="button btn-delete" ui-sref="#">Cancel</a>
-        <a class="button btn-add" ui-sref="#" >Save </a>
-    </div> -->
-</ion-view>
+    </ion-modal-view>
+</script>
 
