@@ -66,7 +66,7 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
     <gap:plugin name="org.apache.cordova.file" source="npm" />
     <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
- <plugin name="cordova-plugin-camera" source="pgb" />
+    <gap:plugin name="cordova-plugin-camera" source="npm" />
     <!--<gap:plugin name="org.apache.cordova.camera" source="npm" />-->
     <gap:plugin name="org.apache.cordova.device" source="npm" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
@@ -74,7 +74,7 @@
     <gap:plugin name="org.apache.cordova.statusbar" source="npm" />
     <gap:plugin name="de.appplant.cordova.plugin.printer" />
 
-   <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
     <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay"  version="1.2.0" />
     <gap:plugin name="com.pushwoosh.plugins.pushwoosh" version="3.4.2" />
     
