@@ -3966,7 +3966,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 //camimg_holder.empty();
                 // 2
                 var options = {
-                    destinationType: Camera.DestinationType.DATA_URL, // FILE_URI
+                    destinationType: Camera.DestinationType.FILE_URI, // FILE_URI 
                     sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
