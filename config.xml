@@ -82,6 +82,7 @@
     <allow-navigation href="*" />
     
     <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="permissions" value="true" /> 
    
 
 
