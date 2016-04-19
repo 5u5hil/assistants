@@ -1,6 +1,7 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{tabmenu.patient_list[language]}}</span>
+        <span  ng-if="apkLanguage == 'english'">Patient list</span>
+        <span  ng-if="apkLanguage != 'english'">{{tabmenu.patient_list[language]}}</span>
     </ion-nav-title>
     <ion-content>
 
@@ -10,21 +11,7 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-        <!--        <div class="list mb0" >
-                    <div class="item item-divider">A</div>
-                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                        <h2>Naresh Infini</h2>
-                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-                    </a>
-                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                        <h2>Leena Infini</h2>
-                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-                    </a>
-                    <a class="item"  ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
-                        <h2>Bhavana Infini</h2>
-                        <p>naresh@infiniteit.biz, &nbsp;   +91 7666163366</p>
-                    </a>
-                </div>-->
+       
         <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
             <div class="item item-divider">{{header}}</div>
             <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient({'id': users.id, 'drId': drId})" ui-sref-opts="{reload: true}">
@@ -33,14 +20,21 @@
             </a>
         </div> 
     </ion-content>
-    <div class="fixedbar">
-        <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
+    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+        <div class="button btn-add" ng-click="modal.show()"><i class="icon ion-plus-circled"></i> Add</div>
+    </div>
+    <div class="fixedbar" ng-if="apkLanguage != 'english'">
+        <div class="button btn-add" ng-click="modal.show()"><i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
     </div>
 </ion-view>
 
 <script id="assaddp" type="text/ng-template">
     <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
+    <ion-header-bar class="bar app-top-bar" ng-if="apkLanguage == 'english'">
+    <h1 class="title">Add Patient</h1>
+    <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
+    </ion-header-bar>
+    <ion-header-bar class="bar app-top-bar"  ng-if="apkLanguage != 'english'">
     <h1 class="title">{{tabmenu.add_patient[language]}}</h1>
     <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
@@ -54,7 +48,7 @@
     </label>
     <input type="hidden" name="doctrid" value="{{drId}}" ng-model="drId" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
-     <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
+    <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
     <div class="item item-divider">Aadhaar Id *</div>
     <label class="item item-input listreq">
     <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required ng-minlength="12" ng-maxlength="12" />
@@ -66,7 +60,7 @@
     <div class="item item-divider">Mobile *</div>  
     <label class="item item-input listreq">
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
-     <div ng-show="addpatient.phone.$error.required" class="serror">Mobile number is required.</div>
+    <div ng-show="addpatient.phone.$error.required" class="serror">Mobile number is required.</div>
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is too long.</div>
     </label> 
@@ -85,8 +79,11 @@
     </label>
 
     </ion-content>
-    <div class="fixedbar">
+    <div class="fixedbar" ng-if="apkLanguage != 'english'">
     <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{tabmenu.submit[language]}}</button>
+    </div>
+    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
     </div>
     </form> 
     </ion-modal-view>
