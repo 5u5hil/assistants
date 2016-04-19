@@ -1806,23 +1806,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.paynowcountdown();
                 }, 1000);
                 if ($scope.counter1 == 0) {
-                    //console.log('fadsf af daf');
+                   //console.log('fadsf af daf');
                     $timeout.cancel(stopped1);
-                    /*$scope.kookooID = window.localStorage.getItem('kookooid');
-                     $http({
-                     method: 'GET',
-                     url: domain + 'kookoo/payment-time-expired',
-                     params: {kookooid: $scope.kookooID}
-                     
-                     }).then(function successCallback(responseData) {
-                     alert('Sorry, Your payment time expired');
-                     window.localStorage.removeItem('kookooid');
-                     $timeout(function () {
-                     $state.go('app.doctrslist', {}, {reload: true});
-                     }, 3000);
-                     }, function errorCallback(response) {
-                     $state.go('app.doctrslist', {}, {reload: true});
-                     });*/
+                    $scope.kookooID = window.localStorage.getItem('kookooid1');
+                    $scope.prodid = window.localStorage.getItem('prodId');
+                    $http({
+                        method: 'GET',
+                        url: domain + 'kookoo/payment-time-expired',
+                        params: {kookooid: $scope.kookooID}
+
+                    }).then(function successCallback(responseData) {
+                        alert('Sorry, Your payment time expired');
+                        window.localStorage.removeItem('kookooid');
+                         window.localStorage.removeItem('kookooid1');
+                        $timeout(function () {
+                            // $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
+                            $state.go('app.consultations-list', {reload: true});
+                        }, 3000);
+                    }, function errorCallback(response) {
+                        $state.go('app.consultations-list', {reload: true});
+                    });
                 }
             };
             $timeout(function () {
@@ -1927,6 +1930,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 window.localStorage.removeItem('instantV');
                 window.localStorage.removeItem('startSlot');
                 window.localStorage.removeItem('endSlot');
+                window.localStorage.removeItem('kookooid');
+                window.localStorage.removeItem('kookooid1');
                 window.localStorage.removeItem('prodId');
                 window.localStorage.removeItem('patientId');
                 window.localStorage.removeItem('drId');

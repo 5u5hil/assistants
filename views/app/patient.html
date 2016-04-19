@@ -24,73 +24,41 @@
                 </div>
             </div>
         </div>	
-        <div class="item item-divider"><i class="icon ion-person"></i> {{background[language]}}</div>
+        <div class="item item-divider" ng-if="apkLanguage == 'english'"><i class="icon ion-person"></i> Background</div>
+          <div class="item item-divider" ng-if="apkLanguage != 'english'"><i class="icon ion-person"></i> {{background[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.view-patient-history({id: patientDetails.id})"><h2 class="ctitle">Patient</h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
         </div>	
-        <div class="item item-divider"><i class="icon ion-folder"></i> {{records[language]}}</div>
+        <div class="item item-divider" ng-if="apkLanguage == 'english'"><i class="icon ion-folder"></i> Records</div>
+        <div class="item item-divider" ng-if="apkLanguage != 'english'"><i class="icon ion-folder"></i> {{records[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.createdbyu({id: patientDetails.id})"><h2 class="ctitle">Created by you<span class="count2">{{recordsCreatedCnt}}</span></h2></a>
             <a class="item" ui-sref="app.sharedwithu({id: patientDetails.id})"><h2 class="ctitle">Shared with you <span class="count2">{{recordsSharedCnt}}</span></h2></a>
         </div>
-        <div class="item item-divider"><i class="icon ion-android-contacts"></i>  {{consultations[language]}}</div>
+        <div class="item item-divider" ng-if="apkLanguage == 'english'"><i class="icon ion-android-contacts"></i>  Consultations</div>
+         <div class="item item-divider" ng-if="apkLanguage != 'english'"><i class="icon ion-android-contacts"></i>  {{consultations[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.patient-app-list({id: patientDetails.id })"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
             <a class="item" ui-sref="app.patient-past-app-list({id: patientDetails.id })"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
         </div>
 
-        <div class="item item-divider"><i class="icon ion-chatbubbles"></i> {{chat[language]}}</div>
+        <div class="item item-divider" ng-if="apkLanguage == 'english'"><i class="icon ion-chatbubbles"></i> Chat</div>
+        <div class="item item-divider"ng-if="apkLanguage != 'english'"><i class="icon ion-chatbubbles"></i> {{chat[language]}}</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
         </div>
-        <!-- 			
-                <div class="row categories-list">
-                <div class="col col-50">
-                <a class="sbox" ui-sref="">
-                        <div class="bxtitle">
-                        15<br/><span class="bxspan">Records</span>
-                        </div>
-                </a>
-                        </div>	
-                <div class="col col-50">
-                <a class="sbox" ui-sref="">
-                                <div class="bxtitle">
-                        05<br/><span class="bxspan">Chats</span>
-                        </div>
-                        </a>                        
-                        </div>	
-                </div>            
-        <div class="row categories-list">
-                <div class="col">
-                <a class="sbox" ui-sref="">
-                        <div class="row">
-                        <div class="flexcont">
-                        <div class="col col-50 brdright"><div class="sboxcontent">2<br/>Upcoming</div></div>
-                        <div class="col col-50"><div class="sboxcontent">10<br/>Past</div></div>
-                        </div>
-                        </div>
-                <h5 style="font-size:18px; margin-top:0;"><span class="bxspan">Consultations</span></h5>	
-                </a>
-                        </div>
-                </div>          
-        -->
-        <!-- 	  <div class="ctab">		
-                 <ion-tabs class="tabs-positive tabs-icon-top">        
-                        <ion-tab title="About">
-                         <div class="tabcon2"> fasdf</div>                        
-                  </ion-tab>        
-                  <ion-tab title="History" >
-                 <div class="tabcon2"> fasdf 123</div>                        
-                        </ion-tab>        
-                  <ion-tab title="Family History" >
-                         <div class="tabcon2"> fasdf</div>
-                  </ion-tab>        
-                </ion-tabs>		
-                  </div> -->	
+        	
     </ion-content>
-    <div class="footerbar">
+    <div class="footerbar" ng-if="apkLanguage == 'english'">
+        <div  class="button bar btn-add" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
+        <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
+         <a ui-sref="app.patient-consult" class="button">Consult </a>
+         <a ui-sref="app.patient-chat" class="button"> Chat</a> -->
+    </div>
+    
+    <div class="footerbar" ng-if="apkLanguage != 'english'">
         <div  class="button bar btn-add" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> {{add[language]}}</div>
         <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
          <a ui-sref="app.patient-consult" class="button">Consult </a>
@@ -103,7 +71,11 @@
 
 <script id="patient-add" type="text/ng-template">
     <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
+    <ion-header-bar class="bar app-top-bar" ng-if="apkLanguage == 'english'">
+    <h1 class="title"> Action</h1>	 
+    </ion-header-bar>
+
+    <ion-header-bar class="bar app-top-bar" ng-if="apkLanguage != 'english'">
     <h1 class="title">{{action[language]}}</h1>	 
     </ion-header-bar>
     <ion-content>
@@ -127,7 +99,12 @@
     </div>	--->					
 
     </ion-content>
-    <div class="fixedbar">
+    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+    <div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+
+    </div>
+    
+    <div class="fixedbar" ng-if="apkLanguage != 'english'">
     <div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> {{cancel[language]}}</div>
 
     </div>

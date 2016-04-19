@@ -1,6 +1,8 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{tabmenu.thankyou[language]}}</span>
+        
+         <span  ng-if="apkLanguage == 'english'">Thank You</span>
+        <span  ng-if="apkLanguage != 'english'">{{tabmenu.thankyou[language]}}</span>
     </ion-nav-title>
     <!--     <ion-nav-buttons side="right">
             <button class="button button-icon button-clear ion-person">
@@ -20,7 +22,8 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div ng-click="gotohome()" class="button bar bar-positive">{{tabmenu.backto[language]}}</div>
+                            <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage == 'english'">Back to Consultations</div>
+                             <div ng-click="gotohome()" class="button bar bar-positive" ng-if="apkLanguage != 'english'">{{tabmenu.backto[language]}}</div>
 
                             <div class="clr"></div>
                         </div>
@@ -34,7 +37,12 @@
                             <div class="clr"></div>
                         </div>
                         <div class="" style="padding: 4px 6px;">
-                            <div class="row">
+                            <div class="row" ng-if="apkLanguage == 'english'">
+                                <div class="col"><a nav-clear menu-close  ui-sref="app.consultations-list" class="Cstmbutn button-small">Back to Doctors</a></div>
+                                <div class="col"><a nav-clear menu-close  ui-sref="app.patient-list" class="Cstmbutn button-small">Back to Patients</a></div>
+                            </div>
+                            
+                             <div class="row" ng-if="apkLanguage != 'english'">
                                 <div class="col"><a nav-clear menu-close  ui-sref="app.consultations-list" class="Cstmbutn button-small">{{tabmenu.doctors[language]}}</a></div>
                                 <div class="col"><a nav-clear menu-close  ui-sref="app.patient-list" class="Cstmbutn button-small">{{tabmenu.patients[language]}}</a></div>
                             </div>
