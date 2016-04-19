@@ -4754,7 +4754,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
 
         })
-        //View Note
+        //View Note 
         .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.noteId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
