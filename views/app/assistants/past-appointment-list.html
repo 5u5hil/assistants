@@ -1,9 +1,14 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>{{tabmenu.appointment_list[language]}}</span>
+        <span  ng-if="apkLanguage == 'english'">Appointment List</span>
+        <span  ng-if="apkLanguage != 'english'">{{tabmenu.appointment_list[language]}}</span>
     </ion-nav-title>
     <ion-content>
-        <div class="row tabnav">
+        <div class="row tabnav" ng-if="apkLanguage == 'english'">
+            <div class="col"><a  ui-sref="app.appointment-list" >Active</a></div>
+            <div class="col"><a  ui-sref="app.past-appointment-list" class="active">Past</a></div>
+        </div>
+        <div class="row tabnav" ng-if="apkLanguage != 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" >{{tabmenu.active[language]}}</a></div>
             <div class="col"><a  ui-sref="app.past-appointment-list" class="active">{{tabmenu.past[language]}}</a></div>
         </div>
@@ -76,7 +81,10 @@
             </div>
         </div>
     </ion-content>
-    <div class="fixedbar">
+    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
+    </div>
+    <div class="fixedbar" ng-if="apkLanguage != 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
     </div>
 

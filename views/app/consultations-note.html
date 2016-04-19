@@ -1,6 +1,8 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span> {{cnote.consultations[language]}} {{cnote.note[language]}}</span>
+       
+         <span  ng-if="apkLanguage == 'english'">Consultations Note</span>
+        <span  ng-if="apkLanguage != 'english'">{{cnote.consultations[language]}} {{cnote.note[language]}}</span>
     </ion-nav-title>
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content>   
@@ -227,24 +229,32 @@
 
                 <div class="flexcont">
                     <div class="innerdiv col-50 brdright">
-                        <div class="item item-divider">{{cnote.note[language]}}</div>
+                        <div class="item item-divider" ng-if="apkLanguage == 'english'">Note</div>
+                         <div class="item item-divider" ng-if="apkLanguage != 'english'">{{cnote.note[language]}}</div>
                         <div class="p10">
                             <!--<button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button>-->
-                            <button  class="Cstmbutn button-small mb15"  ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button> 
+                            <button ng-if="apkLanguage == 'english'" class="Cstmbutn button-small mb15"  ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add New</button> 
+                            <button  ng-if="apkLanguage != 'english'"class="Cstmbutn button-small mb15"  ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}}</button> 
                         </div>
                     </div>
                     <div class="innerdiv col-50">
-                        <div class="item item-divider">{{cnote.treatment_plan[language]}}</div>
+                        <div class="item item-divider" ng-if="apkLanguage == 'english'">Treatment Plan</div>
+                          <div class="item item-divider" ng-if="apkLanguage != 'english'">{{cnote.treatment_plan[language]}}</div>
                         <div class="p10">
                             <!-- <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </button>	 -->
-                            <a class="Cstmbutn button-small mb15" ui-sref="app.treatment-plan-type" ><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </a>
+                            <a ng-if="apkLanguage == 'english'" class="Cstmbutn button-small mb15"  ui-sref="app.treatment-plan-type" ><span class="icon ion-plus-circled"></span> Add New </a>
+                            <a ng-if="apkLanguage != 'english'" class="Cstmbutn button-small mb15" ui-sref="app.treatment-plan-type" ><span class="icon ion-plus-circled"></span> {{cnote.add[language]}} </a>
+                            
 
                         </div>
                     </div>
                 </div>
             </div>
         </ion-content>
-        <div class="footerbar">
+        <div class="footerbar" ng-if="apkLanguage == 'english'" >
+            <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid"> Submit</button>
+        </div>
+        <div class="footerbar" ng-if="apkLanguage != 'english'" >
             <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">{{cnote.submit[language]}}</button>
         </div>
     </form>
