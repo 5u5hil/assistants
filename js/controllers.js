@@ -78,10 +78,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'get-login',
                 params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function successCallback(response) {
-                console.log(response.data.lang.language);
-                if (response.data.data) {
+              console.log(response.data.lang.language);
+               
+                if (response.data.lang.language) {
                     $scope.langtext = response.data.data;
                     $scope.language = response.data.lang.language;
+                    //$rootScope.apkLanguage = response.data.lang.language;
+                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage',response.data.lang.language);
                 } else {
                 }
             }, function errorCallback(response) {
@@ -135,6 +138,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ForgotPasswordCtrl', function ($scope, $state, $ionicLoading) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.recoverPassword = function (email, phone) {
                 window.localStorage.setItem('email', email);
                 console.log("email:  " + email);
@@ -190,6 +194,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.patientId = $stateParams.id;
             $scope.shared = 0;
             $scope.catIds = [];
@@ -286,6 +291,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.category = [];
             $scope.catId = $stateParams.id;
             $scope.patientId = $stateParams.patientId;
@@ -463,6 +469,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.recordId = $stateParams.id;
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
@@ -563,7 +570,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
-            //Show share model
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                    //Show share model
             $ionicModal.fromTemplateUrl('share', {
                 scope: $scope,
             }).then(function (modal) {
@@ -577,6 +585,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.patientId = $stateParams.id;
             $scope.shared = 1;
             $scope.userId = get('id');
@@ -679,6 +688,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.specId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             console.log(get('patientId'));
             if (get('patientId') != null) {
@@ -712,6 +722,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AppDoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             console.log(get('patientId'));
             if (get('patientId') != null) {
                 $scope.patientId = get('patientId');
@@ -744,6 +755,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $timeout, $filter, $state) {
             $scope.userId = get('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.gender = '';
             $scope.users = {};
@@ -805,6 +817,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
             $rootScope.recCId = "";
@@ -852,6 +865,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('ChatListCtrl', function ($scope, $ionicModal, $state, $rootScope, $http) {
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.userId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
@@ -918,6 +932,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('DrChatCtrl', function ($scope, $http, $rootScope, $filter, $stateParams, $timeout) {
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             if (session) {
                 session.disconnect();
             }
@@ -998,6 +1013,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.dnlink = function ($nurl) {
                 $state.go($nurl);
             };
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.imgpath = domain;
             $scope.specializations = [];
@@ -1022,6 +1038,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.drId = $stateParams.id;
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
@@ -1189,6 +1206,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter, $state, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.drId = $stateParams.id;
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.gender = '';
@@ -1267,6 +1285,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.supId = '';
             $scope.patientId = $stateParams.id;
             $scope.drId = $stateParams.drId;
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             window.localStorage.setItem('patientId', $scope.patientId);
             window.localStorage.setItem('drId', $scope.drId);
             console.log($scope.drId + "--" + $scope.patientId);
@@ -1590,6 +1609,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.data = $stateParams.data;
             $scope.uid = $stateParams.uid;
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'kookoo/check-doctor-availability',
@@ -1772,6 +1792,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('PaymentCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory) {
             $scope.counter1 = 300;
             var stopped1;
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.drId = window.localStorage.getItem('drId');
             $scope.userId = get('id');
@@ -1879,6 +1900,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             console.log($stateParams.data);
             $scope.id = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistants/thankyou-lang',
@@ -1918,6 +1940,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'inventory/inventory-inward',
@@ -1937,6 +1960,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AssOutgoCtrl', function ($scope, $state, $filter, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
+     $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
@@ -1960,7 +1984,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
-
+ $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistapp/get-all-app',
@@ -2119,6 +2143,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.patientId = $stateParams.id;
             $http({
                 method: 'GET',
@@ -2262,6 +2287,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('NewPatientCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading, $filter, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.curTime = new Date(); //$filter('date')(new Date(), 'yyyy-MM-dd');
             $scope.gender = '';
             $http({
@@ -2337,6 +2363,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.appId = $stateParams.id;
             $scope.userId = get('id');
             $scope.drId = get('drId');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -2441,6 +2468,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
             $scope.patientId = get('patientId');
+             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             //alert($scope.patientId);
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
@@ -2556,6 +2584,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('InventoryCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
             $http({
@@ -2583,6 +2612,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.dataitem1 = [];
             $scope.additem1 = [];
             console.log($scope.searchkey);
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
             $http({
@@ -2825,6 +2855,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.mid = $stateParams.mid;
             $scope.appid = $stateParams.appid;
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.id = window.localStorage.getItem('id');
             $ionicLoading.show({template: 'Loading..'});
             $scope.searchMedicine = function (searchkey) {
@@ -2969,6 +3000,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //alert($scope.appId);
             $scope.curDate = new Date();
             $scope.curTime = new Date();
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.id = window.localStorage.getItem('id');
             if ($scope.appId != '0') {
@@ -3142,6 +3174,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('AddMedicineCtrl', function ($scope, $rootScope,$state) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.id = window.localStorage.getItem('id');
             $scope.date = new Date();
             $scope.doInward = function () {
@@ -3185,6 +3218,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('MedicineDetailsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.mId = $stateParams.mid;
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.id = window.localStorage.getItem('id');
             $http({
                 method: 'GET',
@@ -3213,7 +3247,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.medicineName = '';
             $scope.mid = $stateParams.mid;
             $scope.appid = $stateParams.appid;
-
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'inventory/get-inventary-pagelang',
@@ -3403,6 +3437,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             console.log($scope.patientId);
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-details',
@@ -3530,6 +3565,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('treaTmentpCtrl', function ($scope, $http, $ionicModal, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-treatment-plan',
@@ -3597,6 +3633,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.image = [];
             $scope.tempImgs = [];
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.prescription = 'Yes';
             $scope.curTime = new Date();
             if ($scope.appId != 0) {
@@ -4183,6 +4220,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-notetype',
@@ -4207,6 +4245,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.catId = 'Family History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -4295,6 +4334,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -4430,6 +4470,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.catId = 'Measurements';
             $http({
                 method: 'GET',
@@ -4472,6 +4513,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.objText = [];
             $scope.selConditions = [];
             $scope.observation = '';
@@ -4551,6 +4593,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.objText = [];
             $scope.observation = {};
             $http({
@@ -4628,6 +4671,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('doctorId');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.diaText = {};
             $scope.diaText.value = '';
             $http({
@@ -4678,6 +4722,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.catId = 'Diet Plan';
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
@@ -4713,6 +4758,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.noteId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.record = {};
             $scope.recordDetails = {};
             $scope.problems = {};
@@ -4813,6 +4859,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.type = $stateParams.type;
             $scope.userId = get('id');
             $scope.doctrId = get('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             console.log($scope.cnId + '==' + $scope.type);
             $http({
                 method: 'GET',
@@ -4842,6 +4889,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.type = $stateParams.type;
             $scope.userId = get('id');
             $scope.doctrId = get('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             console.log($scope.cnId + '==' + $scope.type);
             $http({
                 method: 'GET',
@@ -4870,6 +4918,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.consultationId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
 
             $http({
                 method: 'GET',
@@ -4925,6 +4974,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $http({
                 method: 'GET',
                 url: domain + 'assistrecords/get-about-fields',
