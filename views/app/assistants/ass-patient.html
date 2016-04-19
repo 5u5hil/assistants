@@ -14,9 +14,9 @@
                         <div  ng-if="apkLanguage == 'english'">
                         <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1" ng-click="doesit();">
                             <div class="tabc2">
-                                <div class="item-price">Price : INR {{videoProd.price}}</div>
+                                <div class="item-price">Price : INR {{videoProd.price}}</div> 
                                 <div class="mt15"> 
-                                    <ul class="clist">
+                                    <ul class="clist"> 
                                         <li>{{videoProd.desc}}</li>
                                         <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
                                             <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
