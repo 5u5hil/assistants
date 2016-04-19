@@ -15,16 +15,7 @@
                         <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">Past</a></div>
                         </div>--> 
         <div class="page-data">
-            <div class="list miscellaneous-functionalities" ng-if="apkLanguage == 'english'">
-                <a class="item  item-icon-right" ui-sref="app.doctrslist({'id':spec.category_id, 'res' : 'json'})"  ng-repeat="spec in specializations| orderBy:'specialization' |filter : searchKeyword ">
-                    <div>
-                        <span class="stitle">{{spec.specialization}}</span>
-                        <!-- <p class=""><label ng-repeat="focus in spec.focuses">{{focus.focus}}, </label>{{spec.description}}</p>-->
-                    </div>
-                    <i class="icon ion-ios-arrow-right"></i>
-                </a>
-            </div>
-            <div class="list miscellaneous-functionalities" ng-if="apkLanguage != 'english'">
+            <div class="list miscellaneous-functionalities">
                 <a class="item  item-icon-right" ui-sref="app.doctrslist({'id':spec.category_id, 'res' : 'json'})"  ng-repeat="spec in specializations| orderBy:'specialization' |filter : searchKeyword ">
                     <div>
                         <span class="stitle">{{spec[language]}}</span>
