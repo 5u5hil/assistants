@@ -817,7 +817,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
-             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            //console.log($scope.apkLanguage);
             $rootScope.dataitem = "";
             $rootScope.dataitem1 = "";
             $rootScope.recCId = "";

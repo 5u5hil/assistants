@@ -1,6 +1,8 @@
 <ion-view cache-view="false"  class="records-view">
     <ion-nav-title>
-        <span>{{langtext.consultations[language]}}</span>
+        
+         <span  ng-if="apkLanguage == 'english'">Consultations</span>
+         <span  ng-if="apkLanguage != 'english'">{{langtext.consultations[language]}}</span>
     </ion-nav-title>
     <!--<ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-person">
@@ -13,7 +15,16 @@
                         <div class="col"><a nav-clear menu-close ui-sref="app.consultations-past">Past</a></div>
                         </div>--> 
         <div class="page-data">
-            <div class="list miscellaneous-functionalities">
+            <div class="list miscellaneous-functionalities" ng-if="apkLanguage == 'english'">
+                <a class="item  item-icon-right" ui-sref="app.doctrslist({'id':spec.category_id, 'res' : 'json'})"  ng-repeat="spec in specializations| orderBy:'specialization' |filter : searchKeyword ">
+                    <div>
+                        <span class="stitle">{{spec.specialization}}</span>
+                        <!-- <p class=""><label ng-repeat="focus in spec.focuses">{{focus.focus}}, </label>{{spec.description}}</p>-->
+                    </div>
+                    <i class="icon ion-ios-arrow-right"></i>
+                </a>
+            </div>
+            <div class="list miscellaneous-functionalities" ng-if="apkLanguage != 'english'">
                 <a class="item  item-icon-right" ui-sref="app.doctrslist({'id':spec.category_id, 'res' : 'json'})"  ng-repeat="spec in specializations| orderBy:'specialization' |filter : searchKeyword ">
                     <div>
                         <span class="stitle">{{spec[language]}}</span>
