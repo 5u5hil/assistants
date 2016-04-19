@@ -3,6 +3,12 @@
         <span  ng-if="apkLanguage == 'english'">Appointment List</span>
         <span  ng-if="apkLanguage != 'english'">{{tabmenu.appointment_list[language]}}</span>
     </ion-nav-title>
+    <ion-nav-buttons side="right" >
+        <a ng-if="apkLanguage == 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus"> New</a>
+         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
+      
+    </ion-nav-buttons> 
+  
     <ion-content class="pb50">
         <div class="row tabnav"  ng-if="apkLanguage == 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" class="active" >Active</a></div>
@@ -20,7 +26,7 @@
             </label>
         </div>
         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_data| filter:search track by $index" > <!--| orderBy: 'scheduled_start_time'-->
+        <div  class="list card post-item" ng-repeat="app in all_data| filter: search track by $index" > <!--| orderBy: 'scheduled_start_time'-->
             <div class="post-heading item item-text-wrap p0">
                 <div class="item item-divider">
                     {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
@@ -40,7 +46,7 @@
                 <div class="p5 brd-bottom">
 
                     <div class="row" ng-repeat="user in app.user">
-                        <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                        <div class="col"><strong>{{user.fname}}</strong></div>
                         <div class="col txt-right">
                             {{user.phone}}
 
@@ -103,11 +109,11 @@
             </div>
         </div>
     </ion-content>
-    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+   <!-- <div class="fixedbar" ng-if="apkLanguage == 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
     </div>
     <div class="fixedbar" ng-if="apkLanguage != 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
-    </div>
+    </div>-->
 
 </ion-view>

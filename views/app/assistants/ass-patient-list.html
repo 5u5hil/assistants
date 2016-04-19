@@ -3,6 +3,11 @@
         <span  ng-if="apkLanguage == 'english'">Patient list</span>
         <span  ng-if="apkLanguage != 'english'">{{tabmenu.patient_list[language]}}</span>
     </ion-nav-title>
+    <ion-nav-buttons side="right" >
+        <div ng-if="apkLanguage == 'english'"   ng-click="modal.show()" class="button button-icon button-clear icon ion-plus"> New</div>
+        <div ng-if="apkLanguage != 'english'"  ng-click="modal.show()" class="button button-icon button-clear icon ion-plus"> {{tabmenu.new[language]}}</div>
+
+    </ion-nav-buttons> 
     <ion-content>
 
         <div class="list list-inset">
@@ -11,7 +16,7 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-       
+
         <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
             <div class="item item-divider">{{header}}</div>
             <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient({'id': users.id, 'drId': drId})" ui-sref-opts="{reload: true}">
@@ -20,12 +25,12 @@
             </a>
         </div> 
     </ion-content>
-    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+    <!--<div class="fixedbar" ng-if="apkLanguage == 'english'">
         <div class="button btn-add" ng-click="modal.show()"><i class="icon ion-plus-circled"></i> Add</div>
     </div>
     <div class="fixedbar" ng-if="apkLanguage != 'english'">
         <div class="button btn-add" ng-click="modal.show()"><i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
-    </div>
+    </div>-->
 </ion-view>
 
 <script id="assaddp" type="text/ng-template">

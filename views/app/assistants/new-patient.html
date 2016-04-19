@@ -1,11 +1,13 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>{{tabmenu.patient_list[language]}}</span>
+        <span ng-if="apkLanguage == 'english'">Patient List</span>
+        <span ng-if="apkLanguage != 'english'">{{tabmenu.patient_list[language]}}</span>
     </ion-nav-title>
-    <!--<ion-nav-buttons side="right">
-        <div ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"></div>
-    </ion-nav-buttons> -->
-
+    <ion-nav-buttons side="right">
+        <div ng-if="apkLanguage == 'english'" ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"> New</div>
+         <div  ng-if="apkLanguage != 'english'" ng-click="modal.show();" class="button button-icon button-clear icon ion-plus"> {{tabmenu.new[language]}}</div>
+    </ion-nav-buttons> 
+    
     <ion-content>
         <div class="list list-inset">
             <label class="item item-input">
@@ -43,9 +45,9 @@
       <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
            </div> -->
 
- <div class="fixedbar">
-        <div class="button btn-add" ng-click="modal.show();"> <i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
-    </div>
+    <!--<div class="fixedbar">
+           <div class="button btn-add" ng-click="modal.show();"> <i class="icon ion-plus-circled"></i> {{tabmenu.add[language]}}</div>
+       </div>-->
 </ion-view>
 
 <script id="addnewpatient" type="text/ng-template">
@@ -69,7 +71,7 @@
     <div ng-show="addpatient.doctrid.$error.required" class="serror">Doctor Name is required.</div>
     </label>
     </div>
-    
+
     <div class="item item-divider">Name *</div>
     <label class="item item-input listreq">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
@@ -89,7 +91,7 @@
     <div class="item item-divider">Mobile *</div>  
     <label class="item item-input listreq">
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
-     <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is required.</div>
+    <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is required.</div>
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is too long.</div>
     </label> 
