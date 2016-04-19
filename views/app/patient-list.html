@@ -1,42 +1,51 @@
 <ion-view class="records-view">
-<ion-view class="records-view">
-    <ion-nav-title>
-        <span  ng-if="apkLanguage == 'english'">Patient list</span>
-        <span  ng-if="apkLanguage != 'english'">{{tabmenu.patient_list[language]}}</span>
-    </ion-nav-title>
-    <ion-content>
+    <ion-view class="records-view">
+        <ion-nav-title>
+            <span  ng-if="apkLanguage == 'english'">Patient list</span>
+            <span  ng-if="apkLanguage != 'english'">{{tabmenu.patient_list[language]}}</span>
+        </ion-nav-title>
+        <ion-nav-buttons side="right">
 
-        <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search Patient" ng-model="search">
-            </label>
+            <div ng-if="apkLanguage == 'english'" ng-click="modal.show()"  class="button button-icon button-clear icon ion-plus"> New</div>
+            <div ng-if="apkLanguage != 'english'" ng-click="modal.show()"  class="button button-icon button-clear icon ion-plus">{{tabmenu.new[language]}}</div>
+        </ion-nav-buttons>
+
+
+
+
+        <ion-content>
+
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="Search Patient" ng-model="search">
+                </label>
+            </div>
+            <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
+                <div class="item item-divider">{{header}}</div>
+                <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({id:{{users.id}}})" ui-sref-opts="{reload: true}">
+                    <h2>{{users.fname}} {{users.lname}}</h2>
+                    <p>+91 {{users.phone}}</p>
+                </a>
+            </div>
+
+
+            <div class="list mb0" ng-if="users.length == 0">
+                <p>No patients</p>
+            </div>
+
+        </ion-content>
+       <!-- <div class="bar bar-footer bar-positive" ng-if="apkLanguage == 'english'">
+            <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
         </div>
-        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
-            <div class="item item-divider">{{header}}</div>
-            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({id:{{users.id}}})" ui-sref-opts="{reload: true}">
-                <h2>{{users.fname}} {{users.lname}}</h2>
-                <p>+91 {{users.phone}}</p>
-            </a>
-        </div>
+
+        <div class="bar bar-footer bar-positive" ng-if="apkLanguage != 'english'">
+            <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> {{tabmenu.add[language]}}</div>
+        </div>-->
+    </ion-view>
 
 
-        <div class="list mb0" ng-if="users.length == 0">
-            <p>No patients</p>
-        </div>
-
-    </ion-content>
-    <div class="bar bar-footer bar-positive" ng-if="apkLanguage == 'english'">
-        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
-    </div>
-    
-     <div class="bar bar-footer bar-positive" ng-if="apkLanguage != 'english'">
-        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> {{tabmenu.add[language]}}</div>
-    </div>
-</ion-view>
-
-
-<script id="addp" type="text/ng-template">
+    <script id="addp" type="text/ng-template">
   <ion-modal-view>
     <ion-header-bar class="bar app-top-bar" ng-if="apkLanguage == 'english'">
     <h1 class="title">Add Patient</h1>
@@ -112,6 +121,6 @@
     </div>
     </form>
     </ion-modal-view>
-</script>
+    </script>
 
 
