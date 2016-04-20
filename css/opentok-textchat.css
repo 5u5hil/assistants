@@ -19,12 +19,21 @@
 }
 
 .ot-textchat .ot-bubbles {
-  position: relative;
+
+
+}
+
+
+.ot-textchat .chatscroll{
+	
+	  position: relative;
   margin-bottom: 1em;
   height: calc(100% - 5em);
-  overflow-y: auto;
-  overflow-x: hidden; 
+  overflow-y: scroll;
+    overflow-x: hidden; 
 }
+
+
 
 /*
  * By default, normal bubbles are bubbles from the other participants and
@@ -128,9 +137,10 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-input {
-  position: relative;
+  position: fixed;
   margin: 0 0;
-  /* bottom: 0; */
+ bottom: 0; 
+  width:100%;
 }
 
 .ot-textchat .ot-composer {
@@ -196,11 +206,11 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-send-button:hover {
-  background-color: #f4f4f4;
+  background-color: #387EF5;
 }
 
 .ot-textchat .ot-send-button[disabled] {
-  color: #C1C1C1;
+  color: #fff;
 }
 .ot-bubble.mine .ot-message-content{text-align:left;}
 .ot-bubble .ot-message-content{text-align:right; font-weight:bold;}
