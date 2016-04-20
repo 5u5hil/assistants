@@ -2,7 +2,7 @@
     <ion-nav-title>
         <span> {{disbursement.disbursement[language]}}</span>
     </ion-nav-title>
-    <form method="post" id="disbursement" name="disbursement" novalidate>
+    <form id="disbursementform" name="disbursementform" novalidate>
         <ion-content>
             <input type="hidden" ng-model="interface" name='interface' value="{{interface}}">
             <input type="hidden" ng-model="id" name='id' value="{{id}}">
@@ -11,7 +11,7 @@
                 <label class="item item-input item-select">
                     <div class="input-label">Patient</div>
                     <select ng-model="pname" name="pname" required="">
-                        <option value="" selected="selected" required>Select Patient </option>
+                        <option value="" selected="selected" >Select Patient </option>
                         <option  ng-repeat="user in userP" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
                     </select>
                 </label>
@@ -19,7 +19,7 @@
                 <label class="item item-input item-select">
                     <div class="input-label">Doctor</div>
                     <select  ng-model="dname" name="dname" required="">
-                        <option value="" selected="selected" required>Select Doctor </option>
+                        <option value="" selected="selected" >Select Doctor </option>
                         <option ng-repeat="user in userD" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
                     </select>
                 </label>
@@ -28,7 +28,7 @@
                     <input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="curdate" required /></label>
 
                 <label class="item item-input "><span class='input-label'>Consultation Time</span><!--listreq-->
-                    <input type="time" ng-model="curTime" placeholder="" value="{{curTime| time1}}"  name="curtime" /></label>
+                    <input type="time" ng-model="curTime" placeholder="" value="{{curTime| time1}}"  name="curtime" required /></label>
 
 
 
@@ -51,13 +51,13 @@
             </div>
                
           <div ng-if="appointment != '0'">
-                <input type="hidden" ng-model="appointmentId" name="appointmentId" value="{{appointment.id}}">
-                <input type="hidden" ng-model="pname" name="pname" value="{{appointment.user_id}}">
-                <input type="hidden" ng-model="dname" name="dname" value="{{appointment.doctor_id}}">
-                <input type="hidden" ng-model="curDate" name="curdate" value="{{appointment.scheduled_start_time | dateFormat2 }}">
-                <input type="hidden" ng-model="curTime" name="curtime" value="{{appointment.scheduled_start_time | time}}">
-                <input type="hidden" ng-model="patientType" name="patient_type" value="1">
-                <input type="hidden" ng-model="service" name="service" value="{{appointment.mode}}">
+                <input type="hidden" ng-model="appointmentId" name="appointmentId" required="" value="{{appointment.id}}">
+                <input type="hidden" ng-model="pname" name="pname" required="" value="{{appointment.user_id}}">
+                <input type="hidden" ng-model="dname" name="dname" required="" value="{{appointment.doctor_id}}">
+                <input type="hidden" ng-model="curDate" name="curdate" required="" value="{{appointment.scheduled_start_time | dateFormat2 }}">
+                <input type="hidden" ng-model="curTime" name="curtime" required="" value="{{appointment.scheduled_start_time | time}}">
+                <input type="hidden" ng-model="patientType" required="" name="patient_type" value="1">
+                <input type="hidden" ng-model="service" required="" name="service" value="{{appointment.mode}}">
             </div>
 
             <div class="item item-divider mt15" ng-if="medicine != 0">Disbursement
@@ -98,7 +98,7 @@
         <div class="fixedbar">
 
             <a class="button btn-delete" ui-sref="app.inventory" > {{disbursement.cancel[language]}}</a>
-            <button type="submit" ng-click="doDisbursement(appId);" class="button btn-add"  ng-disabled="disbursement.$invalid" > {{disbursement.save[language]}}</button>
+            <button type="button" ng-click="doDisbursement(appId);" class="button btn-add"  ng-disabled="disbursementform.$invalid" > {{disbursement.save[language]}}</button>
         </div>
     </form>
 

@@ -20,8 +20,8 @@
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <a class="lhref p10" ui-sref="app.medicine-details({mid:medicine.id})" >
-                            <span class="fbold">{{medicine.name}}</span>
-                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span>
+                            <span class="fbold">{{medicine.medicine_name}}</span>
+                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ( {{medicine.total_unit}} {{medicine.unit_quantity}})</span>
                         </a>
 
                         <div class="post-actions">
@@ -46,8 +46,8 @@
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div class="p10" >
-                            <span class="fbold">{{otherm.name}}</span>
-                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ( {{otherm.total_unit}} )</span>
+                            <span class="fbold">{{otherm.medicine_name}}</span>
+                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ( {{otherm.total_unit}} {{otherm.unit_quantity}} )</span>
                         </div>
 
                         <div class="post-actions">
