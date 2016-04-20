@@ -9118,7 +9118,8 @@ span.count-t{    display: inline-block;
 .scrollfullheight .scroll{height:100%;}
 .h100p{height:100%;}
 .w100p{width:100%;}
-label.listreq{border-bottom-color:#f00 !important;}
+label.listreq{/* border-bottom-color:#f00 !important; */}
+.reqhir{color:#f00;}
 
 .brdT{border-top: 1px #eee solid;}
 form .item{margin-bottom: 1px;border-top: 0px;}
@@ -9407,6 +9408,9 @@ h1.post-title{font-size:26px;}
 .crdview .icon{color:#fff;}
 .p5{padding: 5px;}
 .pb50{padding-bottom:50px;}
+.pb80{padding-bottom:80px;}
+
+
 .item.item-radio{    border-top: 1px solid #ddd !important;}
 .calicon{padding-right:5px;}
 input[type="date"]:before{
@@ -9439,13 +9443,17 @@ input[type="date"]:before{
             top: 20%;
             font-size: 12px; }
 
-
+.itemselect{padding:0;}
+.itemselect select{    border: 0;
+    width: 100%;
+    padding: 12px;}
 
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{
 
     color:#fff;
 }
+.mt44{margin-top:44px;}
 .crdview .ion-close{}{  color:#fff;}
 
 

@@ -3187,6 +3187,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $rootScope.dataitem.splice(itemId, 1);
 
             };
+			
+			
+			 $ionicModal.fromTemplateUrl('selectpatienta', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+			
+			
         })
 
         .controller('AddMedicineCtrl', function ($scope, $rootScope,$state) {

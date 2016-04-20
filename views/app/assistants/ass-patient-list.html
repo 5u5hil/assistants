@@ -46,7 +46,8 @@
 
     <form id="addPatientForm" name="addpatient" novalidate>
     <ion-content >
-    <div class="item item-divider">Name *</div>
+	<div class="mt44">
+    <div class="item item-divider reqhir">Name *</div>
     <label class="item item-input listreq">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
@@ -55,7 +56,8 @@
     <input type="hidden" name="doctrid" value="{{drId}}" ng-model="drId" />
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
     <input type="hidden" name="interface" value="{{interface}}" ng-model="interface" />
-    <div class="item item-divider">Aadhaar Id *</div>
+	
+    <div class="item item-divider reqhir">Aadhaar Id *</div>
     <label class="item item-input listreq">
     <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required ng-minlength="12" ng-maxlength="12" />
     <div ng-show="addpatient.adhar.$error.required" class="serror">Aadhaar Id is required.</div>
@@ -63,7 +65,7 @@
     <div ng-show="addpatient.adhar.$error.maxlength" class="serror">Aadhaar Id is too long.</div>
     </label>
 
-    <div class="item item-divider">Mobile *</div>  
+    <div class="item item-divider reqhir">Mobile *</div>  
     <label class="item item-input listreq">
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
     <div ng-show="addpatient.phone.$error.required" class="serror">Mobile number is required.</div>
@@ -83,7 +85,7 @@
     <label class="item item-input">
     <input type="date" placeholder="DOB" ng-model="curTime" value="{{curTime|dateFormat4}}" name="dob">
     </label>
-
+</div>
     </ion-content>
     <div class="fixedbar" ng-if="apkLanguage != 'english'">
     <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  {{tabmenu.submit[language]}}</button>
