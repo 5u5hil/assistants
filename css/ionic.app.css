@@ -9413,7 +9413,7 @@ input[type="date"]:before{
     font-family: "Ionicons";
     display: inline-block;
     padding:0 5px;
-    content: "\f117"; display:block;
+    content: "\f117"; 
 }
 
 .sche-date input[type="date"]:before{
