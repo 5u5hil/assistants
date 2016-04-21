@@ -78,7 +78,6 @@ angular.module('your_app_name', [
             });
         })
 
-
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
             $httpProvider.interceptors.push(function ($rootScope) {
                 return {
@@ -94,7 +93,6 @@ angular.module('your_app_name', [
             })
 
             $stateProvider
-
                     //INTRO
                     .state('auth', {
                         url: "/auth",
@@ -166,18 +164,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
-
-
-
-
-
-
-
-
-
-
                     .state('app.doctor-consultations', {
                         cache: false,
                         url: "/doctor-consultations/{id:int}",
@@ -200,7 +186,6 @@ angular.module('your_app_name', [
                         }
                     })
                     /* assistants */
-
                     .state('app.assistants', {
                         cache: false,
                         url: "/assistants",
@@ -221,12 +206,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
-
-
-
-
 
                     .state('app.disbursement', {
                         url: "/disbursement/{mid:string}/{appid:string}",
@@ -282,8 +261,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
 
                     .state('app.medicine-details', {
                         url: "/medicine-details/{mid:int}",
@@ -514,9 +491,6 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-
-
                     .state('app.view-patient-history', {
                         cache: false,
                         url: "/consultation-note/view-patient-history/{id:int}",
@@ -680,16 +654,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-//                    .state('app.diagnosis', {
-//                        url: "/diagnosis",
-//                        views: {
-//                            'menuContent': {
-//                                templateUrl: "views/app/diagnosis.html",
-//                                controller: 'DiagnosisCtrl'
-//                            }
-//                        }
-//                    })
 
                     .state('app.treatment-plan', {
                         url: "/treatmentplan",
