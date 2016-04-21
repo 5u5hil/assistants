@@ -179,10 +179,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.user = {};
         })
+        
         .controller('EvaluationCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
+        
         .controller('PatientChatCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -810,10 +812,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //$state.go('app.patient-list', {}, {reload: true});
                 });
             };
-
         })
-
-
 
         /* Assistants */
         .controller('AssistantsCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $rootScope) {
@@ -1019,6 +1018,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 				$scope.movebottom();
             }, 1000);
         })
+        
         .controller('newDoctorChatCtrl', function ($scope) {})
 
         .controller('ConsultationsListCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
@@ -1058,8 +1058,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 url: domain + 'assistapp/get-all-dr-app',
                 params: {drId: $scope.drId, userId: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
-                console.log(response.data);
-                //               
+                console.log(response.data);            
                 $scope.language = response.data.lang.language;
                 $scope.tabmenu = response.data.tabmenu;
                 //
