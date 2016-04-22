@@ -9347,7 +9347,7 @@ h1.post-title{font-size:26px;}
 .cselect{    position: static !important;
              width: 100%;
              direction: ltr !important;
-             padding: 8px 0 8px 0px !important;
+             padding: 12px 0 12px 10px !important;
              /* font-weight:bold; */
 }
 
@@ -9415,14 +9415,15 @@ h1.post-title{font-size:26px;}
 .item.item-radio{    border-top: 1px solid #ddd !important;}
 .calicon{padding-right:5px;}
 input[type="date"]:before{
-    font-family: "Ionicons";
-    display: inline-block;
-    padding:0 5px;
+       font-family: "Ionicons";
+    position: absolute;
+    left: 0;
+    top: 34%;
+    padding: 0 5px;
     content: "\f117"; 
 }
 
-.ditem-content input[type="date"]{width:100%;}
-.ditem-content input[type="time"]{width:100%;}
+.item.item-input input[type="date"]{text-indent:8px;}
 
 /* input[type="date"],.input[type="time"]{width:100%;} */
 
