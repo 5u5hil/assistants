@@ -4,127 +4,98 @@
     </ion-nav-title>
     <form id="disbursementform" name="disbursementform" novalidate>
         <ion-content class="pb50">
-		<div class="">
-            <input type="hidden" ng-model="interface" name='interface' value="{{interface}}">
-            <input type="hidden" ng-model="id" name='id' value="{{id}}">
-			
-			
-			
-			
-			
-			 <div class="item item-divider mt15" ng-if="medicine != 0">Disbursement
-                <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine[0].id,appid:0})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> {{disbursement.add[language]}} </a>
+
+            <div class="">
+                <input type="hidden" ng-model="interface" name='interface' value="{{interface}}">
+                <input type="hidden" ng-model="id" name='id' value="{{id}}">
+                <div class="item item-divider mt15" ng-if="medicine != 0">Disbursement
+                    <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine[0].id,appid:0})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> {{disbursement.add[language]}} </a>
+                </div>
+                <div class="item item-divider mt15" ng-if="medicine == 0">Disbursement
+                    <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine,appid:appId})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> {{disbursement.add[language]}} </a>
+                </div>
+                <div class="item newlist-item" style="min-height:45px;">
+                    <div ng-repeat="medi in dataitem1"> 
+                        <div class="hreflink" ng-if="medi.id != ''" ><h2 class="ng-binding">{{medi.name}} 
+                                <input type="hidden" name="itemid" value="{{medi.id}}">
+                                <input type="hidden" name="itemname" value="{{medi.name}}">
+                                <span class="flt-right"><input type="number" name="quantity" value="{{medi.quantity}}" min='1' max='10'>
+                                    <input type="text" value="{{medi.itemform}}"  name="item_form" readonly="">   
+                                </span></h2></div>
+                        <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
+                    </div>
+                    <div ng-repeat="datai in dataitem">
+                        <div class="hreflink"><h2 class="ng-binding">{{datai.name}}
+                                <input type="hidden" name="newitemid[]" value="{{datai.id}}">
+                                <input type="hidden" name="newitemname[]" value="{{datai.name}}">
+                                <span class="flt-right"> <input type="number" name="newquantity[]" value="{{datai.quantity}}">
+                                    <input type="text" value="{{datai.itemform}}"  name="new_item_form[]" readonly="">  
+
+                                </span></h2></div>
+                        <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
+                    </div>
+                </div>
+                <div ng-if="appointment == '0'">
+                    <div class="item item-divider">Patient
+                        <div class="selectopt" ng-click="modal.show()">Select Patient</div>
+                    </div>
+                    <div class="ditem-content" ng-repeat="p in patientName">{{p.name}}</div>
+                    <label class="item item-input item-select hide">
+                        <div class="input-label">Patient</div>
+                        <select ng-model="patientId" name="pname" required="">
+                            <option value="" selected="selected" >Select Patient </option>
+                            <option  ng-repeat="user in userP" ng-selected="{{patientId == user.id}}" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
+                        </select>
+                    </label>
+                    <div class="item item-divider">Doctor</div>
+                    <label class="item itemselect">
+                        <select  ng-model="dname" name="dname" required="" >
+                            <option value="" selected="selected" >Select Doctor </option>
+                            <option ng-repeat="user in userD" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
+                        </select>
+                    </label>
+                    <div class="item item-divider">Consultation Date</div>
+
+                    <label class="item item-input ">
+                        <input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="curdate" required /></label>
+                    <div class="item item-divider">Consultation Time</div>	
+
+                    <label class="item item-input ">
+                        <input type="time" ng-model="curTime" placeholder="" value="{{curTime| time1}}"  name="curtime" required /></label>
+                    <div class="item item-divider">Patient Type</div>	
+
+                    <label class="item itemselect">
+                        <select ng-model="patientType" name="patient_type" required="" ng-init="-1">
+                            <option value="" selected="selected">Select </option>
+                            <option  ng-repeat="ptype in patient_type"  value="{{ptype.id}}">{{ptype.patient_type}}</option>
+                        </select>
+                    </label>
+                    <div class="item item-divider">Mode</div>	
+                    <label class="item itemselect">
+                        <select ng-model="serviceMode" name="service" required="" ng-init="-1">
+                            <option value=""  selected="selected" >Select mode </option>
+                            <option  ng-repeat="serv in service" value="{{serv.id}}" >{{serv.service}}</option>
+
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="appointment != '0'">
+                    <input type="hidden" ng-model="appointmentId" name="appointmentId" required="" value="{{appointment.id}}">
+                    <input type="hidden" ng-model="pname" name="pname" required="" value="{{appointment.user_id}}">
+                    <input type="hidden" ng-model="dname" name="dname" required="" value="{{appointment.doctor_id}}">
+                    <input type="hidden" ng-model="curDate" name="curdate" required="" value="{{appointment.scheduled_start_time| dateFormat2 }}">
+                    <input type="hidden" ng-model="curTime" name="curtime" required="" value="{{appointment.scheduled_start_time| time}}">
+                    <input type="hidden" ng-model="patientType" required="" name="patient_type" value="1">
+                    <input type="hidden" ng-model="service" required="" name="service" value="{{appointment.mode}}">
+                </div>
+
             </div>
-            <div class="item item-divider mt15" ng-if="medicine == 0">Disbursement
-                <a class="Cstmbutn button-small col-25" ui-sref="app.add-disbursement({mid:medicine,appid:appId})" style="float:right; padding:0;"><span class="icon ion-plus-circled"></span> {{disbursement.add[language]}} </a>
-            </div>
-
-			 <div class="item newlist-item" style="min-height:45px;">
-			
-            <div ng-repeat="medi in dataitem1"> 
-                <div class="hreflink" ng-if="medi.id != ''" ><h2 class="ng-binding">{{medi.name}} 
-                        <input type="hidden" name="itemid" value="{{medi.id}}">
-                        <input type="hidden" name="itemname" value="{{medi.name}}">
-                        <span class="flt-right"><input type="number" name="quantity" value="{{medi.quantity}}" min='1' max='10'>
-                            <input type="text" value="{{medi.itemform}}"  name="item_form" readonly="">   
-
-
-                        </span></h2></div>
-                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
-            </div>
-
-            <div ng-repeat="datai in dataitem">
-                <div class="hreflink"><h2 class="ng-binding">{{datai.name}}
-                        <input type="hidden" name="newitemid[]" value="{{datai.id}}">
-                        <input type="hidden" name="newitemname[]" value="{{datai.name}}">
-                        <span class="flt-right"> <input type="number" name="newquantity[]" value="{{datai.quantity}}">
-                            <input type="text" value="{{datai.itemform}}"  name="new_item_form[]" readonly="">  
-
-                        </span></h2></div>
-                <div class="uinfo" ng-click="removeItem($index);"><i class="ion-ios-close-empty"></i></div>
-            </div>
-			</div>
-			
-			
-			
-            <div ng-if="appointment == '0'">
-
-				<div class="item item-divider">Patient
-				<div class="selectopt" ng-click="modal.show()">Select Patient</div>
-				</div>
-				<div class="item">No Patient selected</div>
-			
-                <label class="item item-input item-select">
-                    <div class="input-label">Patient</div>
-                    <select ng-model="pname" name="pname" required="">
-                        <option value="" selected="selected" >Select Patient </option>
-                        <option  ng-repeat="user in userP" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
-                    </select>
-                </label>
-
-				
-			<div class="item item-divider">Doctor</div>
-                <label class="item itemselect">
-                    <select  ng-model="dname" name="dname" required="" >
-                        <option value="" selected="selected" >Select Doctor </option>
-                        <option ng-repeat="user in userD" value="{{user.id}}" >{{user.fname}} {{user.lname}}</option>
-                    </select>
-                </label>
-
-				<div class="item item-divider">Consultation Date</div>
-				
-                <label class="item item-input ">
-                    <input type="date" ng-model="curDate" placeholder="" value="{{curDate}}"  name="curdate" required /></label>
-
-				<div class="item item-divider">Consultation Time</div>	
-					
-                <label class="item item-input ">
-                    <input type="time" ng-model="curTime" placeholder="" value="{{curTime| time1}}"  name="curtime" required /></label>
-
-
-				<div class="item item-divider">Patient Type</div>	
-				
-                <label class="item itemselect">
-                 <select ng-model="patientType" name="patient_type" required="" ng-init="-1">
-                        <option value="" selected="selected">Select </option>
-                        <option  ng-repeat="ptype in patient_type"  value="{{ptype.id}}">{{ptype.patient_type}}</option>
-                    </select>
-                </label>
-
-				<div class="item item-divider">Mode</div>	
-				<label class="item itemselect">
-                   <select ng-model="serviceMode" name="service" required="" ng-init="-1">
-                        <option value=""  selected="selected" >Select mode </option>
-                        <option  ng-repeat="serv in service" value="{{serv.id}}" >{{serv.service}}</option>
-
-                    </select>
-                </label>
-            </div>
-               
-          <div ng-if="appointment != '0'">
-                <input type="hidden" ng-model="appointmentId" name="appointmentId" required="" value="{{appointment.id}}">
-                <input type="hidden" ng-model="pname" name="pname" required="" value="{{appointment.user_id}}">
-                <input type="hidden" ng-model="dname" name="dname" required="" value="{{appointment.doctor_id}}">
-                <input type="hidden" ng-model="curDate" name="curdate" required="" value="{{appointment.scheduled_start_time | dateFormat2 }}">
-                <input type="hidden" ng-model="curTime" name="curtime" required="" value="{{appointment.scheduled_start_time | time}}">
-                <input type="hidden" ng-model="patientType" required="" name="patient_type" value="1">
-                <input type="hidden" ng-model="service" required="" name="service" value="{{appointment.mode}}">
-            </div>
-
-           
-
-
-
-</div>
         </ion-content>
-
         <div class="fixedbar">
-
             <a class="button btn-delete" ui-sref="app.inventory" > {{disbursement.cancel[language]}}</a>
             <button type="button" ng-click="doDisbursement(appId);" class="button btn-add"  ng-disabled="disbursementform.$invalid" > {{disbursement.save[language]}}</button>
         </div>
     </form>
-
 </ion-view>
 
 
@@ -157,7 +128,7 @@
 
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> {{cnote.cancel[language]}}</div>
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
     </div>
     </ion-modal-view>
 </script>
