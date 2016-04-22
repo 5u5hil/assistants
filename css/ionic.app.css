@@ -9422,8 +9422,9 @@ input[type="date"]:before{
 }
 
 .ditem-content input[type="date"]{width:100%;}
+.ditem-content input[type="time"]{width:100%;}
 
-input[type="date"]{width:100%;}
+/* input[type="date"],.input[type="time"]{width:100%;} */
 
 .sche-date input[type="date"]:before{
 	content:''; display:none; padding:0;
