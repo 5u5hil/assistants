@@ -3091,7 +3091,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doDisbursement = function (appid) {
                 // alert(appid);
                 $scope.from = get('from');
-                var data = new FormData(jQuery("#disbursement")[0]);
+                var data = new FormData(jQuery("#disbursementform")[0]);
                 $.ajax({
                     type: 'POST',
                     url: domain + 'inventory/disbursement-outgo',
@@ -3104,6 +3104,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         if ($scope.from == 'app.appointment-list') {
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.appointment-list', {}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3114,6 +3115,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         } else if ($scope.from == 'app.past-appointment-list') {
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.past-appointment-list', {}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3124,6 +3126,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         } else if ($scope.from == 'app.patient-app-list') {
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3135,6 +3138,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             alert("dasdasd");
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3146,6 +3150,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         } else if ($scope.from == 'app.doctor-consultations') {
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3156,6 +3161,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         } else if ($scope.from == 'app.consultation-past') {
                             if (response == '1') {
                                 window.localStorage.removeItem('from');
+                                 alert('Medicines added.');
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             } else if (response == '0') {
                                 alert('Please add medicines');
@@ -3165,6 +3171,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             }
                         } else {
                             if (response == '1') {
+                                 alert('Medicines added.');
                                 $state.go('app.inventory');
                             } else if (response == '0') {
                                 alert('Please add medicines');
