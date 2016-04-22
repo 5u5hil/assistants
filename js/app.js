@@ -170,7 +170,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations/doctor-consultations.html",
-                                controller: 'DoctorConsultationsCtrl'
+                                controller: 'DoctorConsultationsActiveCtrl'
                             }
                         }
                     })
@@ -181,7 +181,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations/consultations-past.html",
-                                controller: 'DoctorConsultationsCtrl'
+                                controller: 'DoctorConsultationsPastCtrl'
                             }
                         }
                     })
@@ -351,7 +351,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/appointment-list.html",
-                                controller: 'AppointmentListCtrl'
+                                controller: 'AppointmentListActiveCtrl'
                             }
                         }
                     })
@@ -361,7 +361,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/assistants/past-appointment-list.html",
-                                controller: 'AppointmentListCtrl'
+                                controller: 'AppointmentListPastCtrl'
                             }
                         }
                     })
