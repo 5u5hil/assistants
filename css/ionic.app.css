@@ -9314,6 +9314,7 @@ h1.post-title{font-size:26px;}
            margin: 8px 0 0 0;}
 .toggle-view-anchor{right: 10px;}
 .ditem-content{margin: 10px 15px;}
+
 .Ditemselect{padding: 10px ! important;}
 /* added by leena */
 .listck{    position: absolute;
@@ -9419,6 +9420,10 @@ input[type="date"]:before{
     padding:0 5px;
     content: "\f117"; 
 }
+
+.ditem-content input[type="date"]{width:100%;}
+
+input[type="date"]{width:100%;}
 
 .sche-date input[type="date"]:before{
 	content:''; display:none; padding:0;
