@@ -3,6 +3,14 @@
         <span  ng-if="apkLanguage == 'english'">Appointment List</span>
         <span  ng-if="apkLanguage != 'english'">{{tabmenu.appointment_list[language]}}</span>
     </ion-nav-title>
+	 <ion-nav-buttons side="right" >
+        <a ng-if="apkLanguage == 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus"> New</a>
+		
+         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
+      
+    </ion-nav-buttons> 
+	
+	
     <ion-content>
         <div class="row tabnav" ng-if="apkLanguage == 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" >Active</a></div>
@@ -81,11 +89,11 @@
             </div>
         </div>
     </ion-content>
-    <div class="fixedbar" ng-if="apkLanguage == 'english'">
+  <!--   <div class="fixedbar" ng-if="apkLanguage == 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
     </div>
     <div class="fixedbar" ng-if="apkLanguage != 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
-    </div>
+    </div> -->
 
 </ion-view>

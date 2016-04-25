@@ -4657,7 +4657,8 @@ ion-tabs.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs.tabs-color-a
     position: relative;
     z-index: 2;
     display: block;
-    margin: -1px; 
+/*     margin: -1px; */ 
+    margin: 0px;
     padding: 14px;
     border-width: 1px;
     border-style: solid;
@@ -8564,7 +8565,7 @@ a.posts-list{text-decoration:none;}
 }
 .clist-data-icon a{text-decoration:none;}
 .consultview{margin-top:55px;}
-select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
+select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
 .consultview .post-footer,.consultview .post-footer .row{padding:0;}
 
 .card-content{    padding: 10px 10px 5px 10px; text-align:justify; position:relative; display:block; text-decoration:none;}
@@ -9455,6 +9456,10 @@ input[type="date"]:before{
     width: 100%;
     padding: 12px;}
 
+	.recordli .item-input{padding: 10px 0 10px 16px;}
+	
+	
+	
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{
 
