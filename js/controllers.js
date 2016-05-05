@@ -1533,7 +1533,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             window.localStorage.setItem('patientId', $scope.patientId);
             window.localStorage.setItem('drId', $scope.drId);
             console.log($scope.drId + "--" + $scope.patientId);
-            //$scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-dr-details',
@@ -3949,6 +3949,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.userId = get('id');
             console.log($scope.patientId);
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-patient-details',
