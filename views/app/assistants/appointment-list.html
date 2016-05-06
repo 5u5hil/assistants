@@ -5,16 +5,13 @@
     </ion-nav-title>
     <ion-nav-buttons side="right" >
         <a ng-if="apkLanguage == 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus"> New</a>
-         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
-      
-    </ion-nav-buttons> 
-  
+        <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
+    </ion-nav-buttons>
     <ion-content class="pb50">
         <div class="row tabnav"  ng-if="apkLanguage == 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" class="active" >Active</a></div>
             <div class="col"><a  ui-sref="app.past-appointment-list"  >Past</a></div>
         </div>
-        
         <div class="row tabnav"  ng-if="apkLanguage != 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" class="active" >{{tabmenu.active[language]}}</a></div>
             <div class="col"><a  ui-sref="app.past-appointment-list"  >{{tabmenu.past[language]}}</a></div>
@@ -32,8 +29,6 @@
                     {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
                     <div class="cardmode"><span class="{{app.app.mode==1? 'ion-ios-videocam': app.app.mode==3? 'Clinic': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}"></span></div>
                 </div> <!--| orderBy: 'scheduled_start_time'-->
-
-
                 <div class="p5 brd-bottom">
                     <div class="row" ng-repeat="doc in app.doct">
                         <div class="col"><strong>{{doc.user_lang[language]}}</strong></div>
@@ -42,20 +37,15 @@
                             </span></div>
                     </div> 
                 </div>
-
                 <div class="p5 brd-bottom">
-
                     <div class="row" ng-repeat="user in app.user">
                         <div class="col"><strong>{{user.fname}}</strong></div>
                         <div class="col txt-right">
                             {{user.phone}}
-
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-
                     <div class="col txt-center"  ng-if="app.medicine.length > 0">
                         <span class="btn crdview" ng-click="viewMedicine(app.medicine[0].consultation_id)" >
                             <span class="icon ion-eye"></span> View Medicine
@@ -63,7 +53,6 @@
                     </div>
                     <div class="col txt-center"  ng-if="app.medicine.length == 0">
                         <span class="btn crdview-plus" ng-click="appointMedicine(0, app.app.id, 'curapp')" >
-
                             <span class="icon ion-plus-circled"></span> Medicine
                         </span>
                     </div>
@@ -80,8 +69,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="post-actions p0" ng-if="apkLanguage == 'english'">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
@@ -97,9 +84,9 @@
                 <div class="post-actions p0" ng-if="apkLanguage != 'english'">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.app.id, prod.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelApp(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.app.id, prod.app.user_id, app.app.mode, app.app.scheduled_start_time)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" n ng-click="cancelApp(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                             <div class="col" ng-if="app.app.mode == 1"><a  ng-click="joinVideo(app.app.mode, all_time[$index], all_end_time[$index], app.app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
                             <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
@@ -109,11 +96,11 @@
             </div>
         </div>
     </ion-content>
-   <!-- <div class="fixedbar" ng-if="apkLanguage == 'english'">
-        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
-    </div>
-    <div class="fixedbar" ng-if="apkLanguage != 'english'">
-        <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
-    </div>-->
+    <!-- <div class="fixedbar" ng-if="apkLanguage == 'english'">
+         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
+     </div>
+     <div class="fixedbar" ng-if="apkLanguage != 'english'">
+         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
+     </div>-->
 
 </ion-view>
