@@ -1,8 +1,8 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-      
-         <span  ng-if="apkLanguage == 'english'">Consultations</span>
-         <span  ng-if="apkLanguage != 'english'">{{tabmenu.consultations[language]}}</span>
+
+        <span  ng-if="apkLanguage == 'english'">Consultations</span>
+        <span  ng-if="apkLanguage != 'english'">{{tabmenu.consultations[language]}}</span>
     </ion-nav-title>
     <!--   <ion-nav-buttons side="right">
           <button class="button button-icon button-clear ion-person"></button>
@@ -16,7 +16,7 @@
             <div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations({id:drId})" class="active" >{{tabmenu.active[language]}}</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past({id:drId})">{{tabmenu.past[language]}}</a></div>
         </div>
-        
+
         <div class="ctab page-data">
             <ion-tabs class="tabs-positive tabs-icon-top"  ng-if="apkLanguage == 'english'">
 
@@ -27,10 +27,7 @@
                             <div  class="list card post-item" ng-repeat="prod in todays_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
-
-
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 <span ng-if="app.mode == 2">
                                                     {{app.scheduled_start_time|dateFormat3}} 
@@ -42,7 +39,6 @@
                                                 </span>
                                                 <div class="cardmode"><span class=" {{app.mode==1 ? 'ion-ios-videocam': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}"></span></div>
                                             </div>
-
                                             <div class="p5 brd-bottom">
                                                 <div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
                                                     <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
@@ -50,9 +46,7 @@
                                                 </div>
                                             </div>
                                         </a>
-
                                         <div class="row">
-
                                             <div class="col txt-left">
                                                 <div ng-if="todays_medicine[$parent.$index].length > 0">  
                                                     <a class="btn crdview" ng-click="viewMedicine(todays_medicine[$parent.$parent.$index][0].consultation_id)">
@@ -60,12 +54,12 @@
                                                     </a>
                                                 </div>
                                                 <div ng-if="todays_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0, app.id,'cur')" class="btn crdview">
+                                                    <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
                                                         <span class="icon ion-plus-circled"></span> Medicine
                                                     </a>
                                                 </div>
                                             </div>
-                                                 <div class="col txt-right">
+                                            <div class="col txt-right">
                                                 <div ng-if="todays_note[$parent.$index].length > 0">
                                                     <a class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$index][0].id)">
                                                         <span class="icon ion-eye"></span> View Note
@@ -85,8 +79,6 @@
                                         </div>
                                         <div class="clr"></div>
                                     </div>
-
-
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
                                             <div class="col" ng-if="app.mode == 1"><a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time,todays_usersData[$parent.$index][0].id)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
@@ -103,50 +95,41 @@
                     </div>
                 </ion-tab>
 
-                <ion-tab title="This Week  ({{week_app.length}})" >
+                <ion-tab title="This Week ({{week_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
                         <div class="posts-list" ng-repeat="app in week_app" > <!--| orderBy: '-scheduled_start_time'-->
                             <div  class="list card post-item" ng-repeat="prod in week_products[$index]">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content p0">
-
-
-
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 {{app.scheduled_start_time|dateFormat3}}
                                                 {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}} 
                                                 <div class="cardmode"><span class="  {{app.mode==1 ? 'ion-ios-videocam': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}"></span></div>
                                             </div>
-
                                             <div class="p5 brd-bottom">
                                                 <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
                                                     <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
                                                     <div class="col txt-right">
                                                         {{user.phone}}
-
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                             <div class="row">
-
-                                               <div class="col txt-left">
-                                                <div ng-if="week_medicine[$parent.$index].length > 0">
-                                                    <a class="btn crdview" ng-click="viewMedicine(week_medicine[$parent.$parent.$index][0].consultation_id)">
-                                                        <span class="icon ion-eye"></span> View Medicine
-                                                    </a>
+                                                <div class="col txt-left">
+                                                    <div ng-if="week_medicine[$parent.$index].length > 0">
+                                                        <a class="btn crdview" ng-click="viewMedicine(week_medicine[$parent.$parent.$index][0].consultation_id)">
+                                                            <span class="icon ion-eye"></span> View Medicine
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="week_medicine[$parent.$index].length == 0">
+                                                        <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
+                                                            <span class="icon ion-plus-circled"></span> Medicine
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div ng-if="week_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0,app.id,'cur')" class="btn crdview">
-                                                        <span class="icon ion-plus-circled"></span> Medicine
-                                                    </a>
-                                                </div>
-                                            </div>
-                                                 <div class="col txt-right">
+                                                <div class="col txt-right">
                                                     <div ng-if="week_note[$parent.$index].length > 0">  
                                                         <a class="btn crdview" ng-click="viewNote(week_note[$parent.$parent.$index][0].id)" ui-sref-opts="{reload: true}">
                                                             <span class="icon ion-eye"></span>View Note 
@@ -164,9 +147,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                         </a>
                                     </div>
                                     <div class="post-actions  post-footer p0">
@@ -185,7 +165,7 @@
                     </div>
                 </ion-tab>
 
-                <ion-tab title="All  ({{all_app.length}})" >
+                <ion-tab title="All ({{all_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list" ng-repeat="app in all_app" ><!---->
@@ -193,7 +173,6 @@
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 {{app.scheduled_start_time|dateFormat3}} 
                                                 {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}}
@@ -209,19 +188,19 @@
                                             </div>
                                         </a>		
                                         <div class="row">
-                                           <div class="col txt-left">
+                                            <div class="col txt-left">
                                                 <div ng-if="all_medicine[$parent.$index].length > 0">
                                                     <a class="btn crdview" ng-click="viewMedicine(all_medicine[$parent.$parent.$index][0].consultation_id)">
                                                         <span class="icon ion-eye"></span> View Medicine
                                                     </a>
                                                 </div>
                                                 <div ng-if="all_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0,app.id,'cur')" class="btn crdview">
+                                                    <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
                                                         <span class="icon ion-plus-circled"></span> Medicine
                                                     </a>
                                                 </div>
                                             </div>
-                                                 <div class="col txt-right">
+                                            <div class="col txt-right">
                                                 <div ng-if="all_note[$parent.$index].length > 0">
                                                     <a class="btn crdview" ng-click="viewNote(all_note[$parent.$parent.$index][0].id)" ui-sref-opts="{reload: true}">
                                                         <span class="icon ion-eye"></span> View Note
@@ -257,10 +236,7 @@
                     </div>
                 </ion-tab>
             </ion-tabs>
-            
-            
-             <ion-tabs class="tabs-positive tabs-icon-top" ng-if="apkLanguage != 'english'">
-
+            <ion-tabs class="tabs-positive tabs-icon-top" ng-if="apkLanguage != 'english'">
                 <ion-tab title="{{tabmenu.today[language]}}({{todays_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app.length==0? 'No appointments': ''}}</h4>
@@ -268,10 +244,7 @@
                             <div  class="list card post-item" ng-repeat="prod in todays_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
-
-
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 <span ng-if="app.mode == 2">
                                                     {{app.scheduled_start_time|dateFormat3}} 
@@ -283,7 +256,6 @@
                                                 </span>
                                                 <div class="cardmode"><span class=" {{app.mode==1 ? 'ion-ios-videocam': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}"></span></div>
                                             </div>
-
                                             <div class="p5 brd-bottom">
                                                 <div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
                                                     <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
@@ -291,9 +263,7 @@
                                                 </div>
                                             </div>
                                         </a>
-
                                         <div class="row">
-
                                             <div class="col txt-left">
                                                 <div ng-if="todays_medicine[$parent.$index].length > 0">  
                                                     <a class="btn crdview" ng-click="viewMedicine(todays_medicine[$parent.$parent.$index][0].consultation_id)">
@@ -301,12 +271,12 @@
                                                     </a>
                                                 </div>
                                                 <div ng-if="todays_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0, app.id,'cur')" class="btn crdview">
+                                                    <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
                                                         <span class="icon ion-plus-circled"></span> Medicine
                                                     </a>
                                                 </div>
                                             </div>
-                                                 <div class="col txt-right">
+                                            <div class="col txt-right">
                                                 <div ng-if="todays_note[$parent.$index].length > 0">
                                                     <a class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$index][0].id)">
                                                         <span class="icon ion-eye"></span> View Note
@@ -326,8 +296,6 @@
                                         </div>
                                         <div class="clr"></div>
                                     </div>
-
-
                                     <div class="post-actions  post-footer p0">
                                         <div class="row cardbtn-small p0">
                                             <div class="col" ng-if="app.mode == 1"><a confirmed-click="cancelAppointment(app.id,prod.user_id,app.mode, app.scheduled_start_time,todays_usersData[$parent.$index][0].id)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.id}}" class="cbtn cancel"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
@@ -351,43 +319,34 @@
                             <div  class="list card post-item" ng-repeat="prod in week_products[$index]">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content p0">
-
-
-
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 {{app.scheduled_start_time|dateFormat3}}
                                                 {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}} 
                                                 <div class="cardmode"><span class="  {{app.mode==1 ? 'ion-ios-videocam': app.mode==3? 'Clinic': app.mode==4? 'Home': app.mode==2? 'Chat':''}}"></span></div>
                                             </div>
-
                                             <div class="p5 brd-bottom">
                                                 <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
                                                     <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
                                                     <div class="col txt-right">
                                                         {{user.phone}}
-
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                             <div class="row">
-
-                                               <div class="col txt-left">
-                                                <div ng-if="week_medicine[$parent.$index].length > 0">
-                                                    <a class="btn crdview" ng-click="viewMedicine(week_medicine[$parent.$parent.$index][0].consultation_id)">
-                                                        <span class="icon ion-eye"></span> View Medicine
-                                                    </a>
+                                                <div class="col txt-left">
+                                                    <div ng-if="week_medicine[$parent.$index].length > 0">
+                                                        <a class="btn crdview" ng-click="viewMedicine(week_medicine[$parent.$parent.$index][0].consultation_id)">
+                                                            <span class="icon ion-eye"></span> View Medicine
+                                                        </a>
+                                                    </div>
+                                                    <div ng-if="week_medicine[$parent.$index].length == 0">
+                                                        <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
+                                                            <span class="icon ion-plus-circled"></span> Medicine
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div ng-if="week_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0,app.id,'cur')" class="btn crdview">
-                                                        <span class="icon ion-plus-circled"></span> Medicine
-                                                    </a>
-                                                </div>
-                                            </div>
-                                                 <div class="col txt-right">
+                                                <div class="col txt-right">
                                                     <div ng-if="week_note[$parent.$index].length > 0">  
                                                         <a class="btn crdview" ng-click="viewNote(week_note[$parent.$parent.$index][0].id)" ui-sref-opts="{reload: true}">
                                                             <span class="icon ion-eye"></span>View Note 
@@ -405,9 +364,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                         </a>
                                     </div>
                                     <div class="post-actions  post-footer p0">
@@ -425,7 +381,6 @@
                         </div>
                     </div>
                 </ion-tab>
-
                 <ion-tab title="{{tabmenu.all[language]}}({{all_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
@@ -434,7 +389,6 @@
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
                                         <a ui-sref="app.doctor-current-tab({'id': app.id})">
-
                                             <div class="item item-divider">
                                                 {{app.scheduled_start_time|dateFormat3}} 
                                                 {{app.scheduled_start_time|time1}} to {{app.scheduled_end_time|time1}}
@@ -450,19 +404,19 @@
                                             </div>
                                         </a>		
                                         <div class="row">
-                                           <div class="col txt-left">
+                                            <div class="col txt-left">
                                                 <div ng-if="all_medicine[$parent.$index].length > 0">
                                                     <a class="btn crdview" ng-click="viewMedicine(all_medicine[$parent.$parent.$index][0].consultation_id)">
                                                         <span class="icon ion-eye"></span> View Medicine
                                                     </a>
                                                 </div>
                                                 <div ng-if="all_medicine[$parent.$index].length == 0">
-                                                    <a ng-click="appointMedicine(0,app.id,'cur')" class="btn crdview">
+                                                    <a ng-click="appointMedicine(0, app.id, 'cur')" class="btn crdview">
                                                         <span class="icon ion-plus-circled"></span> Medicine
                                                     </a>
                                                 </div>
                                             </div>
-                                                 <div class="col txt-right">
+                                            <div class="col txt-right">
                                                 <div ng-if="all_note[$parent.$index].length > 0">
                                                     <a class="btn crdview" ng-click="viewNote(all_note[$parent.$parent.$index][0].id)" ui-sref-opts="{reload: true}">
                                                         <span class="icon ion-eye"></span> View Note
@@ -498,11 +452,11 @@
                     </div>
                 </ion-tab>
             </ion-tabs>
-            
-            
+
+
         </div>
     </ion-content>
-   
+
     <script id="canceldctr" type="text/ng-template">
         <ion-modal-view>
         <ion-header-bar class="bar app-top-bar">
@@ -528,6 +482,21 @@
         <ion-radio ng-model="can.opt" name="can-option" class="can-opt" value="2">Cancelled by Patient</ion-radio><ion-radio ng-model="can.opt" class="can-opt" name="can-option" value="1">Cancelled by you</ion-radio>
         </div>
         <button class="button button-full button-positive" ng-click="submitmodal()">{{tabmenu.submit[language]}}</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="cancelby" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>  
+        <button class="button button-clear" ng-click="closeCancelby()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="1" value="1">Cancelled by Doctor</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitCancel()">Submit</button>
         </ion-content>
         </ion-modal-view>
     </script>

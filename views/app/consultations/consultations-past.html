@@ -16,8 +16,8 @@
             <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past({id:drId})" class="active">{{tabmenu.past[language]}}</a></div>
         </div>
         <div class="ctab page-data">
-            <ion-tabs class="tabs-positive tabs-icon-top"  ng-if="apkLanguage == 'english'">>
-                <ion-tab title="Todays  ({{todays_app_past.length}})" >
+            <ion-tabs class="tabs-positive tabs-icon-top"  ng-if="apkLanguage == 'english'">
+                <ion-tab title="Todays({{todays_app_past.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list" ng-repeat="app in todays_app_past" ><!---->
@@ -240,16 +240,14 @@
 
 
             </ion-tabs>
-            <ion-tabs class="tabs-positive tabs-icon-top"  ng-if="apkLanguage != 'english'">>
-                <ion-tab title="{{tabmenu.today[language]}} jhgjg ({{todays_app_past.length}})" >
+            <ion-tabs class="tabs-positive tabs-icon-top"  ng-if="apkLanguage != 'english'">
+                <ion-tab title="{{tabmenu.today[language]}}({{todays_app_past.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list" ng-repeat="app in todays_app_past" ><!---->
                             <div  class="list card post-item" ng-repeat="prod_past in todays_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
-
-
                                         <div class="item item-divider">
                                             <span ng-if="app.mode == 2">
                                                 {{app.scheduled_start_time|dateFormat3}} 
@@ -273,7 +271,6 @@
                                         </div>
 
                                         <div class="row">
-
                                             <div class="col txt-left">
                                                 <div ng-if="todays_medicine_past[$parent.$index].length > 0">  
                                                     <a class="btn crdview" ng-click="viewMedicine(todays_medicine[$parent.$parent.$index][0].consultation_id)">
@@ -304,10 +301,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
                                         <div class="clr"></div>
                                     </div>
                                     <div class="post-actions  post-footer p0">

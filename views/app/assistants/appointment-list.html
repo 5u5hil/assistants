@@ -72,8 +72,7 @@
                 <div class="post-actions p0" ng-if="apkLanguage == 'english'">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.app.id, prod.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
-                            <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
+                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" confirmed-click="cancelAppointment(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
                             <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.app.id, prod.app.user_id, app.app.mode, app.app.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                             <div class="col" ng-if="app.app.mode == 1"><a  ng-click="joinVideo(app.app.mode, all_time[$index], all_end_time[$index], app.app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
@@ -84,9 +83,8 @@
                 <div class="post-actions p0" ng-if="apkLanguage != 'english'">
                     <div class="row cardbtn-small p0">
                         <div class="row cardbtn-small p0">
-                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" confirmed-click="cancelApp(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
-                            <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
-                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" n ng-click="cancelApp(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 1"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" confirmed-click="cancelAppointment(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time,all_usersData[$index][0].id)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
+                            <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl"  ng-click="cancelApp(app.app.id, app.product.user_id, app.app.mode, app.app.scheduled_start_time, all_usersData[$index][0].id)"><i class="ion-close"></i> {{tabmenu.cancel[language]}}</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                             <div class="col" ng-if="app.app.mode == 1"><a  ng-click="joinVideo(app.app.mode, all_time[$index], all_end_time[$index], app.app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> {{tabmenu.join[language]}}</a></div>
                             <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
@@ -96,11 +94,54 @@
             </div>
         </div>
     </ion-content>
-    <!-- <div class="fixedbar" ng-if="apkLanguage == 'english'">
-         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
-     </div>
-     <div class="fixedbar" ng-if="apkLanguage != 'english'">
-         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> {{tabmenu.new[language]}}</a>
-     </div>-->
 
 </ion-view>
+
+<script id="canceldctr" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Doctor Consultations</h1>  
+    <button class="button button-clear" ng-click="closeCdctr()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+    <div class="list">
+    <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="7" value="7">Doctor No Show</ion-radio>
+    <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="6" value="6">Patient No Show</ion-radio>
+    <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+    <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="1" value="1">Cancelled by Doctor</ion-radio>
+    </div>
+    <button class="button button-full button-positive" ng-click="submitmodal(canoption)">Submit</button>
+    </ion-content>
+    </ion-modal-view>
+</script>
+<script id="canceldr" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Doctor Consultations</h1>  
+    <button class="button button-clear" ng-click="closeCdr()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+    <div class="list">
+    <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+    <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="1" value="1">Cancelled by Doctor</ion-radio>
+    </div>
+    <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+    </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="cancelby" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Doctor Consultations</h1>  
+    <button class="button button-clear" ng-click="closeCancelby()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+    <div class="list">
+    <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+    <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="1" value="1">Cancelled by Doctor</ion-radio>
+    </div>
+    <button class="button button-full button-positive" ng-click="submitCancel()">Submit</button>
+    </ion-content>
+    </ion-modal-view>
+</script>

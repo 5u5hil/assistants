@@ -1214,10 +1214,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //Go to disbursement view page
         })
 
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $ionicModal, $timeout, $ionicHistory, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.drId = '';
+            $scope.patientId = '';
+            $scope.can = {};
             $scope.drId = $stateParams.id;
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
@@ -1258,65 +1261,60 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.all_medicine = response.data.all_medicine;
                 //past section //
 
+                $scope.timeLimit = response.data.timelimit.cancellation_time;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
             });
-            $scope.cancelAppointment = function (appId, drId, mode, startTime, pid) {
+            $ionicModal.fromTemplateUrl('cancelby', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.cancelby = modal;
+            });
+            $scope.closeCancelby = function () {
+                $scope.cancelby.hide();
+            };
+
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, patientId) {
+                console.log(appId + "==" + drId + "==" + mode + "==" + startTime + "==" + patientId);
                 $scope.appId = appId;
                 $scope.userId = get('id');
-                $scope.drId = drId;
-                $scope.pid = pid;
                 $scope.cancel = '';
+                $scope.drId = drId;
+                $scope.patientId = patientId;
                 console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 console.log(curtime);
                 var timeDiff = getTimeDiff(startTime, curtime);
-                console.log(timeDiff);
-                if (timeDiff < 15) {
+                console.log(timeDiff + " Time limit==" + $scope.timeLimit);
+                if (timeDiff < $scope.timeLimit) {
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
-                    } else {
-                        //ask 4 options
-                        /*$http({
-                         method: 'GET',
-                         url: domain + 'appointment/cancel-app',
-                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-                         }).then(function successCallback(response) {
-                         console.log(response.data);
-                         if (response.data == 'success') {
-                         alert('Your appointment is cancelled successfully.');
-                         } else {
-                         alert('Sorry your appointment is not cancelled.');
-                         }
-                         $state.go('app.consultations-list');
-                         }, function errorCallback(response) {
-                         console.log(response);
-                         });*/
                     }
                 } else {
-                    if (mode == 1) {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId, pid: $scope.pid}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            if (response.data == 'success') {
-                                alert('Your appointment is cancelled successfully.');
-                                $state.go('app.doctor-consultations', {}, {reload: true});
-                            } else {
-                                alert('Sorry your appointment is not cancelled.');
-                            }
-                            //$state.go('app.consultations-list', {}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
-                    } else if (mode == 3 || mode == 4) {
-                        //ask for 2 options
-                    }
+                    $scope.cancelby.show()
                 }
             };
+            $scope.submitCancel = function () {
+                $scope.cancelby.hide();
+                //alert("Video cancel");
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistapp/cancel-app',
+                    params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 'success') {
+                        alert('Your appointment is cancelled successfully.');
+                        window.location.reload();
+                    } else {
+                        alert('Sorry your appointment is not cancelled.');
+                    }
+                    //$state.go('app.appointment-list', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            }
             $scope.joinVideo = function (mode, start, end, appId, drId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===" + drId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -1377,7 +1375,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response.data);
                 $scope.language = response.data.lang.language;
                 $scope.tabmenu = response.data.tabmenu;
-                //
 
                 //past section
                 $scope.todays_app_past = response.data.todays_appointments_past;
@@ -1447,6 +1444,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             //Go to disbursement view page
         })
+
         .controller('AssPatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $filter, $state, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -2228,6 +2226,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(response);
             });
         })
+
         .controller('AppointmentListCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -2271,59 +2270,39 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 var re = new RegExp($scope.searchText, 'i');
                 return !$scope.searchText || re.test(obj.name) || re.test(obj.age.toString());
             };
-            $scope.cancelAppointment = function (appId, drId, mode, startTime, pId) {
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, patientId) {
+                console.log(appId + "==" + drId + "==" + mode + "==" + startTime + "==" + patientId);
                 $scope.appId = appId;
                 $scope.userId = get('id');
-                $scope.drId = drId;
-                $scope.pId = pId;
                 $scope.cancel = '';
-                console.log(drId);
                 console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 console.log(curtime);
                 var timeDiff = getTimeDiff(startTime, curtime);
-                console.log(timeDiff);
-                if (timeDiff < 15) {
+                console.log(timeDiff + " Time limit==" + $scope.timeLimit);
+                if (timeDiff < $scope.timeLimit) {
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
-                    } else {
-                        //ask 4 options
-                        /*$http({
-                         method: 'GET',
-                         url: domain + 'appointment/cancel-app',
-                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-                         }).then(function successCallback(response) {
-                         console.log(response.data);
-                         if (response.data == 'success') {
-                         alert('Your appointment is cancelled successfully.');
-                         } else {
-                         alert('Sorry your appointment is not cancelled.');
-                         }
-                         $state.go('app.consultations-list');
-                         }, function errorCallback(response) {
-                         console.log(response);
-                         });*/
                     }
                 } else {
                     if (mode == 1) {
+                        alert("Video cancel");
                         $http({
                             method: 'GET',
-                            url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId, pid: $scope.pId}
+                            url: domain + 'appointment/dr-cancel-app',
+                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, cancel: ''}
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             if (response.data == 'success') {
                                 alert('Your appointment is cancelled successfully.');
-                                $state.go('app.appointment-list', {}, {reload: true});
+                                $state.go('app.doctor-consultations', {}, {reload: true});
                             } else {
                                 alert('Sorry your appointment is not cancelled.');
                             }
-                            //$state.go('app.consultations-list', {}, {reload: true});
+                            $state.go('app.consultations-list', {}, {reload: true});
                         }, function errorCallback(response) {
                             console.log(response);
                         });
-                    } else if (mode == 3 || mode == 4) {
-                        //ask for 2 options
                     }
                 }
             };
@@ -2392,6 +2371,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.drId = '';
+            $scope.patientId = '';
+            $scope.can = {};
             $http({
                 method: 'GET',
                 url: domain + 'assistapp/get-all-active-app',
@@ -2422,50 +2404,55 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 var re = new RegExp($scope.searchText, 'i');
                 return !$scope.searchText || re.test(obj.name) || re.test(obj.age.toString());
             };
-            $scope.cancelApp = function (appId, drId, mode, startTime, patientId) {
-                console.log(appId + "===" + drId + "===" + mode + "====" + startTime + "=====" + patientId);
+
+            $ionicModal.fromTemplateUrl('cancelby', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.cancelby = modal;
+            });
+            $scope.closeCancelby = function () {
+                $scope.cancelby.hide();
+            };
+
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, patientId) {
+                console.log(appId + "==" + drId + "==" + mode + "==" + startTime + "==" + patientId);
                 $scope.appId = appId;
                 $scope.userId = get('id');
+                $scope.cancel = '';
+                $scope.drId = drId;
+                $scope.patientId = patientId;
+                console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                console.log(curtime);
                 var timeDiff = getTimeDiff(startTime, curtime);
-                console.log(curtime + "===" + startTime + "===" + timeDiff);
+                console.log(timeDiff + " Time limit==" + $scope.timeLimit);
                 if (timeDiff < $scope.timeLimit) {
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
-                    } else {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'assistapp/cancel-patient-app',
-                            params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface, patientId: $scope.patientId}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            if (response.data == 'success') {
-                                alert('Your appointment is cancelled successfully.');
-                                $state.go('app.appointment-list', {}, {reload: true});
-                            } else {
-                                alert('Sorry your appointment is not cancelled.');
-                            }
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
                     }
                 } else {
-                    $http({
-                        method: 'GET',
-                        url: domain + 'assistapp/cancel-patient-app',
-                        params: {appId: $scope.appId, userId: $scope.userId, interface: $scope.interface, patientId: $scope.patientId}
-                    }).then(function successCallback(response) {
-                        console.log(response.data);
-                        if (response.data == 'success') {
-                            alert('Your appointment is cancelled successfully.');
-                            $state.go('app.appointment-list', {}, {reload: true});
-                        } else {
-                            alert('Sorry your appointment is not cancelled.');
-                        }
-                    }, function errorCallback(response) {
-                        console.log(response);
-                    });
+                    $scope.cancelby.show()
                 }
+            };
+            $scope.submitCancel = function () {
+                $scope.cancelby.hide();
+                //alert("Video cancel");
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistapp/cancel-app',
+                    params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 'success') {
+                        alert('Your appointment is cancelled successfully.');
+                        window.location.reload();
+                    } else {
+                        alert('Sorry your appointment is not cancelled.');
+                    }
+                    //$state.go('app.appointment-list', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
             };
             $scope.joinVideo = function (mode, start, end, appId, patientId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===Dr " + patientId);
@@ -2524,6 +2511,93 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
 
 
+            };
+        })
+
+        .controller('CancelDctrCtrl', function ($scope, $ionicModal, $filter, $http, $state) {
+            $scope.can = {};
+            $scope.drId = '';
+            $scope.patientId = '';
+            $ionicModal.fromTemplateUrl('canceldctr', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.canceldctr = modal;
+            });
+            $scope.closeCdctr = function () {
+                $scope.canceldctr.hide();
+            };
+            $scope.closeCdr = function () {
+                $scope.canceldctr.hide();
+                $scope.canceldr.hide();
+            };
+            $scope.submitmodal = function () {
+                console.log($scope.can.opt);
+                if ($scope.can.opt != '') {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistapp/cancel-app',
+                        params: {appId: $scope.appId, mode: $scope.mode, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        if (response.data == 'success') {
+                            alert('Your appointment is cancelled successfully.');
+                            window.location.reload();
+                        } else {
+                            alert('Sorry your appointment is not cancelled.');
+                        }
+                        //$state.go('app.doctor-consultations', {'id': $scope.drId}, {reload: true});
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }
+                $scope.canceldctr.hide();
+            };
+            $ionicModal.fromTemplateUrl('canceldr', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.canceldr = modal;
+            });
+            $scope.submitmodal = function () {
+                console.log($scope.can.opt);
+                if ($scope.can.opt != '') {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistapp/cancel-app',
+                        params: {appId: $scope.appId, mode: $scope.mode, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        if (response.data == 'success') {
+                            alert('Your appointment is cancelled successfully.');
+                            window.location.reload();
+                        } else {
+                            alert('Sorry your appointment is not cancelled.');
+                        }
+                        //window.location.reload();
+                        //$state.go('app.doctor-consultations', {'id': $scope.drId}, {reload: true});
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }
+                $scope.canceldr.hide();
+            };
+            $scope.cancelApp = function (appId, drId, mode, startTime, patientId) {
+                console.log(appId + "==" + drId + "==" + mode + "==" + startTime + "==" + patientId);
+                $scope.appId = appId;
+                $scope.mode = mode;
+                $scope.userId = get('id');
+                $scope.drId = drId;
+                $scope.patientId = patientId;
+                $scope.cancel = '';
+                console.log(startTime);
+                var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                console.log(curtime);
+                var timeDiff = getTimeDiff(startTime, curtime);
+                console.log(timeDiff + " Time limit==" + $scope.timeLimit);
+                if (timeDiff < $scope.timeLimit) {
+                    $scope.canceldctr.show();
+                } else {
+                    $scope.canceldr.show();
+                }
             };
         })
 
@@ -2605,8 +2679,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, function errorCallback(response) {
                     console.log(response);
                 });
-
-
             };
         })
 
@@ -2615,6 +2687,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.drId = '';
+            $scope.patientId = '';
+            $scope.can = {};
             $scope.patientId = $stateParams.id;
             $http({
                 method: 'GET',
@@ -2645,6 +2720,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.all_note_past = response.data.all_note_past;
                 $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
+                
+                $scope.timeLimit = response.data.timelimit.cancellation_time;
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -2653,60 +2730,55 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 var re = new RegExp($scope.searchText, 'i');
                 return !$scope.searchText || re.test(obj.name) || re.test(obj.age.toString());
             };
-            $scope.cancelAppointment = function (appId, drId, mode, startTime) {
+
+            $ionicModal.fromTemplateUrl('cancelby', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.cancelby = modal;
+            });
+            $scope.closeCancelby = function () {
+                $scope.cancelby.hide();
+            };
+
+            $scope.cancelAppointment = function (appId, drId, mode, startTime, patientId) {
+                console.log(appId + "==" + drId + "==" + mode + "==" + startTime + "==" + patientId);
                 $scope.appId = appId;
                 $scope.userId = get('id');
                 $scope.drId = drId;
+                $scope.patientId = patientId;
                 $scope.cancel = '';
-                console.log(drId);
                 console.log(startTime);
                 var curtime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 console.log(curtime);
                 var timeDiff = getTimeDiff(startTime, curtime);
-                console.log(timeDiff);
-                if (timeDiff < 15) {
+                console.log(timeDiff + " Time limit==" + $scope.timeLimit);
+                if (timeDiff < $scope.timeLimit) {
                     if (mode == 1) {
                         alert("Appointment can not be cancelled now!");
-                    } else {
-                        //ask 4 options
-                        /*$http({
-                         method: 'GET',
-                         url: domain + 'appointment/cancel-app',
-                         params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-                         }).then(function successCallback(response) {
-                         console.log(response.data);
-                         if (response.data == 'success') {
-                         alert('Your appointment is cancelled successfully.');
-                         } else {
-                         alert('Sorry your appointment is not cancelled.');
-                         }
-                         $state.go('app.consultations-list');
-                         }, function errorCallback(response) {
-                         console.log(response);
-                         });*/
                     }
                 } else {
-                    if (mode == 1) {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'appointment/cancel-app',
-                            params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, drId: $scope.drId}
-                        }).then(function successCallback(response) {
-                            console.log(response.data);
-                            if (response.data == 'success') {
-                                alert('Your appointment is cancelled successfully.');
-                                $state.go('app.doctor-consultations', {}, {reload: true});
-                            } else {
-                                alert('Sorry your appointment is not cancelled.');
-                            }
-                            //$state.go('app.consultations-list', {}, {reload: true});
-                        }, function errorCallback(response) {
-                            console.log(response);
-                        });
-                    } else if (mode == 3 || mode == 4) {
-                        //ask for 2 options
-                    }
+                    $scope.cancelby.show()
                 }
+            };
+            $scope.submitCancel = function () {
+                $scope.cancelby.hide();
+                alert("Video cancel");
+                $http({
+                    method: 'GET',
+                    url: domain + 'assistapp/cancel-app',
+                    params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 'success') {                        
+                        alert('Your appointment is cancelled successfully.');
+                        window.location.reload();
+                    } else {
+                        alert('Sorry your appointment is not cancelled.');
+                    }
+                    //$state.go('app.appointment-list', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
             };
             $scope.joinVideo = function (mode, start, end, appId, patientId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId + "===Dr " + patientId);
