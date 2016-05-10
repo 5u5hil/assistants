@@ -473,6 +473,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.recordId = $stateParams.id;
+            $scope.catId = $stateParams.catId;
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
@@ -568,6 +569,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
+            };
+            $scope.getMeasureDetails = function (id, type) {
+                console.log(id + "===" + type);
+                if (type == 'measurements') {
+                    $state.go('app.view-measure-details', {id: id, type: type}, {reload: true});
+                } else {
+                    $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+                }
+            };
+            $scope.getCnDetails = function (id, type) {
+                console.log(id + "===" + type);
+                $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
             };
         })
 
@@ -2720,7 +2733,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.all_note_past = response.data.all_note_past;
                 $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
-                
+
                 $scope.timeLimit = response.data.timelimit.cancellation_time;
             }, function errorCallback(e) {
                 console.log(e);
@@ -2769,7 +2782,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {appId: $scope.appId, prodId: $scope.prodid, userId: $scope.userId, cancel: $scope.can.opt, drId: $scope.drId, patientId: $scope.patientId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                    if (response.data == 'success') {                        
+                    if (response.data == 'success') {
                         alert('Your appointment is cancelled successfully.');
                         window.location.reload();
                     } else {
