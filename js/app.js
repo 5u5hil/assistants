@@ -129,6 +129,7 @@ angular.module('your_app_name', [
                         templateUrl: "views/auth/forgot-password.html",
                         controller: 'ForgotPasswordCtrl'
                     })
+                    
                     .state('auth.update-password', {
                         url: "/update-password",
                         templateUrl: "views/auth/update-password.html",
@@ -355,6 +356,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.past-appointment-list', {
                         cache: false,
                         url: "/past-appointment-list",
@@ -376,6 +378,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.patient-past-app-list', {
                         cache: false,
                         url: "/patient-past-app-list/{id:int}",
@@ -408,6 +411,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.payment', {
                         url: "/payment",
                         views: {
@@ -438,6 +442,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
                     .state('app.thankyou', {
                         cache: false,
                         url: "/thankyou/{data:string}",

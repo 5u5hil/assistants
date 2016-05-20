@@ -503,7 +503,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $http({
                     method: 'POST',
                     url: domain + 'assistrecords/delete',
-                    params: {id: id, shared: $scope.shared}
+                    params: {id: $scope.recordId, shared: $scope.shared, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     alert("Record deleted successfully!");
                     $timeout(function () {
@@ -601,6 +601,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.patientId = $stateParams.id;
             $scope.shared = 1;
             $scope.userId = get('id');
