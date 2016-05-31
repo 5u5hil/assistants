@@ -28,6 +28,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
+            $scope.userType = 'assistant';
+            $scope.action = 'logout';
             $scope.CurrentDate = new Date();
             $http({
                 method: 'GET',
@@ -46,6 +48,15 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
+
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-login-logout-log',
+                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                }).then(function successCallback(response) {
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
                 $http({
                     method: 'GET',
                     url: domain + 'doctors/doctor-logout',
@@ -72,7 +83,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '3');
             $scope.interface = window.localStorage.getItem('interface_id');
-
+            $scope.userType = 'assistant';
+            $scope.action = 'login';
             $http({
                 method: 'GET',
                 url: domain + 'get-login',
@@ -109,6 +121,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $rootScope.username = response.fname;
                             $rootScope.userimage = response.image;
                             $ionicLoading.hide();
+                            $http({
+                                method: 'GET',
+                                url: domain + 'get-login-logout-log',
+                                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                            }).then(function successCallback(response) {
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
                             $state.go('app.assistants');
                         } else {
                             $rootScope.userLogged = 0;
@@ -2921,6 +2941,27 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.userId = get('id');
             $scope.drId = get('drId');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+
+            $scope.$on('$destroy', function () {
+
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+
+                } catch (err) {
+
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                }
+            });
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -2964,6 +3005,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     } else {
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
+//                        publisher.on('streamCreated', function (event) {
+//                            console.log('Frame rate: ' + event.stream.frameRate);
+//                        });
                         var mic = 1;
                         var mute = 1;
                         jQuery(".muteMic").click(function () {
@@ -2990,22 +3034,32 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.exitVideo = function () {
-                try {
-                    publisher.destroy();
-                    subscriber.destroy();
-                    session.unsubscribe();
-                    session.disconnect();
-                    window.localStorage.removeItem('drId');
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    });
+
+
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/doctor-exit-video',
+                    params: {id: $scope.appId, userId: $scope.drId}
+                }).then(function successCallback(response) {
+                    try {
+                        publisher.destroy();
+                        subscriber.destroy();
+                        session.unsubscribe();
+                        session.disconnect();
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.appointment-list', {}, {reload: true});
+                    } catch (err) {
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.appointment-list', {}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+
                     $state.go('app.appointment-list', {}, {reload: true});
-                } catch (err) {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
-                    $state.go('app.appointment-list', {}, {reload: true});
-                }
+                });
             };
         })
 
@@ -3028,6 +3082,28 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             //alert($scope.patientId);
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+            $scope.$on('$destroy', function () {
+
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+
+                } catch (err) {
+
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                }
+            });
+
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
@@ -3118,23 +3194,30 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             });
             $scope.exitVideo = function () {
-                try {
-                    publisher.destroy();
-                    subscriber.destroy();
-                    session.unsubscribe();
-                    session.disconnect();
-                    window.localStorage.removeItem('patientId');
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/doctor-exit-video',
+                    params: {id: $scope.appId, userId: $scope.patientId}
+                }).then(function successCallback(response) {
+                    try {
+                        publisher.destroy();
+                        subscriber.destroy();
+                        session.unsubscribe();
+                        session.disconnect();
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.appointment-list', {}, {reload: true});
+                    } catch (err) {
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.appointment-list', {}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+
                     $state.go('app.appointment-list', {}, {reload: true});
-                    //window.location.href = "#/app/category-listing";
-                } catch (err) {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
-                    $state.go('app.appointment-list', {}, {reload: true});
-                }
+                });
             };
         })
 

@@ -6,7 +6,6 @@
                     <form name="login_form" class="" novalidate ng-cloak id="loginuser" ng-submit="doLogIn()">
                         <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
                         <my-tabs ng-if="language == 'english'"> 
-
                             <my-tab  title="login"> 
                                 <div class="list">
                                     <label class="item item-input">
@@ -28,7 +27,6 @@
                                     </button>
                                 </div>
                             </my-tab>
-
                         </my-tabs>
                         <my-tabs  ng-if="language != 'english'">
                             <my-tab  title="{{langtext.login[language]}}"> 
