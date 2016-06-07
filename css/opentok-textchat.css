@@ -28,7 +28,7 @@
 	
 	  position: relative;
   margin-bottom: 1em;
-  height: calc(100% - 5em);
+  height: calc(100% - 1em);
   overflow-y: scroll;
     overflow-x: hidden; 
 }
@@ -42,14 +42,15 @@
 section.ot-bubble.mine {
   
   margin-left: 1em;
-  border-bottom: 0.2em solid #ECEBEB;
+/*   border-bottom: 0.2em solid #ECEBEB; */
+  border-bottom:0;
   white-space: nowrap;
 }
 
-section.ot-bubble{/* background-color: #58CEEF;  */ text-align:right;     margin-top: 5px;}
+section.ot-bubble{/* background-color: #58CEEF;  */ text-align:right;     margin-top: 10px;}
 section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 
-.ot-textchat .ot-bubble > div{background-color: #4CBBDA; }
+.ot-textchat .ot-bubble > div{background-color: #4CBBDA;     border-radius: 5px;}
 
 
 /* Centering triangle with bubble contents */
@@ -64,7 +65,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
   width: calc(100% - 1.2em - 2em);
   position: relative;
   left: -0.8em;
-  padding: 1em 2em 1em 1.2em;
+  padding: 0.5em 2em 0.5em 1.2em;
   white-space: normal;
 
 }
@@ -114,9 +115,9 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-bubble-header {
-  font-size: 1.4em;
+  font-size: 0.8em;
   overflow: auto;
-  margin-bottom: 1.4em;
+  margin-bottom: 5px;
   /* position: absolute; */
   /* bottom: 0; */
   /* float: right; */
@@ -131,9 +132,9 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-message-content {
-  font-size: 1.4em;
-  margin-bottom: 1.3em;
-  text-align: ri;
+  font-size: 1em;
+  margin-bottom:5px;
+  text-align: left;
 }
 
 .ot-textchat .ot-input {
@@ -146,7 +147,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 .ot-textchat .ot-composer {
   padding: 0.8em;
   height: 2.7em;
-  width: 80%;
+  width: 75%;
   border: none;
   background-color: #fff;
   box-sizing: border-box;
@@ -201,7 +202,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
   outline: none;
   float: right;
   padding: 0.8em;
-  font-size: 1.3em; 
+  font-size: 1.3em; width:100%; 
   /* color: inherit; */
 }
 
@@ -212,9 +213,9 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 .ot-textchat .ot-send-button[disabled] {
   color: #fff;
 }
-.ot-bubble.mine .ot-message-content{text-align:left;}
-.ot-bubble .ot-message-content{text-align:right; font-weight:bold;}
-.ot-textchat .ot-bubble-header{margin-bottom:10px;/* text-align: left; */}
+.ot-bubble.mine .ot-message-content{text-align:right;}
+.ot-bubble .ot-message-content{/* text-align:right; */ /*  font-weight:bold; */}
+.ot-textchat .ot-bubble-header{margin-bottom:5px;/* text-align: left; */}
 
 .ot-bubble.mine .ot-textchat .ot-message-timestamp{float:right !important;}
 .ot-bubble.mine .ot-message-timestamp{float: right;}
