@@ -2641,6 +2641,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('AppointmentListPastCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
+
+
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -2665,9 +2667,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.all_note_past = response.data.all_note_past;
                 $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
+
+
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+
+            $scope.itemsDisplay = 2
+             $scope.addMoreItem = function(done) {  
+                    if ($scope.all_data_past.length > $scope.itemsDisplay){
+                        console.log('abcdefad');
+                    $scope.itemsDisplay += 1; // load number of more items
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete')
+
+            } 
+
+
+
+
 
             $scope.searchFilter = function (obj) {
                 var re = new RegExp($scope.searchText, 'i');

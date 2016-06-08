@@ -6,7 +6,7 @@
 	 <ion-nav-buttons side="right" >
         <a ng-if="apkLanguage == 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus"> New</a>
 		
-         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
+         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}} </a>
       
     </ion-nav-buttons> 
 	
@@ -26,8 +26,8 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-        <h4 class="txt-center"> {{all_app_past.length==0? 'No appointments': ''}}</h4>
-        <div  class="list card post-item" ng-repeat="app in all_data_past| filter:search track by $index" > <!-- | orderBy: 'scheduled_start_time' -->
+        <h4 class="txt-center">{{all_app_past.length==0? 'No appointments': ''}} </h4>
+        <div  class="list card post-item" ng-repeat="app in all_data_past| limitTo: itemsDisplay| filter:search track by $index" > <!-- | orderBy: 'scheduled_start_time' -->
             <div class="post-heading item item-text-wrap p0">                
                 <div class="item item-divider">
                     {{app.app.scheduled_start_time|dateFormat3}}, {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
@@ -88,6 +88,12 @@
                 </div>
             </div>
         </div>
+
+
+   <ion-infinite-scroll on-infinite="addMoreItem()" ng-if="all_data_past.length" distance="1%">
+  </ion-infinite-scroll>
+
+
     </ion-content>
   <!--   <div class="fixedbar" ng-if="apkLanguage == 'english'">
         <a class="button btn-add" ui-sref="app.new-patient"> <i class="icon ion-plus-circled"></i> Add New</a>
