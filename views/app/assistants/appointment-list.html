@@ -8,6 +8,12 @@
         <a ng-if="apkLanguage != 'english'" ui-sref="app.new-patient" class="button button-icon button-clear icon ion-plus">  {{tabmenu.new[language]}}</a>
     </ion-nav-buttons>
     <ion-content class="pb50">
+
+    <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+    </ion-refresher>
+
         <div class="row tabnav"  ng-if="apkLanguage == 'english'">
             <div class="col"><a  ui-sref="app.appointment-list" class="active" >Active</a></div>
             <div class="col"><a  ui-sref="app.past-appointment-list"  >Past</a></div>

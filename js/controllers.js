@@ -2401,6 +2401,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('AppointmentListActiveCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $state) {
+
+            $scope.doRefresh = function() {
+                 $scope.$broadcast('scroll.refreshComplete');
+              };
+
             $scope.userId = window.localStorage.getItem('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.interface = window.localStorage.getItem('interface_id');
