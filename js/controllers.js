@@ -3507,7 +3507,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.exitVideo = function () {
                 
                  try {
-                    $timeout.cancel(stoppedTimer);
+                   
                     publisher.off();
                     // alert('EXIT : publisher off try');
                     publisher.destroy();
@@ -3524,7 +3524,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     })
 
                 } catch (err) {
-                    $timeout.cancel(stoppedTimer);
+                   
                     // alert('err while exitvideo ' + err);
                     session.off();
                     // alert('EXIT : session off catch');
