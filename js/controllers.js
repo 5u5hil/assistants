@@ -3107,25 +3107,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                                alert($scope.curDate);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
-
-                                    $scope.Timercounter = 0;
-                                    $scope.onTimeout = function () {
-                                        stoppedTimer = $timeout(function () {
-                                            $scope.Timercounter++;
-                                            $scope.seconds = $scope.Timercounter % 60;
-                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
-                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
-                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
-                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
-                                            $scope.onTimeout();
-                                        }, 1000)
-                                    }
-
-                                    $timeout(function () {
-                                        $scope.onTimeout();
-                                    }, 0);
-                                }
+                               
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
@@ -3415,25 +3397,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                                alert($scope.curDate);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
-
-                                    $scope.Timercounter = 0;
-                                    $scope.onTimeout = function () {
-                                        stoppedTimer = $timeout(function () {
-                                            $scope.Timercounter++;
-                                            $scope.seconds = $scope.Timercounter % 60;
-                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
-                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
-                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
-                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
-                                            $scope.onTimeout();
-                                        }, 1000)
-                                    }
-
-                                    $timeout(function () {
-                                        $scope.onTimeout();
-                                    }, 0);
-                                }
+                            
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
