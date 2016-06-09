@@ -30,6 +30,109 @@ angular.module('your_app_name', [
                 event.preventDefault();
             });
             $ionicPlatform.on("deviceready", function () {
+                var notificationOpenedCallback = function (jsonData) {
+                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+
+                    // $state.go("app.content-library-setting");
+                    try
+                    {
+                        if (jsonData.additionalData) {
+                            alert("Inside additionalData");
+                            alert("id " + jsonData.additionalData.actionSelected);
+
+                            if (jsonData.additionalData.actionSelected == "id1")
+                            {
+
+                                alert("Button id1 pressed!");
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
+                                }).then(function successCallback(response) {
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                            if (jsonData.additionalData.actionSelected == "id2")
+                            {
+                                alert("Button id2 pressed!");
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
+                                }).then(function successCallback(response) {
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                            if (jsonData.additionalData.actionSelected == "id3")
+                            {
+                                alert("Button id3 pressed!");
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
+                                }).then(function successCallback(response) {
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                        }
+
+                    } catch (err)
+                    {
+                        alert('No redirection ' + err);
+                    }
+
+
+                };
+
+                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                        notificationOpenedCallback);
+                try
+                {
+                    window.plugins.OneSignal.getIds(function (ids) {
+                        console.log('getIds: ' + JSON.stringify(ids));
+                        if (window.localStorage.getItem('id')) {
+                            var userId = window.localStorage.getItem('id');
+                        } else {
+                            var userId = '';
+                        }
+
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/insertPlayerId',
+                            params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                //  alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    });
+                } catch (err)
+                {
+                    console.log('No redirection ' + err);
+                }
+
+                window.plugins.OneSignal.enableInAppAlertNotification(true);
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -39,7 +142,7 @@ angular.module('your_app_name', [
                     StatusBar.styleDefault();
                 }
 
-                PushNotificationsService.register();
+                // PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show({template: 'Loading'})
@@ -74,7 +177,7 @@ angular.module('your_app_name', [
                 }
             });
             $ionicPlatform.on("resume", function () {
-                PushNotificationsService.register();
+                //  PushNotificationsService.register();
             });
         })
 
@@ -129,7 +232,7 @@ angular.module('your_app_name', [
                         templateUrl: "views/auth/forgot-password.html",
                         controller: 'ForgotPasswordCtrl'
                     })
-                    
+
                     .state('auth.update-password', {
                         url: "/update-password",
                         templateUrl: "views/auth/update-password.html",
@@ -356,7 +459,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.past-appointment-list', {
                         cache: false,
                         url: "/past-appointment-list",
@@ -378,7 +481,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.patient-past-app-list', {
                         cache: false,
                         url: "/patient-past-app-list/{id:int}",
@@ -411,7 +514,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.payment', {
                         url: "/payment",
                         views: {
@@ -442,7 +545,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.thankyou', {
                         cache: false,
                         url: "/thankyou/{data:string}",
@@ -464,7 +567,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.view-measure-details', {
                         url: "/view-measure-details/{id:int}/{type:string}",
                         views: {
@@ -474,7 +577,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.view-cn-details', {
                         url: "/view-cn-details/{id:int}/{type:string}",
                         views: {
@@ -528,7 +631,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.treatment-plan-type', {
                         //cache: false,
                         url: "/treatment-plan-type",
@@ -579,7 +682,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.observation', {
                         url: "/consultation-note/observation/{objid:string}",
                         views: {
@@ -589,7 +692,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.diagnosis', {
                         url: "/consultation-note/diagnosis/{diaid:string}",
                         views: {
@@ -609,7 +712,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.investigations', {
                         url: "/consultation-note/investigations",
                         views: {
