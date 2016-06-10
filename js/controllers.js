@@ -3107,7 +3107,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                                alert($scope.curDate);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
-                               
+
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
@@ -3233,6 +3233,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             }
             // $ionicHistory.clearCache();
+            var statstimer;
             $scope.appId = $stateParams.id;
             $scope.mode = $stateParams.mode;
             $scope.userId = get('id');
@@ -3271,7 +3272,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 }
             });
-              $scope.pushEvent = 'video_join';
+            $scope.pushEvent = 'video_join';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
@@ -3298,7 +3299,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
-                       var subscribers = session.getSubscribersForStream(event.stream);
+                        window.clearInterval(statstimer);
+                        statstimer = '';
+                        var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
                         alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
@@ -3307,7 +3310,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
-                       subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
                                 function (error) {
                                     if (error) {
                                         console.log("subscriber Error " + error.code + '--' + error.message);
@@ -3318,7 +3321,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
-                                        window.setInterval(function () {
+                                        statstimer = window.setInterval(function () {
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -3357,7 +3360,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         }, 1000);
                                     }
                                 });
-                        
+
                         $http({
                             method: 'GET',
                             url: domain + 'appointment/update-join',
@@ -3371,7 +3374,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         });
                     },
                     sessionDisconnected: function (event) {
-                       var subscribers3 = session.getSubscribersForStream(event.stream);
+                        var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
                             $ionicLoading.hide();
@@ -3397,7 +3400,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //                                alert($scope.curDate);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
-                            
+
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
@@ -3469,9 +3472,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.hide();
             });
             $scope.exitVideo = function () {
-                
-                 try {
-                   
+
+                try {
+
                     publisher.off();
                     // alert('EXIT : publisher off try');
                     publisher.destroy();
@@ -3488,7 +3491,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     })
 
                 } catch (err) {
-                   
+
                     // alert('err while exitvideo ' + err);
                     session.off();
                     // alert('EXIT : session off catch');
@@ -3504,7 +3507,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     url: domain + 'appointment/doctor-exit-video',
                     params: {id: $scope.appId, userId: $scope.patientId}
                 }).then(function successCallback(response) {
-                     $state.go('app.appointment-list', {}, {reload: true});
+                    $state.go('app.appointment-list', {}, {reload: true});
                 }, function errorCallback(e) {
 
                     $state.go('app.appointment-list', {}, {reload: true});
