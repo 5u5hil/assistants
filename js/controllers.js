@@ -2961,6 +2961,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 window.localStorage.removeItem('loadedOnce');
             }
             //$ionicHistory.clearCache();
+            var statstimer;
             $scope.appId = $stateParams.id;
             $scope.userId = get('id');
             $scope.drId = get('drId');
@@ -3014,6 +3015,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        window.clearInterval(statstimer);
+                        statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
                         alert('stream distroy length: ' + subscribers.length);
@@ -3035,7 +3038,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
-                                        window.setInterval(function () {
+                                        statstimer = window.setInterval(function () {
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
