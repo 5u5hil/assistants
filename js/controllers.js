@@ -2979,7 +2979,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 } catch (err) {
                     session.off();
@@ -2987,6 +2988,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
             });
@@ -3074,7 +3077,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                 }
                                                 prevStats = stats;
                                             });
-                                        }, 1000);
+                                        }, 5000);
                                     }
                                 });
                     },
@@ -3197,6 +3200,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 } catch (err) {
 
@@ -3208,6 +3213,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
 
@@ -3262,6 +3269,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
 
                 } catch (err) {
@@ -3272,6 +3281,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
             });
@@ -3492,6 +3503,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 } catch (err) {
 
@@ -3503,6 +3516,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
                 $http({
