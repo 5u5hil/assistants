@@ -25,7 +25,7 @@ angular.module('your_app_name', [
     'ionic.contrib.ui.tinderCards',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
+        .run(function ($ionicPlatform, PushNotificationsService,$http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
