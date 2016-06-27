@@ -3023,9 +3023,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' + subscribers.length);
+                       // alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
-                        alert('on stream Destroy reason: ' + event.reason);
+                       // alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -3136,12 +3136,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    alert('on Destroy: ' + subscribers6)
+                                    //alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                    alert('on Destroy reason: ' + event.reason);
+                                   // alert('on Destroy reason: ' + event.reason);
                                     //  session.unsubscribe();
                                     subscriber.destroy();
-                                    alert("publisher.destroy");
+                                  //  alert("publisher.destroy");
                                     // console.log("subscriber.destroy" + subscriber.destroy);
                                     // session.disconnect()
                                 });
@@ -3319,9 +3319,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' + subscribers.length);
+                       // alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
-                        alert('on stream Destroy reason: ' + event.reason);
+                       // alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -3334,7 +3334,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.' + subscribers2.length)
+                                       // alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
@@ -3438,12 +3438,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    alert('on Destroy: ' + subscribers6)
+                                   // alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                    alert('on Destroy reason: ' + event.reason);
+                                   //// alert('on Destroy reason: ' + event.reason);
                                     //  session.unsubscribe();
                                     subscriber.destroy();
-                                    alert("publisher.destroy");
+                                  //  alert("publisher.destroy");
                                     // console.log("subscriber.destroy" + subscriber.destroy);
                                     // session.disconnect()
                                 });
