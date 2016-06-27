@@ -1569,7 +1569,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'assistants/get-dr-details',
-                params: {id: $scope.drId, interface: $scope.interface}
+                params: {id: $scope.drId, userId: $scope.patientId, interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.doctor = response.data.user;
@@ -1590,6 +1590,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chatInc = response.data.chat_inclusions;
                 $scope.packages = response.data.packages;
                 $scope.services = response.data.services;
+                $scope.service = response.data.service;
                 $scope.instant_video = response.data.instant_video;
                 $scope.earliest_slot = response.data.earliest_slot;
                 $scope.next_slot = response.data.next_slot;

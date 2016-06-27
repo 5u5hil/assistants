@@ -9,7 +9,8 @@
         <div ng-if="services != ''">
 
             <my-tabs class="themetabs">
-                <div ng-repeat="serv in services">
+               
+                <div ng-repeat="serv in services track by $index"> 
                     <div ng-if="serv == 1" >
                         <div  ng-if="apkLanguage == 'english'">
                         <my-tab  icon="ion-calendar tabicon" title="Scheduled Video"  ng-if="serv == 1" ng-click="doesit();">
@@ -121,7 +122,6 @@
                             </div>
                         </my-tab>    
                         </div>
-                        
                     </div>
                 </div>
             </my-tabs>
