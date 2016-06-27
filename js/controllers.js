@@ -3039,10 +3039,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.' + subscribers2.length)
+                                        //alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
+                                              $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -3071,7 +3072,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-
+                                                            $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
@@ -3337,6 +3338,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
+                                              $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -3365,14 +3367,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-
+                                                          $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
                                                 }
                                                 prevStats = stats;
                                             });
-                                        }, 1000);
+                                        }, 5000);
                                     }
                                 });
 
